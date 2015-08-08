@@ -2,10 +2,10 @@
 
 define("TOKEN", "yaoyao20150805");
 
-$wechatObj = new wechatCallbackapiTest();
+$wechatObj = new Wxconnect();
 $wechatObj->valid();
 
-class wechatCallbackapiTest
+class Wxconnect
 {
     public function valid()
     {
@@ -18,16 +18,22 @@ class wechatCallbackapiTest
 
     private function checkSignature()
     {
+       // you must define TOKEN by yourself
+        if (!defined("TOKEN")) {
+            throw new Exception('TOKEN is not defined!');
+        }
+        
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
-
+                
         $token = TOKEN;
         $tmpArr = array($token, $timestamp, $nonce);
-        sort($tmpArr);
+        // use SORT_STRING rule
+        sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
-
+        
         if( $tmpStr == $signature ){
             return true;
         }else{
