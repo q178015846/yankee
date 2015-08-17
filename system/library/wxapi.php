@@ -8,29 +8,33 @@ class Wxapi {
 	private $wx_appsecret = "4OVTtcggXhHEkU30LRQFhQJdsQZ2-wFdte62IRQ5w41sb8S9YXIqQkjKB_qyd-y7";
 	private $access_token;
 	private $baseUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
+	private $wx_config;
 	
-	public function __construct() {
-		$this->access_token = $this->getToken();
-		
+	public function __construct($wx_config) {
+		$this->wx_config = $wx_config;
 	}
 
 	//获取token
 	public function getToken(){
 		//$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
-		$url = $this->baseUrl."gettoken?corpid=".$this->wx_appid."&corpsecret=".$this->wx_appsecret;
-		$result = $this->http_request($url);
-		$jason_data = "";
-		if($result != null){
-			$jason_data = json_decode($result);
-			if(isset($jason_data->access_token)){
+		if($this->wx_config['expires_time']<=time()){
+			$url = $this->baseUrl."gettoken?corpid=".$this->wx_appid."&corpsecret=".$this->wx_appsecret;
+			$result = $this->http_request($url);
+			$jason_data = "";
+			if($result != null){
+				$jason_data = json_decode($result);
+				if(isset($jason_data->access_token)){
+					$this->wx_config['access_token'] = $jason_data->access_token;
+					$this->wx_config['expires_time'] = time()+$jason_data->expires_in;
+				}else{
 
-			}else{
-
+				}
 			}
 		}
+		return $this->wx_config;
 
 		//$this->session->data['jason_result'] = $jason_result;
-		return $jason_data->access_token;
+		
 	}
 
 	//发送文本消息
