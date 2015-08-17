@@ -28,4 +28,10 @@ class ControllerApiWxapi extends Controller {
 
 		return $wx_new_config['access_token'];
 	}
+
+	//登录
+	protected function doLogin($username,$password)
+	{
+		# code...
+	}
 }
