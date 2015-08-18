@@ -1,13 +1,14 @@
 <?php
 class Wxapi {
-	//private $wx_appid = "wx37509a11c5293bb3";
-	//private $wx_appsecret = "f535d3bf882ebc564980124cce20dff8";
+	private $wx_appid = "wxac5ef703439e3edd";
+	private $wx_appsecret = "2b0c0ecec7479bc8c0f6ee29cd1763e0";
 	//appid
-	private $wx_appid = "wxdd144819072bd8ca";
+	//private $wx_appid = "wxdd144819072bd8ca";
 	//appsecret
-	private $wx_appsecret = "4OVTtcggXhHEkU30LRQFhQJdsQZ2-wFdte62IRQ5w41sb8S9YXIqQkjKB_qyd-y7";
+	//private $wx_appsecret = "4OVTtcggXhHEkU30LRQFhQJdsQZ2-wFdte62IRQ5w41sb8S9YXIqQkjKB_qyd-y7";
 	private $access_token;
-	private $baseUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
+	//private $baseUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
+	private $baseUrl = "https://api.weixin.qq.com/cgi-bin/";
 	private $wx_config;
 	
 	public function __construct($wx_config) {
@@ -18,7 +19,7 @@ class Wxapi {
 	public function getToken(){
 		//$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
 		if($this->wx_config['expires_time']<=time()){
-			$url = $this->baseUrl."gettoken?corpid=".$this->wx_appid."&corpsecret=".$this->wx_appsecret;
+			$url = $this->baseUrl."token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
 			$result = $this->http_request($url);
 			$jason_data = "";
 			if($result != null){
@@ -31,6 +32,7 @@ class Wxapi {
 				}
 			}
 		}
+		$this->access_token = $this->wx_config['access_token'];
 		return $this->wx_config;
 
 		//$this->session->data['jason_result'] = $jason_result;
@@ -53,6 +55,25 @@ class Wxapi {
 		}';
 		$result = $this->http_request($url,$post_msg);
 
+
+		return json_decode($result);
+	}
+
+	public function sendModelNotify()
+	{
+		$set_tpl_url = $this->accessTokenUrl("message/template/send");
+		$post_data_settpl = '  {
+           "touser":"oCrCkwElKC4YuFiAYe0EvPKa-OEg",
+           "template_id":"z23-9o5oSUJkMP7xU39cxkg9Kr1yM8pR-1XcJ8MRkLA",
+           "url":"http://weixin.qq.com/download",
+           "topcolor":"#FF0000",
+           "data":{}
+       	}';
+
+       	$result = $this->http_request($set_tpl_url, $post_data_settpl);
+
+       //$get_tpl_url = $this->accessTokenUrl("template/api_add_template");
+       	
 
 		return json_decode($result);
 	}
@@ -85,6 +106,48 @@ class Wxapi {
 		return json_decode($result);
 	}
 
+	//获取用户登录授权
+	public function doLogin()
+	{
+		$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=http://www.baidu.com&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+		header("Location: ".$url);
+	}
+
+
+	//创建菜单
+	public function createMenu()
+	{
+		$url = $this->accessTokenUrl("menu/create");
+		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=120.24.157.131/yankee/&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+		$post_data = ' {
+		     "button":[
+		     {	
+		          "type":"click",
+		          "name":"今日歌曲",
+		          "key":"V1001_TODAY_MUSIC"
+		      },
+		      {
+		           "name":"菜单",
+		           "sub_button":[
+		           {	
+		               "type":"view",
+		               "name":"回调",
+		               "url":"'.$go_url.'"
+		            },
+		            {
+		               "type":"view",
+		               "name":"视频",
+		               "url":"http://v.qq.com/"
+		            },
+		            {
+		               "type":"click",
+		               "name":"赞一下我们",
+		               "key":"V1001_GOOD"
+		            }]
+		       }]
+		 }';
+		 $this->http_request($url, $post_data);
+	}
 
 
 
@@ -110,4 +173,6 @@ class Wxapi {
     {
     	return $this->baseUrl.$middleUrl."?access_token=".$this->access_token;
     }
+
+
 }

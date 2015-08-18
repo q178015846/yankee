@@ -1,10 +1,19 @@
 <?php
-class ControllerApiWxapi extends Controller {
+class ControllerCommonWxapi extends Controller {
 	
 	public function index(){
 		
+		$wx_config = $this->getAccessToken();
+		$this->wx = new Wxapi($wx_config);
+		$wx_new_config = $this->wx->getToken();
 
-		var_dump($this->getAccessToken());
+		$this->session->data['access_token'] = $wx_new_config['access_token'];
+		$this->session->data['expires_time'] = $wx_new_config['expires_time'];
+
+		$access_token = $wx_new_config['access_token'];
+
+		var_dump($this->wx->createMenu());
+
 	}
 
 	//获取accesstoken
@@ -20,13 +29,14 @@ class ControllerApiWxapi extends Controller {
 			$wx_config['access_token'] = "";
 			$wx_config['expires_time'] = 0;
 		}
-		$this->wx = new Wxapi($wx_config);
+	/*	$this->wx = new Wxapi($wx_config);
 		$wx_new_config = $this->wx->getToken();
 
 		$this->session->data['access_token'] = $wx_new_config['access_token'];
 		$this->session->data['expires_time'] = $wx_new_config['expires_time'];
 
-		return $wx_new_config['access_token'];
+		return $wx_new_config['access_token'];*/
+		return $wx_config;
 	}
 
 	//登录
