@@ -12,7 +12,7 @@ class ControllerCommonWxapi extends Controller {
 
 		$access_token = $wx_new_config['access_token'];
 
-		var_dump($this->doLogin("178015846@qq.com","i7jhcev21t"));
+		var_dump($this->doLogin("999@qq.com","i7jhcev21t"));
 
 	}
 
@@ -39,10 +39,41 @@ class ControllerCommonWxapi extends Controller {
 		return $wx_config;
 	}
 
-	//登录
+	//登录并注册
 	protected function doLogin($email,$password)
 	{
 		$this->event->trigger('pre.customer.login');
+
+		// Check if customer has been approved.
+		$this->load->model('account/customer');
+		$customer_info = $this->model_account_customer->getCustomerByEmail($email);
+
+		if (!$customer_info) {
+			//自动注册
+			$data['customer_group_id'] = 1;
+			$data['fullname'] = "rocktest";
+			$data['email'] = $email;
+			$data['password'] = $password;
+			$data['newsletter'] = 0;
+			$customer_id = $this->model_account_customer->addCustomer($data);
+
+			$this->customer->login($email, $password);
+
+			unset($this->session->data['guest']);
+
+			// Add to activity log
+			$this->load->model('account/activity');
+
+			$activity_data = array(
+				'customer_id' => $customer_id,
+				'name'        => $this->request->post['fullname']
+			);
+
+			$this->model_account_activity->addActivity('register', $activity_data);
+
+			$this->response->redirect($this->url->link('account/success'));
+		}
+
 		if (!$this->error) {
 			if (!$this->customer->login($email, $password)) {
 				$this->error['warning'] = $this->language->get('error_login');
