@@ -12,7 +12,7 @@ class ControllerCommonWxapi extends Controller {
 
 		$access_token = $wx_new_config['access_token'];
 
-		var_dump($this->wx->createMenu());
+		var_dump($this->doLogin("178015846@qq.com","i7jhcev21t"));
 
 	}
 
@@ -40,8 +40,18 @@ class ControllerCommonWxapi extends Controller {
 	}
 
 	//登录
-	protected function doLogin($username,$password)
+	protected function doLogin($email,$password)
 	{
-		# code...
+		$this->event->trigger('pre.customer.login');
+		if (!$this->error) {
+			if (!$this->customer->login($email, $password)) {
+				$this->error['warning'] = $this->language->get('error_login');
+			} else {
+				$this->event->trigger('post.customer.login');
+			}
+		}
+
+		return !$this->error;
+
 	}
 }

@@ -109,8 +109,12 @@ class Wxapi {
 	//获取用户登录授权
 	public function doLogin()
 	{
-		$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=http://www.baidu.com&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-		header("Location: ".$url);
+		$url = "http://localhost/yankee/index.php?route=account/login";
+		$post_data['email'] = "178015846@qq.com";
+		$post_data['password'] = "i7jhcev21t";
+		$result = $this->http_request($url, $post_data);
+		return $result;
+
 	}
 
 
