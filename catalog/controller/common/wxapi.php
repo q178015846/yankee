@@ -12,7 +12,7 @@ class ControllerCommonWxapi extends Controller {
 
 		$access_token = $wx_new_config['access_token'];
 
-		var_dump($this->doLogin("999@qq.com","i7jhcev21t"));
+		var_dump($this->wx->generateQRCode("http://www.baidu.com"));
 
 	}
 
