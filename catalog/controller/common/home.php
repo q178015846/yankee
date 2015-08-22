@@ -7,7 +7,9 @@ class ControllerCommonHome extends Controller {
 		}
 		$wx_config = $this->getAccessToken();
 		$this->wx = new Wxapi($wx_config);
-		print_r($this->wx->getOpenId($this->request->get['code']));
+		$openid_data = $this->wx->getOpenId($this->request->get['code']);
+		$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
+		print_r($userinfo);
 
 		//实现微信登录
 		$this->doLogin("178015846@qq.com","i7jhcev21t");

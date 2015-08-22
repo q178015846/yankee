@@ -8,8 +8,9 @@ class Wxapi {
 	//appsecret
 	//private $wx_appsecret = "4OVTtcggXhHEkU30LRQFhQJdsQZ2-wFdte62IRQ5w41sb8S9YXIqQkjKB_qyd-y7";
 	private $access_token;
-	//private $baseUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
-	private $baseUrl = "https://api.weixin.qq.com/cgi-bin/";
+	//private $baseCgiUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
+	private $baseUrl = "https://api.weixin.qq.com/";
+	private $baseCgiUrl = "https://api.weixin.qq.com/cgi-bin/";
 	private $wx_config;
 	
 	public function __construct($wx_config) {
@@ -20,7 +21,7 @@ class Wxapi {
 	public function getToken(){
 		//$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
 		if($this->wx_config['expires_time']<=time()){
-			$url = $this->baseUrl."token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
+			$url = $this->baseCgiUrl."token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
 			$result = $this->http_request($url);
 			$jason_data = "";
 			if($result != null){
@@ -44,7 +45,7 @@ class Wxapi {
 	public function sendTextMsg($text)
 	{
 		//$get_template_url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=".$this->access_token;
-		$url = $this->accessTokenUrl("message/send");
+		$url = $this->accessCgiTokenUrl("message/send");
 		$post_msg = '{
 		   "touser": "703463",
 		   "msgtype": "text",
@@ -63,7 +64,7 @@ class Wxapi {
 	//发送图片信息-客服接口
 	public function setImgMsg($url)
 	{
-		$url = $this->accessTokenUrl("message/custom/send");
+		$url = $this->accessCgiTokenUrl("message/custom/send");
 		$post_msg = '{
 		   "touser": "oCrCkwElKC4YuFiAYe0EvPKa-OEg,oCrCkwJz4TVqPrm3HX2uIgc5VxIw",
 		   "msgtype":"image",
@@ -81,7 +82,7 @@ class Wxapi {
 	//发送模板信息
 	public function sendModelMsg($openid)
 	{
-		$set_tpl_url = $this->accessTokenUrl("message/template/send");
+		$set_tpl_url = $this->accessCgiTokenUrl("message/template/send");
 		$post_data_settpl = '  {
            "touser":"oCrCkwJz4TVqPrm3HX2uIgc5VxIw",
            "template_id":"z23-9o5oSUJkMP7xU39cxkg9Kr1yM8pR-1XcJ8MRkLA",
@@ -98,7 +99,7 @@ class Wxapi {
 	//userid转换openid接口
 	public function qy2oauth($userid,$agentid = 23)
 	{
-		$url = $this->accessTokenUrl("user/convert_to_openid");
+		$url = $this->accessCgiTokenUrl("user/convert_to_openid");
 		$post_data = '{
 		   "userid": "'.$userid.'",
 		   "agentid": "'.$agentid.'"
@@ -112,7 +113,7 @@ class Wxapi {
 	//openid转换成userid接口
 	public function oauth2qy($openid)
 	{
-		$url = $this->accessTokenUrl("user/convert_to_userid");
+		$url = $this->accessCgiTokenUrl("user/convert_to_userid");
 		$post_data = '{
 		   "userid": "'.$userid.'",
 		   "agentid": "'.$agentid.'"
@@ -127,7 +128,7 @@ class Wxapi {
 	//创建菜单
 	public function createMenu()
 	{
-		$url = $this->accessTokenUrl("menu/create");
+		$url = $this->accessCgiTokenUrl("menu/create");
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 		$post_data = ' {
 		     "button":[
@@ -161,7 +162,7 @@ class Wxapi {
 	//新增临时素材
 	public function uploadTmpMedia()
 	{
-		$url = $this->accessTokenUrl("media/upload");
+		$url = $this->accessCgiTokenUrl("media/upload");
 
 	}
 
@@ -169,7 +170,7 @@ class Wxapi {
 	public function getOpenId($code)
 	{
 		//code来换取access_token和openid的url
-		$get_accesstoken_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
+		$get_accesstoken_url = $this->baseUrl."sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
 		$get_accesstoken_json = $this->http_request($get_accesstoken_url);
 		if(!$get_accesstoken_json){
 			return "错误授权";
@@ -179,7 +180,21 @@ class Wxapi {
 			return $get_accesstoken_data->errmsg;
 		}
 		return $get_accesstoken_data;
+	}
 
+	//拉取用户信息
+	public function getUserInfo($access_token,$openid,$lang = "zh_CN")
+	{
+		$url = $this->baseUrl."sns/userinfo?access_token=".$access_token."&openid=".$openid."&lang=".$lang;
+		$return_json = $this->http_request($url);
+		if(!$returl_json){
+			return "错误授权";
+		}
+		$return_data = json_decode($return_json);
+		if(isset($return_data->errcode)){
+			return $return_data->errmsg;
+		}
+		return $return_data;
 	}
 
 	//生成二维码
@@ -218,7 +233,7 @@ class Wxapi {
 	public function getQRCodefromWX()
 	{
 		//获取ticket的url
-		$ticket_url = $this->accessTokenUrl("qrcode/create");
+		$ticket_url = $this->accessCgiTokenUrl("qrcode/create");
 
 		$ticket_post_data = '{"expire_seconds": 5000, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": '.time().'}}}';
 		$ticket_jason = $this->http_request($ticket_url, $ticket_post_data);
@@ -250,11 +265,10 @@ class Wxapi {
         return $output;
     }
 
-    //url签名
-    protected function accessTokenUrl($middleUrl)
+    //cgi-url签名
+    protected function accessCgiTokenUrl($middleUrl)
     {
-    	return $this->baseUrl.$middleUrl."?access_token=".$this->access_token;
+    	return $this->baseCgiUrl.$middleUrl."?access_token=".$this->access_token;
     }
-
 
 }
