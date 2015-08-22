@@ -175,7 +175,7 @@ class Wxapi {
 			return "错误授权";
 		}
 		$get_accesstoken_data = json_decode($get_accesstoken_json);
-		if($get_accesstoken_data->errcode){
+		if(isset($get_accesstoken_data->errcode)){
 			return $get_accesstoken_data->errmsg;
 		}
 		return $get_accesstoken_data;
