@@ -2,7 +2,7 @@
 class ControllerCommonHome extends Controller {
 	public function index() {
 
-		if(isset($this->request->get['code'])){
+		if(!isset($this->request->get['code'])){
 			exit("用户未搜权");
 		}
 		$wx_config = $this->getAccessToken();
