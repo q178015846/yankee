@@ -187,7 +187,7 @@ class Wxapi {
 	{
 		$url = $this->baseUrl."sns/userinfo?access_token=".$access_token."&openid=".$openid."&lang=".$lang;
 		$return_json = $this->http_request($url);
-		if(!$returl_json){
+		if(!$return_json){
 			return "错误授权";
 		}
 		$return_data = json_decode($return_json);
