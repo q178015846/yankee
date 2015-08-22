@@ -2,21 +2,16 @@
 class ControllerCommonHome extends Controller {
 	public function index() {
 
-		if(!isset($this->request->get['code'])){
-			exit("用户未搜权");
-		}
-		$wx_config = $this->getAccessToken();
-		$this->wx = new Wxapi($wx_config);
-		$openid_data = $this->wx->getOpenId($this->request->get['code']);
-		//验证是否已经登录过
-		if(!$this->doLogin($openid_data)){
+		if(isset($this->request->get['code'])){
+			$wx_config = $this->getAccessToken();
+			$this->wx = new Wxapi($wx_config);
+			$openid_data = $this->wx->getOpenId($this->request->get['code']);
+			//验证是否已经登录过
+			if(!$this->doLogin($openid_data)){
 
+			}
 		}
-
 		
-		//print_r($userinfo);
-
-
 		$this->document->setTitle($this->config->get('config_meta_title'));
 		$this->document->setDescription($this->config->get('config_meta_description'));
 		$this->document->setKeywords($this->config->get('config_meta_keyword'));
