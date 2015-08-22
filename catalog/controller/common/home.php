@@ -1,6 +1,11 @@
 <?php
 class ControllerCommonHome extends Controller {
 	public function index() {
+
+		if($this->request->get('code')){
+			print_r($this->request->get('code'));
+		}
+
 		//实现微信登录
 		$this->doLogin("178015846@qq.com","i7jhcev21t");
 
