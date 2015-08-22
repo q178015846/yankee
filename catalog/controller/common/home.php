@@ -8,6 +8,11 @@ class ControllerCommonHome extends Controller {
 		$wx_config = $this->getAccessToken();
 		$this->wx = new Wxapi($wx_config);
 		$openid_data = $this->wx->getOpenId($this->request->get['code']);
+		//验证是否已经登录过
+		if(!$this->doLogin($openid_data->openid."@beyankee.com")){
+
+		}
+
 		$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
 		print_r($userinfo);
 
@@ -61,7 +66,7 @@ class ControllerCommonHome extends Controller {
 
 
 	//登录并注册
-	protected function doLogin($email,$password)
+	protected function doLogin($email,$password = "123456")
 	{
 		$this->event->trigger('pre.customer.login');
 
@@ -92,18 +97,21 @@ class ControllerCommonHome extends Controller {
 
 			$this->model_account_activity->addActivity('register', $activity_data);
 
-			$this->response->redirect($this->url->link('account/success'));
+			//$this->response->redirect($this->url->link('account/success'));
 		}
 
 		if (!$this->error) {
 			if (!$this->customer->login($email, $password)) {
-				$this->error['warning'] = $this->language->get('error_login');
+				return false;
+				//$this->error['warning'] = $this->language->get('error_login');
 			} else {
 				$this->event->trigger('post.customer.login');
+				return true;
 			}
 		}
 
-		return !$this->error;
+		//return !$this->error;
+		return false;
 
 	}
 }
