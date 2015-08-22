@@ -96,7 +96,7 @@ class ControllerCommonHome extends Controller {
 
 			$activity_data = array(
 				'customer_id' => $customer_id,
-				'name'        => $this->request->post['fullname']
+				'name'        => $userinfo->nickname
 			);
 
 			$this->model_account_activity->addActivity('register', $activity_data);
