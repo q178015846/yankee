@@ -123,13 +123,6 @@ class Wxapi {
 		return json_decode($result);
 	}
 
-	//获取用户登录授权
-	public function getUserInfo()
-	{
-		$base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://www.baidu.com")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
-
-	}
-
 
 	//创建菜单
 	public function createMenu()
@@ -169,6 +162,23 @@ class Wxapi {
 	public function uploadTmpMedia()
 	{
 		$url = $this->accessTokenUrl("media/upload");
+
+	}
+
+	//获取用户的openid
+	public function getOpenId($code)
+	{
+		//code来换取access_token和openid的url
+		$get_accesstoken_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
+		$get_accesstoken_json = $this->http_request($url);
+		if(!$get_accesstoken_json){
+			return "错误授权";
+		}
+		$get_accesstoken_data = json_decode($get_accesstoken_json);
+		if($get_accesstoken_data->errcode){
+			return $get_accesstoken_data->errmsg;
+		}
+		return $get_accesstoken_data;
 
 	}
 

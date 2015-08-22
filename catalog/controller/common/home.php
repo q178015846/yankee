@@ -2,10 +2,12 @@
 class ControllerCommonHome extends Controller {
 	public function index() {
 
-		/*if($this->request->get('code')){
-
-		}*/
-		print_r($this->request->get['code']);
+		if(!$this->request->get['code']){
+			exit("用户未搜权");
+		}
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi($wx_config);
+		print_r($this->wx->getOpenId($this->request->get['code']));
 
 		//实现微信登录
 		$this->doLogin("178015846@qq.com","i7jhcev21t");
