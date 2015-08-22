@@ -5,7 +5,7 @@ class ControllerCommonHome extends Controller {
 		if(!$this->request->get['code']){
 			exit("用户未搜权");
 		}
-		$this->load->library('wxapi');
+		$wx_config = $this->getAccessToken();
 		$this->wx = new Wxapi($wx_config);
 		print_r($this->wx->getOpenId($this->request->get['code']));
 
@@ -32,6 +32,29 @@ class ControllerCommonHome extends Controller {
 		} else {
 			$this->response->setOutput($this->load->view('default/template/common/home.tpl', $data));
 		}
+	}
+
+	//获取accesstoken
+	protected function getAccessToken()
+	{
+		$this->load->library('wxapi');
+		if(isset($this->session->data['access_token'])&&isset($this->session->data['expires_time'])){
+			$wx_config['access_token'] = $this->session->data['access_token'];
+			$wx_config['expires_time'] = $this->session->data['expires_time'];
+		}else{
+			unset($this->session->data['access_token']);
+			unset($this->session->data['expires_time']);
+			$wx_config['access_token'] = "";
+			$wx_config['expires_time'] = 0;
+		}
+	/*	$this->wx = new Wxapi($wx_config);
+		$wx_new_config = $this->wx->getToken();
+
+		$this->session->data['access_token'] = $wx_new_config['access_token'];
+		$this->session->data['expires_time'] = $wx_new_config['expires_time'];
+
+		return $wx_new_config['access_token'];*/
+		return $wx_config;
 	}
 
 
