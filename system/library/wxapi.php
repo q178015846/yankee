@@ -41,7 +41,7 @@ class Wxapi {
 	}
 
 	//发送文本消息
-	public function sendNotify($text)
+	public function sendTextMsg($text)
 	{
 		//$get_template_url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=".$this->access_token;
 		$url = $this->accessTokenUrl("message/send");
@@ -60,11 +60,30 @@ class Wxapi {
 		return json_decode($result);
 	}
 
-	public function sendModelNotify()
+	//发送图片信息-客服接口
+	public function setImgMsg($url)
+	{
+		$url = $this->accessTokenUrl("message/custom/send");
+		$post_msg = '{
+		   "touser": "oCrCkwElKC4YuFiAYe0EvPKa-OEg,oCrCkwJz4TVqPrm3HX2uIgc5VxIw",
+		   "msgtype":"image",
+		    "image":
+		    {
+		      "media_id":"'.$url.'"
+		    }
+		}';
+		$result = $this->http_request($url,$post_msg);
+
+
+		return json_decode($result);
+	}
+
+	//发送模板信息
+	public function sendModelMsg($openid)
 	{
 		$set_tpl_url = $this->accessTokenUrl("message/template/send");
 		$post_data_settpl = '  {
-           "touser":"oCrCkwElKC4YuFiAYe0EvPKa-OEg",
+           "touser":"oCrCkwJz4TVqPrm3HX2uIgc5VxIw",
            "template_id":"z23-9o5oSUJkMP7xU39cxkg9Kr1yM8pR-1XcJ8MRkLA",
            "url":"http://weixin.qq.com/download",
            "topcolor":"#FF0000",
@@ -72,9 +91,6 @@ class Wxapi {
        	}';
 
        	$result = $this->http_request($set_tpl_url, $post_data_settpl);
-
-       //$get_tpl_url = $this->accessTokenUrl("template/api_add_template");
-       	
 
 		return json_decode($result);
 	}
@@ -108,13 +124,9 @@ class Wxapi {
 	}
 
 	//获取用户登录授权
-	public function doLogin()
+	public function getUserInfo()
 	{
-		$url = "http://localhost/yankee/index.php?route=account/login";
-		$post_data['email'] = "178015846@qq.com";
-		$post_data['password'] = "i7jhcev21t";
-		$result = $this->http_request($url, $post_data);
-		return $result;
+		$base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://www.baidu.com")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 
 	}
 
@@ -123,35 +135,41 @@ class Wxapi {
 	public function createMenu()
 	{
 		$url = $this->accessTokenUrl("menu/create");
-		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=120.24.157.131/yankee/&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 		$post_data = ' {
 		     "button":[
 		     {	
 		          "type":"click",
-		          "name":"今日歌曲",
-		          "key":"V1001_TODAY_MUSIC"
+		          "name":"查看订单",
+		          "key":"VIEW_ORDER"
 		      },
 		      {
-		           "name":"菜单",
+		       	  "type":"click",
+		          "name":"挑选香薰",
+		          "key":"VIEW_GOODS"
+		       },{
+		           "name":"发现",
 		           "sub_button":[
 		           {	
 		               "type":"view",
-		               "name":"回调",
+		               "name":"优惠券",
 		               "url":"'.$go_url.'"
 		            },
 		            {
 		               "type":"view",
-		               "name":"视频",
+		               "name":"Yankee",
 		               "url":"http://v.qq.com/"
-		            },
-		            {
-		               "type":"click",
-		               "name":"赞一下我们",
-		               "key":"V1001_GOOD"
 		            }]
 		       }]
 		 }';
 		 $this->http_request($url, $post_data);
+	}
+
+	//新增临时素材
+	public function uploadTmpMedia()
+	{
+		$url = $this->accessTokenUrl("media/upload");
+
 	}
 
 	//生成二维码
@@ -159,7 +177,7 @@ class Wxapi {
 	{
 		$errorCorrectionLevel = 'L';//容错级别   
 		$matrixPointSize = 6;//生成图片大小 
-		$qrcode_path = "uploads/qrcode/";
+		$qrcode_path = DIR_UPLOAD."qrcode/";
 		$qrcode_name = time();
 		//生成二维码图片   
 		QRcode::png($link, $qrcode_path.$qrcode_name.'.png', $errorCorrectionLevel, $matrixPointSize, 2);
@@ -184,6 +202,23 @@ class Wxapi {
 		//输出图片   
 		imagepng($QR, 'helloweixin.png');   
 		echo '<img src="helloweixin.png">';  */
+	}
+
+	//从微信获取二维码
+	public function getQRCodefromWX()
+	{
+		//获取ticket的url
+		$ticket_url = $this->accessTokenUrl("qrcode/create");
+
+		$ticket_post_data = '{"expire_seconds": 5000, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": '.time().'}}}';
+		$ticket_jason = $this->http_request($ticket_url, $ticket_post_data);
+		if($ticket_jason){
+			$ticket_data = json_decode($ticket_jason);
+			//用ticket换取二维码
+			$qrcode_url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=".urlencode($ticket_data->ticket);
+			return $qrcode_url;
+		}
+		return "";
 	}
 
 
