@@ -2,7 +2,7 @@
 class ControllerCommonHome extends Controller {
 	public function index() {
 
-		if(!$this->request->get['code']){
+		if(isset($this->request->get['code'])){
 			exit("用户未搜权");
 		}
 		$wx_config = $this->getAccessToken();
@@ -13,11 +13,9 @@ class ControllerCommonHome extends Controller {
 
 		}
 
-		$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
-		print_r($userinfo);
+		
+		//print_r($userinfo);
 
-		//实现微信登录
-		$this->doLogin("178015846@qq.com","i7jhcev21t");
 
 		$this->document->setTitle($this->config->get('config_meta_title'));
 		$this->document->setDescription($this->config->get('config_meta_description'));
@@ -76,8 +74,13 @@ class ControllerCommonHome extends Controller {
 
 		if (!$customer_info) {
 			//自动注册
+			$this->load->library('wxapi');
+			$wx_config = $this->getAccessToken();
+			$this->wx = new Wxapi($wx_config);
+			$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
 			$data['customer_group_id'] = 1;
-			$data['fullname'] = "rocktest";
+			$data['telephone'] = "13602416028";
+			$data['fullname'] = $userinfo->nickname;
 			$data['email'] = $email;
 			$data['password'] = $password;
 			$data['newsletter'] = 0;
@@ -114,4 +117,5 @@ class ControllerCommonHome extends Controller {
 		return false;
 
 	}
+
 }
