@@ -170,7 +170,7 @@ class Wxapi {
 	{
 		//code来换取access_token和openid的url
 		$get_accesstoken_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
-		$get_accesstoken_json = $this->http_request($url);
+		$get_accesstoken_json = $this->http_request($get_accesstoken_url);
 		if(!$get_accesstoken_json){
 			return "错误授权";
 		}
