@@ -4,12 +4,13 @@ class ControllerCommonHome extends Controller {
 
 		//看是否从回调地址跳转过来的
 		if(isset($this->request->get['code'])){
-			$wx_config = $this->getAccessToken();
-			$this->wx = new Wxapi($wx_config);
+			$this->wx = new Wxapi();
 			$openid_data = $this->wx->getOpenId($this->request->get['code']);
-			//验证是否已经登录
-			if(!$this->doLogin($openid_data)){
+			if(isset($openid_data)){
+				//验证是否已经登录
+				if(!$this->doLogin($openid_data)){
 
+				}
 			}
 		}
 		
@@ -35,28 +36,6 @@ class ControllerCommonHome extends Controller {
 		}
 	}
 
-	//获取accesstoken
-	protected function getAccessToken()
-	{
-		$this->load->library('wxapi');
-		if(isset($this->session->data['access_token'])&&isset($this->session->data['expires_time'])){
-			$wx_config['access_token'] = $this->session->data['access_token'];
-			$wx_config['expires_time'] = $this->session->data['expires_time'];
-		}else{
-			unset($this->session->data['access_token']);
-			unset($this->session->data['expires_time']);
-			$wx_config['access_token'] = "";
-			$wx_config['expires_time'] = 0;
-		}
-	/*	$this->wx = new Wxapi($wx_config);
-		$wx_new_config = $this->wx->getToken();
-
-		$this->session->data['access_token'] = $wx_new_config['access_token'];
-		$this->session->data['expires_time'] = $wx_new_config['expires_time'];
-
-		return $wx_new_config['access_token'];*/
-		return $wx_config;
-	}
 
 
 	//登录并注册
@@ -72,8 +51,7 @@ class ControllerCommonHome extends Controller {
 		if (!$customer_info) {
 			//自动注册
 			$this->load->library('wxapi');
-			$wx_config = $this->getAccessToken();
-			$this->wx = new Wxapi($wx_config);
+			$this->wx = new Wxapi();
 			$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
 			$data['customer_group_id'] = 1;
 			$data['telephone'] = "13602416028";

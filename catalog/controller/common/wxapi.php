@@ -12,7 +12,26 @@ class ControllerCommonWxapi extends Controller {
 
 		$access_token = $wx_new_config['access_token'];
 
-		var_dump($this->wx->createMenu());
+		//var_dump($this->wx->createMenu());
+
+		//加载微信JS-SDK
+		$this->load->library('jssdk');
+		$jssdk = new JSSDK("wxac5ef703439e3edd", "2b0c0ecec7479bc8c0f6ee29cd1763e0");
+		$signPackage = $jssdk->GetSignPackage();
+
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+		$data['signPackage'] = $signPackage;
+
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/wxapi.tpl')) {
+			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/common/wxapi.tpl', $data));
+		} else {
+			$this->response->setOutput($this->load->view('default/template/common/wxapi.tpl', $data));
+		}
 
 	}
 
