@@ -22,4 +22,7 @@ wx.config({
       scanQRCode
     ]
   });
+ wx.ready(function () {
+    // 在这里调用 API
+  });
 <?php echo $footer; ?>

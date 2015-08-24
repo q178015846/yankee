@@ -154,6 +154,7 @@ class Wxapi {
 	{
 		$url = $this->accessCgiTokenUrl("menu/create");
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+		$scanqrcode = "http://120.24.157.131/yankee/index.php?route=common/wxapi";
 		$post_data = ' {
 		     "button":[
 		     {	
@@ -176,7 +177,7 @@ class Wxapi {
 		            {
 		               "type":"view",
 		               "name":"Yankee",
-		               "url":"http://v.qq.com/"
+		               "url":"'.$scanqrcode.'"
 		            }]
 		       }]
 		 }';
@@ -287,7 +288,7 @@ class Wxapi {
     $signature = sha1($string);
 
     $signPackage = array(
-      "appId"     => $this->appId,
+      "appId"     => $this->wx_appid,
       "nonceStr"  => $nonceStr,
       "timestamp" => $timestamp,
       "url"       => $url,

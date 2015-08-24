@@ -3,16 +3,14 @@ class ControllerCommonWxapi extends Controller {
 	
 	public function index(){
 		
-		
+		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		$access_token = $this->wx->getToken();
+	
 
-		var_dump($this->wx->createMenu());
+		//var_dump($this->wx->createMenu());
 
 		//加载微信JS-SDK
-		$this->load->library('jssdk');
-		/*$jssdk = new JSSDK("wxac5ef703439e3edd", "2b0c0ecec7479bc8c0f6ee29cd1763e0");
-		$signPackage = $jssdk->GetSignPackage();
+		$signPackage = $this->wx->GetSignPackage();
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -27,7 +25,7 @@ class ControllerCommonWxapi extends Controller {
 		} else {
 			$this->response->setOutput($this->load->view('default/template/common/wxapi.tpl', $data));
 		}
-*/
+
 	}
 
 	//获取accesstoken
