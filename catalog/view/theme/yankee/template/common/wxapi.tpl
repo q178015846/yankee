@@ -11,6 +11,9 @@
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?><?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
 </div>
+
+<?php echo $footer; ?>
+<script>
 wx.config({
     debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
@@ -25,4 +28,4 @@ wx.config({
  wx.ready(function () {
    alert(1111);
   });
-<?php echo $footer; ?>
+ </script>
