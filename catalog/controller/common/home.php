@@ -2,11 +2,12 @@
 class ControllerCommonHome extends Controller {
 	public function index() {
 
+		//看是否从回调地址跳转过来的
 		if(isset($this->request->get['code'])){
 			$wx_config = $this->getAccessToken();
 			$this->wx = new Wxapi($wx_config);
 			$openid_data = $this->wx->getOpenId($this->request->get['code']);
-			//验证是否已经登录过
+			//验证是否已经登录
 			if(!$this->doLogin($openid_data)){
 
 			}
@@ -97,6 +98,10 @@ class ControllerCommonHome extends Controller {
 			$this->model_account_activity->addActivity('register', $activity_data);
 
 			//$this->response->redirect($this->url->link('account/success'));
+		}
+
+		if ($this->customer->isLogged()) {
+			return true;
 		}
 
 		if (!$this->error) {
