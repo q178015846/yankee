@@ -3,20 +3,15 @@ class ControllerCommonWxapi extends Controller {
 	
 	public function index(){
 		
-		$wx_config = $this->getAccessToken();
-		$this->wx = new Wxapi($wx_config);
-		$wx_new_config = $this->wx->getToken();
+		
+		$this->wx = new Wxapi();
+		$access_token = $this->wx->getToken();
 
-		$this->session->data['access_token'] = $wx_new_config['access_token'];
-		$this->session->data['expires_time'] = $wx_new_config['expires_time'];
-
-		$access_token = $wx_new_config['access_token'];
-
-		//var_dump($this->wx->createMenu());
+		var_dump($this->wx->createMenu());
 
 		//加载微信JS-SDK
 		$this->load->library('jssdk');
-		$jssdk = new JSSDK("wxac5ef703439e3edd", "2b0c0ecec7479bc8c0f6ee29cd1763e0");
+		/*$jssdk = new JSSDK("wxac5ef703439e3edd", "2b0c0ecec7479bc8c0f6ee29cd1763e0");
 		$signPackage = $jssdk->GetSignPackage();
 
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -32,11 +27,11 @@ class ControllerCommonWxapi extends Controller {
 		} else {
 			$this->response->setOutput($this->load->view('default/template/common/wxapi.tpl', $data));
 		}
-
+*/
 	}
 
 	//获取accesstoken
-	protected function getAccessToken()
+	/*protected function getAccessToken()
 	{
 		$this->load->library('wxapi');
 		if(isset($this->session->data['access_token'])&&isset($this->session->data['expires_time'])){
@@ -48,15 +43,8 @@ class ControllerCommonWxapi extends Controller {
 			$wx_config['access_token'] = "";
 			$wx_config['expires_time'] = 0;
 		}
-	/*	$this->wx = new Wxapi($wx_config);
-		$wx_new_config = $this->wx->getToken();
-
-		$this->session->data['access_token'] = $wx_new_config['access_token'];
-		$this->session->data['expires_time'] = $wx_new_config['expires_time'];
-
-		return $wx_new_config['access_token'];*/
 		return $wx_config;
-	}
+	}*/
 
 	//登录并注册
 	protected function doLogin($email,$password)

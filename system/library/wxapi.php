@@ -11,38 +11,59 @@ class Wxapi {
 	//private $baseCgiUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
 	private $baseUrl = "https://api.weixin.qq.com/";
 	private $baseCgiUrl = "https://api.weixin.qq.com/cgi-bin/";
-	private $wx_config;
 	
-	/*public function __construct($wx_config) {
-		$this->wx_config = $wx_config;
-	}*/
 	public function __construct() {
 		$this->access_token = $this->getAccessToken();
 	}
 
-	//获取token
-	public function getToken(){
-		//$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
-		if($this->wx_config['expires_time']<=time()){
-			$url = $this->baseCgiUrl."token?grant_type=client_credential&appid=".$this->wx_appid."&secret=".$this->wx_appsecret;
-			$result = $this->http_request($url);
-			$jason_data = "";
-			if($result != null){
-				$jason_data = json_decode($result);
-				if(isset($jason_data->access_token)){
-					$this->wx_config['access_token'] = $jason_data->access_token;
-					$this->wx_config['expires_time'] = time()+$jason_data->expires_in;
-				}else{
 
-				}
-			}
-		}
-		$this->access_token = $this->wx_config['access_token'];
-		return $this->wx_config;
-
-		//$this->session->data['jason_result'] = $jason_result;
-		
+	//获取access_token
+	private function getAccessToken() {
+	    // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
+	    $data = json_decode(file_get_contents(DIR_CACHE."access_token.json"));
+	    if ($data->expire_time < time()) {
+	      // 如果是企业号用以下URL获取access_token
+	      // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
+	      $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
+	      $res = json_decode($this->httpGet($url));
+	      $access_token = $res->access_token;
+	      if ($access_token) {
+	        $data->expire_time = time() + 7000;
+	        $data->access_token = $access_token;
+	        $fp = fopen(DIR_CACHE."access_token.json", "w");
+	        fwrite($fp, json_encode($data));
+	        fclose($fp);
+	      }
+	    } else {
+	      $access_token = $data->access_token;
+	    }
+	    return $access_token;
 	}
+
+	//获取js票
+	private function getJsApiTicket() {
+    // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
+	    $data = json_decode(file_get_contents(DIR_CACHE."jsapi_ticket.json"));
+	    if ($data->expire_time < time()) {
+	      $accessToken = $this->getAccessToken();
+	      // 如果是企业号用以下 URL 获取 ticket
+	      // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
+	      $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
+	      $res = json_decode($this->httpGet($url));
+	      $ticket = $res->ticket;
+	      if ($ticket) {
+	        $data->expire_time = time() + 7000;
+	        $data->jsapi_ticket = $ticket;
+	        $fp = fopen(DIR_CACHE."jsapi_ticket.json", "w");
+	        fwrite($fp, json_encode($data));
+	        fclose($fp);
+	      }
+	    } else {
+	      $ticket = $data->jsapi_ticket;
+	    }
+
+	    return $ticket;
+	  }
 
 	//发送文本消息
 	public function sendTextMsg($text)
@@ -285,56 +306,13 @@ class Wxapi {
     return $str;
   }
 
- private function getJsApiTicket() {
-    // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode(file_get_contents(DIR_CACHE."jsapi_ticket.json"));
-    if ($data->expire_time < time()) {
-      $accessToken = $this->getAccessToken();
-      // 如果是企业号用以下 URL 获取 ticket
-      // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
-      $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
-      $res = json_decode($this->httpGet($url));
-      $ticket = $res->ticket;
-      if ($ticket) {
-        $data->expire_time = time() + 7000;
-        $data->jsapi_ticket = $ticket;
-        $fp = fopen(DIR_CACHE."jsapi_ticket.json", "w");
-        fwrite($fp, json_encode($data));
-        fclose($fp);
-      }
-    } else {
-      $ticket = $data->jsapi_ticket;
-    }
+ 
 
-    return $ticket;
-  }
-
-  private function getAccessToken() {
-    // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode(file_get_contents(DIR_CACHE."access_token.json"));
-    if ($data->expire_time < time()) {
-      // 如果是企业号用以下URL获取access_token
-      // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
-      $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
-      $res = json_decode($this->httpGet($url));
-      $access_token = $res->access_token;
-      if ($access_token) {
-        $data->expire_time = time() + 7000;
-        $data->access_token = $access_token;
-        $fp = fopen(DIR_CACHE."access_token.json", "w");
-        fwrite($fp, json_encode($data));
-        fclose($fp);
-      }
-    } else {
-      $access_token = $data->access_token;
-    }
-    return $access_token;
-  }
 
 
 
 	//发送请求
-	protected function http_request($url, $data = null)
+	private function http_request($url, $data = null)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -351,7 +329,7 @@ class Wxapi {
     }
 
     //cgi-url签名
-    protected function accessCgiTokenUrl($middleUrl)
+    private function accessCgiTokenUrl($middleUrl)
     {
     	return $this->baseCgiUrl.$middleUrl."?access_token=".$this->access_token;
     }
