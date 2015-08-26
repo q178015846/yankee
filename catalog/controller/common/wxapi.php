@@ -7,10 +7,10 @@ class ControllerCommonWxapi extends Controller {
 		$this->wx = new Wxapi();
 	
 
-		var_dump($this->wx->createMenu());
+		//var_dump($this->wx->createMenu());
 
 		//加载微信JS-SDK
-		/*$signPackage = $this->wx->GetSignPackage();
+		$signPackage = $this->wx->GetSignPackage();
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -24,8 +24,23 @@ class ControllerCommonWxapi extends Controller {
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/common/wxapi.tpl', $data));
 		} else {
 			$this->response->setOutput($this->load->view('default/template/common/wxapi.tpl', $data));
-		}*/
+		}
 
+	}
+
+	//生成菜单
+	public function createMenu()
+	{
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+
+		var_dump($this->wx->createMenu());
+	}
+
+	//分享订单
+	public function shareOrder()
+	{
+		# code...
 	}
 
 	//获取accesstoken
