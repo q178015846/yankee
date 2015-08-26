@@ -176,10 +176,11 @@
     jsApiList: [
       // 所有要调用的 API 都要加到这个列表中
       'onMenuShareTimeline',
-      'onMenuShareAppMessage'
+      'onMenuShareAppMessage',
+      'scanQRCode'
     ]
   });
-  
+
   function sharetimeline () {
     // body...
     wx.scanQRCode({
