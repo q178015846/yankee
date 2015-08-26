@@ -156,19 +156,17 @@ class Wxapi {
 	{
 		$url = $this->accessCgiTokenUrl("menu/create");
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-		$main_url = $this->webUrl."yankee/";
-		$scanqrcode = $this->webUrl."yankee/index.php?route=common/wxapi";
 		$post_data = ' {
 		     "button":[
 		     {	
-		          "type":"click",
+		          "type":"view",
 		          "name":"查看订单",
-		          "key":"VIEW_ORDER"
+		          "url":"'.$this->webUrl.'yankee/index.php?route=account/order"
 		      },
 		      {
-		       	  "type":"click",
+		       	  "type":"view",
 		          "name":"挑选香薰",
-		          "url":"'.$main_url.'"
+		          "url":"'.$this->webUrl.'yankee/"
 		       },{
 		           "name":"发现",
 		           "sub_button":[
@@ -180,7 +178,7 @@ class Wxapi {
 		            {
 		               "type":"view",
 		               "name":"Yankee",
-		               "url":"'.$scanqrcode.'"
+		               "url":"'.$this->webUrl.'yankee/index.php?route=common/wxapi"
 		            }]
 		       }]
 		 }';
