@@ -161,7 +161,7 @@
       <?php } ?>
       <div class="buttons clearfix">
         <div class="pull-right"><a href="<?php echo $continue; ?>" class="btn btn-primary"><?php echo $button_continue; ?></a></div>
-        <div><a href="###" onclick="sharetimeline()" class="btn btn-primary">分享</a></div>
+        <div><a href="javascript:void(0);" onclick="sharetimeline();" class="btn btn-primary">分享</a></div>
       </div>
       <?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
