@@ -182,21 +182,15 @@
   
   function sharetimeline () {
     // body...
-    wx.onMenuShareTimeline({
-    title: '订单', // 分享标题
-    link: 'http://www.baidu.com', // 分享链接
-    imgUrl: 'http://http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
-    success: function () { 
-        // 用户确认分享后执行的回调函数
-        alert("成功");
-    },
-    fail:function () {
-      // body...
-      alert("11");
-    },
-    cancel: function () { 
-        // 用户取消分享后执行的回调函数
-    }
+    wx.scanQRCode({
+        needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+        success: function (res) {
+        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+        },
+        fail:function (res) {
+            // body...
+        }
     });
   }
   
