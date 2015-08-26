@@ -11,6 +11,8 @@ class Wxapi {
 	//private $baseCgiUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
 	private $baseUrl = "https://api.weixin.qq.com/";
 	private $baseCgiUrl = "https://api.weixin.qq.com/cgi-bin/";
+	//private $webUrl = "http://www.beyankee.com/";
+	private $webUrl = "http://120.24.157.131/";
 	
 	public function __construct() {
 		$this->access_token = $this->getAccessToken();
@@ -154,7 +156,8 @@ class Wxapi {
 	{
 		$url = $this->accessCgiTokenUrl("menu/create");
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-		$scanqrcode = "http://120.24.157.131/yankee/index.php?route=common/wxapi";
+		$main_url = $this->webUrl."yankee/";
+		$scanqrcode = $this->webUrl."yankee/index.php?route=common/wxapi";
 		$post_data = ' {
 		     "button":[
 		     {	
@@ -165,7 +168,7 @@ class Wxapi {
 		      {
 		       	  "type":"click",
 		          "name":"挑选香薰",
-		          "key":"VIEW_GOODS"
+		          "url":"'.$main_url.'"
 		       },{
 		           "name":"发现",
 		           "sub_button":[

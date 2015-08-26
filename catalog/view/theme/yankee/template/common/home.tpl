@@ -11,4 +11,17 @@
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?><?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
 </div>
+<script type="text/javascript">
+wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+      'scanQRCode'
+    ]
+  });
+ </script>
 <?php echo $footer; ?>

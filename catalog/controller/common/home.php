@@ -3,8 +3,9 @@ class ControllerCommonHome extends Controller {
 	public function index() {
 
 		//看是否从回调地址跳转过来的
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
 		if(isset($this->request->get['code'])){
-			$this->wx = new Wxapi();
 			$openid_data = $this->wx->getOpenId($this->request->get['code']);
 			if(isset($openid_data)){
 				//验证是否已经登录
@@ -22,12 +23,16 @@ class ControllerCommonHome extends Controller {
 			$this->document->addLink(HTTP_SERVER, 'canonical');
 		}
 
+		//加载微信JS-SDK
+		$signPackage = $this->wx->GetSignPackage();
+
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
 		$data['content_top'] = $this->load->controller('common/content_top');
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
+		$data['signPackage'] = $signPackage;
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/home.tpl')) {
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/common/home.tpl', $data));
