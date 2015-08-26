@@ -11,8 +11,7 @@
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?><?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
 </div>
-<script>
-alert("1111");
+<script type="text/javascript">
 wx.config({
     debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
@@ -29,11 +28,9 @@ wx.scanQRCode({
     scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
     success: function (res) {
     var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-    alert("1111");
     },
     fail:function (res) {
         // body...
-        alert("1111");
     }
 });
  </script>
