@@ -166,7 +166,7 @@ class Wxapi {
 		      {
 		       	  "type":"view",
 		          "name":"挑选香薰",
-		          "url":"'.$this->webUrl.'yankee/"
+		          "url":"'.$go_url.'"
 		       },{
 		           "name":"发现",
 		           "sub_button":[
