@@ -161,7 +161,7 @@
       <?php } ?>
       <div class="buttons clearfix">
         <div class="pull-right"><a href="<?php echo $continue; ?>" class="btn btn-primary"><?php echo $button_continue; ?></a></div>
-        <div><a href="javascript:void(0);" onclick="sharetimeline()" class="btn btn-primary">分享</a></div>
+        <div><button onclick="sharetimeline()" class="btn btn-primary">分享</button></div>
       </div>
       <?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
@@ -176,6 +176,10 @@
     success: function () { 
         // 用户确认分享后执行的回调函数
         alert("成功");
+    },
+    fail:function () {
+      // body...
+      alert("11");
     },
     cancel: function () { 
         // 用户取消分享后执行的回调函数
