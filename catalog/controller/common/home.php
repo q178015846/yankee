@@ -6,7 +6,7 @@ class ControllerCommonHome extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		if(isset($this->request->get['code'])){
-			$openid_data = $this->wx->getOpenId($this->request->get['code']);
+			$openid_data = $this->wx->getOpenid($this->request->get['code']);
 			if(isset($openid_data) && $openid_data != null){
 				//验证是否已经登录
 				if(!$this->doLogin($openid_data)){
@@ -63,7 +63,8 @@ class ControllerCommonHome extends Controller {
 			$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
 			$data['customer_group_id'] = 1;
 			$data['telephone'] = "13602416028";
-			$data['fullname'] = $userinfo->nickname;
+			//$data['fullname'] = $userinfo->nickname;
+			$data['fullname'] = "user"
 			$data['email'] = $email;
 			$data['password'] = $password;
 			$data['newsletter'] = 0;
@@ -101,6 +102,23 @@ class ControllerCommonHome extends Controller {
 		//return !$this->error;
 		return false;
 
+	}
+
+	//检测accesstoken的有效性
+	private function checkAccessToken($email,$code = null)
+	{
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+		$customer_info = $this->model_account_customer->getCustomerByEmail($email);
+		if(!$customer_info || $customer_info['access_token'] == "" || !isset($customer_info['access_token'])){
+			$user_access_token = $this->wx->getUserAccessToken($code);
+			return $user_access_token;
+		}
+
+		$access_token_json = json_decode($customer_info['access_token']);
+		if($access_token_json->expire_time < time()){
+			return false;
+		}
 	}
 
 }

@@ -192,8 +192,22 @@ class Wxapi {
 
 	}
 
-	//获取用户的openid
-	public function getOpenId($code)
+	//拉取用户普通授权
+	public function getBaseAuthorize($redirect_uri = "http://120.24.157.131/yankee/")
+	{
+		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		http_redirect($go_url);
+	}
+
+	//拉取用户详细授权
+	public function getUserinfoAuthorize($redirect_uri = "http://120.24.157.131/yankee/")
+	{
+		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+		http_redirect($go_url);
+	}
+
+	//通过snsapi_base方式获取openid
+	public function getOpenid($code)
 	{
 		//code来换取access_token和openid的url
 		$get_accesstoken_url = $this->baseUrl."sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
@@ -203,10 +217,37 @@ class Wxapi {
 		}
 		$get_accesstoken_data = json_decode($get_accesstoken_json);
 		if(isset($get_accesstoken_data->errcode)){
-			return $get_accesstoken_data->errmsg;
+			return $get_accesstoken_data;
 		}
-		return $get_accesstoken_data;
+		return $get_accesstoken_data->openid;
 	}
+
+	//获取用户的access_token
+	public function getUserAccessToken($code)
+	{
+		//code来换取access_token和openid的url
+		$get_accesstoken_url = $this->baseUrl."sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
+		$get_accesstoken_json = $this->http_request($get_accesstoken_url);
+		if(!$get_accesstoken_json){
+			return "错误授权";
+		}
+	/*	$get_accesstoken_data = json_decode($get_accesstoken_json);
+		if(isset($get_accesstoken_data->errcode)){
+			return $get_accesstoken_data->errmsg;
+		}*/
+		return $get_accesstoken_json;
+	}
+
+   //获取refresh_token
+   public function getUserRefreshToken($refresh_token)
+   {
+   		$url = $this->baseUrl."sns/oauth2/refresh_token?appid=".$this->appid."&grant_type=refresh_token&refresh_token=".$refresh_token;
+   		$get_refreshtoken_json = $this->http_request($url);
+		if(!$get_refreshtoken_json){
+			return "错误授权";
+		}
+		return $get_refreshtoken_json;
+   }
 
 	//拉取用户信息
 	public function getUserInfo($access_token,$openid,$lang = "zh_CN")
@@ -308,8 +349,7 @@ class Wxapi {
     return $str;
   }
 
- 
-
+  
 
 
 

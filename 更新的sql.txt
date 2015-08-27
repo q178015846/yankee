@@ -1,0 +1,3 @@
+ALTER TABLE `yk_customer` ADD `access_token` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'access_token' AFTER `date_added`;
+
+ALTER TABLE `yk_customer` ADD `expires_time` INT(15) UNSIGNED NULL DEFAULT '0' COMMENT '³¬Ê±Ê±¼ä' AFTER `access_token`;
