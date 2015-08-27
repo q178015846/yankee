@@ -155,13 +155,14 @@ class Wxapi {
 	public function createMenu()
 	{
 		$url = $this->accessCgiTokenUrl("menu/create");
-		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		$order_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/index.php?route=account/order")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 		$post_data = ' {
 		     "button":[
 		     {	
 		          "type":"view",
 		          "name":"查看订单",
-		          "url":"'.$this->webUrl.'yankee/index.php?route=account/order"
+		          "url":"'.$order_url.'"
 		      },
 		      {
 		       	  "type":"view",

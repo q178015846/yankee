@@ -10,7 +10,9 @@ class ControllerCommonHome extends Controller {
 			if(isset($openid_data) && $openid_data != null){
 				//验证是否已经登录
 				if(!$this->doLogin($openid_data)){
+					$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
+					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 				}
 			}
 		}

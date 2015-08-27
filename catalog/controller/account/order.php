@@ -3,11 +3,26 @@ class ControllerAccountOrder extends Controller {
 	private $error = array();
 
 	public function index() {
-		if (!$this->customer->isLogged()) {
+
+		//看是否从回调地址跳转过来的
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+		if(isset($this->request->get['code'])){
+			$openid_data = $this->wx->getOpenid($this->request->get['code']);
+			if(isset($openid_data) && $openid_data != null){
+				//验证是否已经登录
+				if(!$this->doLogin($openid_data)){
+					$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+
+					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
+				}
+			}
+		}
+		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
 			$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-		}
+		}*/
 
 		$this->load->language('account/order');
 
@@ -494,5 +509,68 @@ class ControllerAccountOrder extends Controller {
 		}
 
 		$this->response->redirect($this->url->link('account/order/info', 'order_id=' . $order_id));
+	}
+
+
+	//登录并注册
+	protected function doLogin($openid_data,$password = "123456")
+	{
+		$this->event->trigger('pre.customer.login');
+		if ($this->customer->isLogged()) {
+			return true;
+		}
+		$email = $openid_data->openid."@beyankee.com";
+
+		// Check if customer has been approved.
+		$this->load->model('account/customer');
+		$customer_info = $this->model_account_customer->getCustomerByEmail($email);
+
+		if (!$customer_info) {
+			//自动注册
+			$this->load->library('wxapi');
+			$this->wx = new Wxapi();
+			//$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
+			$data['customer_group_id'] = 1;
+			$data['telephone'] = "13602416028";
+			//$data['fullname'] = $userinfo->nickname;
+			$data['fullname'] = "user";
+			$data['email'] = $email;
+			$data['password'] = $password;
+			$data['newsletter'] = 0;
+			$customer_id = $this->model_account_customer->addCustomer($data);
+
+			$this->customer->login($email, $password);
+
+			unset($this->session->data['guest']);
+
+			// Add to activity log
+			$this->load->model('account/activity');
+
+			$activity_data = array(
+				'customer_id' => $customer_id,
+				//'name'        => $userinfo->nickname
+				'name'        => "用户".$customer_id
+			);
+
+			$this->model_account_activity->addActivity('register', $activity_data);
+
+			//$this->response->redirect($this->url->link('account/success'));
+		}
+
+		
+
+		if (!$this->error) {
+			if (!$this->customer->login($email, $password)) {
+				return false;
+				//$this->error['warning'] = $this->language->get('error_login');
+			} else {
+				$this->event->trigger('post.customer.login');
+				return true;
+			}
+		}
+
+		//return !$this->error;
+		return false;
+
 	}
 }
