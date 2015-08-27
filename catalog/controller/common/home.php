@@ -60,7 +60,7 @@ class ControllerCommonHome extends Controller {
 			//自动注册
 			$this->load->library('wxapi');
 			$this->wx = new Wxapi();
-			$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
+			//$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
 			$data['customer_group_id'] = 1;
 			$data['telephone'] = "13602416028";
 			//$data['fullname'] = $userinfo->nickname;
