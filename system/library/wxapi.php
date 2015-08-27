@@ -155,7 +155,7 @@ class Wxapi {
 	public function createMenu()
 	{
 		$url = $this->accessCgiTokenUrl("menu/create");
-		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode("http://120.24.157.131/yankee/")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 		$post_data = ' {
 		     "button":[
 		     {	
