@@ -106,18 +106,32 @@ class Wxapi {
 	}
 
 	//发送模板信息
-	public function sendModelMsg($openid)
+	public function sendModelMsg($data)
 	{
 		$set_tpl_url = $this->accessCgiTokenUrl("message/template/send");
-		$post_data_settpl = '  {
-           "touser":"oCrCkwJz4TVqPrm3HX2uIgc5VxIw",
-           "template_id":"z23-9o5oSUJkMP7xU39cxkg9Kr1yM8pR-1XcJ8MRkLA",
+
+		/*$post_data_settpl = '  {
+           "touser":"oCrCkwElKC4YuFiAYe0EvPKa-OEg",
+           "template_id":"yoXVOPzjp4Sdffu2WO3PhWMGl9WFpvUfRl7HYmU0WSM",
            "url":"http://weixin.qq.com/download",
            "topcolor":"#FF0000",
-           "data":{}
-       	}';
+           "data":{
+           	"touser":{
+           		"value":"oCrCkwJz4TVqPrm3HX2uIgc5VxIw",
+           		"color":"#173177"
+           	},
+           	"prices":{
+           		"value":"12.20元",
+           		"color":"#173177"
+           	},	
+           	"status":{
+           		"value":"已发货",
+           		"color":"#173177"
+           	}
+           }
+       	}';*/
 
-       	$result = $this->http_request($set_tpl_url, $post_data_settpl);
+       	$result = $this->http_request($set_tpl_url, $data);
 
 		return json_decode($result);
 	}
@@ -223,7 +237,7 @@ class Wxapi {
 		return $get_accesstoken_data;
 	}
 
-	//获取用户的access_token
+	//通过snsapi_userinfo方式获取用户的access_token
 	public function getUserAccessToken($code)
 	{
 		//code来换取access_token和openid的url
