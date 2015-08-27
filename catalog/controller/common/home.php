@@ -5,8 +5,6 @@ class ControllerCommonHome extends Controller {
 		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		var_dump($this->request->get['code']);
-		exit();
 		if(isset($this->request->get['code'])){
 			$openid_data = $this->wx->getOpenid($this->request->get['code']);
 			if(isset($openid_data) && $openid_data != null){
@@ -66,7 +64,7 @@ class ControllerCommonHome extends Controller {
 			$data['customer_group_id'] = 1;
 			$data['telephone'] = "13602416028";
 			//$data['fullname'] = $userinfo->nickname;
-			$data['fullname'] = "user"
+			$data['fullname'] = "user";
 			$data['email'] = $email;
 			$data['password'] = $password;
 			$data['newsletter'] = 0;
