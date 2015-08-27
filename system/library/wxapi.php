@@ -219,7 +219,7 @@ class Wxapi {
 		if(isset($get_accesstoken_data->errcode)){
 			return $get_accesstoken_data;
 		}
-		return $get_accesstoken_data->openid;
+		return $get_accesstoken_data;
 	}
 
 	//获取用户的access_token
