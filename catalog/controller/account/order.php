@@ -7,8 +7,15 @@ class ControllerAccountOrder extends Controller {
 		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		var_dump($this->request->get['openid']);
-		if(isset($this->request->get['code'])){
+		if(isset($this->request->get['openid'])){
+			//验证是否已经登录
+			if(!$this->doLoginWithoutAu($this->request->get['openid'])){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
+			}
+		}
+		/*if(isset($this->request->get['code'])){
 			$openid_data = $this->wx->getOpenid($this->request->get['code']);
 			if(isset($openid_data) && $openid_data != null){
 				//验证是否已经登录
@@ -18,7 +25,7 @@ class ControllerAccountOrder extends Controller {
 					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 				}
 			}
-		}
+		}*/
 		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
@@ -521,6 +528,68 @@ class ControllerAccountOrder extends Controller {
 			return true;
 		}
 		$email = $openid_data->openid."@beyankee.com";
+
+		// Check if customer has been approved.
+		$this->load->model('account/customer');
+		$customer_info = $this->model_account_customer->getCustomerByEmail($email);
+
+		if (!$customer_info) {
+			//自动注册
+			$this->load->library('wxapi');
+			$this->wx = new Wxapi();
+			//$userinfo = $this->wx->getUserInfo($openid_data->access_token,$openid_data->openid);
+			$data['customer_group_id'] = 1;
+			$data['telephone'] = "13602416028";
+			//$data['fullname'] = $userinfo->nickname;
+			$data['fullname'] = "user";
+			$data['email'] = $email;
+			$data['password'] = $password;
+			$data['newsletter'] = 0;
+			$customer_id = $this->model_account_customer->addCustomer($data);
+
+			$this->customer->login($email, $password);
+
+			unset($this->session->data['guest']);
+
+			// Add to activity log
+			$this->load->model('account/activity');
+
+			$activity_data = array(
+				'customer_id' => $customer_id,
+				//'name'        => $userinfo->nickname
+				'name'        => "用户".$customer_id
+			);
+
+			$this->model_account_activity->addActivity('register', $activity_data);
+
+			//$this->response->redirect($this->url->link('account/success'));
+		}
+
+		
+
+		if (!$this->error) {
+			if (!$this->customer->login($email, $password)) {
+				return false;
+				//$this->error['warning'] = $this->language->get('error_login');
+			} else {
+				$this->event->trigger('post.customer.login');
+				return true;
+			}
+		}
+
+		//return !$this->error;
+		return false;
+
+	}
+
+	//登录并注册
+	protected function doLoginWithoutAu($openid,$password = "123456")
+	{
+		$this->event->trigger('pre.customer.login');
+		if ($this->customer->isLogged()) {
+			return true;
+		}
+		$email = $openid."@beyankee.com";
 
 		// Check if customer has been approved.
 		$this->load->model('account/customer');
