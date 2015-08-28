@@ -28,7 +28,8 @@ class Wxconnect
             $fromUsername = $postObj->FromUserName;  
             $toUsername = $postObj->ToUserName;  
             $keyword = trim($postObj->Content);  
-            $Event = trim($postObj->Event);  
+            $Event = trim($postObj->Event); 
+            $EventKey = urlencode(trim($postObj->EventKey));
             $time = time();  
             $textTpl = "<xml>  
                         <ToUserName><![CDATA[%s]]></ToUserName>  
@@ -45,18 +46,19 @@ class Wxconnect
                 $msgType = "text";  
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
                 echo $resultStr;  
+            }else if($Event == "VIEW"){ //菜单事件推送
+                header($EventKey."&openid=".$fromUsername);
             }
 
-            if($keyword=="你好" || $keyword == "您好"){//文本  
+
+            //回复内容
+            if(strstr($keyword, "你好") || strstr($keyword, "您好") || strstr(strtolower($keyword), "hellow")){
                 $contentStr = "您好，点击链接尽情体验<a href=\"http://120.24.157.131/yankee/\">Yankee Candle</a>的极致享受吧！";  
                 $msgType = "text";  
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
                 echo $resultStr;  
-            }else if(strstr($keyword, "你好")){
-                $contentStr = "您好，点击链接尽情体验<a href=\"http://120.24.157.131/yankee/\">Yankee Candle</a>的极致享受吧！";  
-                $msgType = "text";  
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
-                echo $resultStr;  
+            }else if(strstr(haystack, needle)){
+
             }
 
             if (!empty ($keyword)) {  

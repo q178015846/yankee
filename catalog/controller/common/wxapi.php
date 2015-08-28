@@ -7,7 +7,7 @@ class ControllerCommonWxapi extends Controller {
 		$this->wx = new Wxapi();
 		
 
-		var_dump($this->wx->sendModelMsg("111"));
+		var_dump($this->wx->createMenu());
 
 		/*//加载微信JS-SDK
 		$signPackage = $this->wx->GetSignPackage();

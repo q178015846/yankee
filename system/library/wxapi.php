@@ -176,7 +176,7 @@ class Wxapi {
 		     {	
 		          "type":"view",
 		          "name":"查看订单",
-		          "url":"'.$order_url.'"
+		          "url":"'.urlencode($this->webUrl."yankee/index.php?route=account/order").'"
 		      },
 		      {
 		       	  "type":"view",
