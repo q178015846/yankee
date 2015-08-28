@@ -56,7 +56,7 @@ class Wxconnect
 
             if (!empty ($keyword)) {  
   
-                $contentStr = $keyword . "Welcome to wechat world!";  
+                $contentStr = "欢迎来到Yankee Candle世界！";  
   
                 $msgType = "text";  
   
