@@ -38,15 +38,25 @@ class Wxconnect
                         <Content><![CDATA[%s]]></Content>  
                         <FuncFlag>0</FuncFlag>  
                         </xml>"; 
-        }
 
-         //测试事件推送  
-        if($Event=="subscribe"){  
-            $contentStr = "欢迎关注YANKEE CANDLE香薰体验馆公众平台!";  
-            $msgType = "text";  
-            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
-            echo $resultStr;  
-        } 
+             //测试事件推送  
+            if($Event=="subscribe"){  
+                $contentStr = "欢迎关注YANKEE CANDLE香薰体验馆公众平台!";  
+                $msgType = "text";  
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
+                echo $resultStr;  
+            }
+
+            if($keyword=="你好" || $keyword == "您好"){//文本  
+                $contentStr = "您好，点击链接尽情体验<a href=\"http://120.24.157.131/yankee/\">Yankee Candle</a>的极致享受吧！";  
+                $msgType = "text";  
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
+                echo $resultStr;  
+            }
+        } else {  
+            echo "";  
+            exit;  
+        }  
     }
 
     private function checkSignature()
