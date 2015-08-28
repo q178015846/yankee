@@ -47,7 +47,7 @@ class Wxconnect
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
                 echo $resultStr;  
             }else if($Event == "VIEW"){ //菜单事件推送
-                http_redirect($EventKey."&openid=".$fromUsername);
+                http_redirect("http://www.baidu.com");
             }
 
 
