@@ -52,6 +52,11 @@ class Wxconnect
                 $msgType = "text";  
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
                 echo $resultStr;  
+            }else if(strpos($keyword, "你好")){
+                $contentStr = "您好，点击链接尽情体验<a href=\"http://120.24.157.131/yankee/\">Yankee Candle</a>的极致享受吧！";  
+                $msgType = "text";  
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
+                echo $resultStr;  
             }
 
             if (!empty ($keyword)) {  
