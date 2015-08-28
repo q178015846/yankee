@@ -46,7 +46,7 @@ class Wxconnect
                 $msgType = "text";  
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
                 echo $resultStr;  
-            }else if($Event == "VIEW" || $Event == "view"){ //菜单事件推送
+            }else if($Event == "VIEW"){ //菜单事件推送
                 echo "你好";
             }
 
