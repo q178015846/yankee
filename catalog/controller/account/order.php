@@ -590,6 +590,8 @@ class ControllerAccountOrder extends Controller {
 			return true;
 		}
 		$email = $openid."@beyankee.com";
+		var_dump($email);
+		exit();
 
 		// Check if customer has been approved.
 		$this->load->model('account/customer');
