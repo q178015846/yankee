@@ -4,7 +4,7 @@ define("TOKEN", "yaoyao20150805");
 
 $wechatObj = new Wxconnect();
 $wechatObj->valid();
-
+$wechatObj->responseMsg();
 class Wxconnect
 {
     public function valid()
