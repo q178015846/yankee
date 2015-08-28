@@ -3,7 +3,7 @@
 define("TOKEN", "yaoyao20150805");
 
 $wechatObj = new Wxconnect();
-$wechatObj->responseMsg();
+$wechatObj->valid();
 
 class Wxconnect
 {
