@@ -7,15 +7,8 @@ class ControllerAccountOrder extends Controller {
 		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		if(isset($this->request->get['openid'])){
-			//验证是否已经登录
-			if(!$this->doLoginWithoutAu($this->request->get['openid'])){
-				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
-
-				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-			}
-		}
-		/*if(isset($this->request->get['code'])){
+		
+		if(isset($this->request->get['code'])){
 			$openid_data = $this->wx->getOpenid($this->request->get['code']);
 			if(isset($openid_data) && $openid_data != null){
 				//验证是否已经登录
@@ -25,7 +18,7 @@ class ControllerAccountOrder extends Controller {
 					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 				}
 			}
-		}*/
+		}
 		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
@@ -590,8 +583,6 @@ class ControllerAccountOrder extends Controller {
 			return true;
 		}
 		$email = $openid."@beyankee.com";
-		var_dump($email);
-		exit();
 
 		// Check if customer has been approved.
 		$this->load->model('account/customer');
