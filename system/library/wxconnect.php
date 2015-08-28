@@ -53,6 +53,18 @@ class Wxconnect
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
                 echo $resultStr;  
             }
+
+            if (!empty ($keyword)) {  
+  
+                $contentStr = $keyword . "Welcome to wechat world!";  
+  
+                $msgType = "text";  
+  
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);  
+                echo $resultStr;  
+            } else {  
+                echo "请尝试换个姿势再输入吧，亲。";  
+            }  
         } else {  
             echo "";  
             exit;  
