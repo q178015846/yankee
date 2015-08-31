@@ -41,8 +41,8 @@
 <body class="<?php echo $class; ?>">
 <nav id="top" class="navbar-fixed-top">
   <div class="container">
-    <?php echo $currency; ?>
-    <?php echo $language; ?>
+  <!--   <?php echo $currency; ?>
+    <?php echo $language; ?> -->
     <div id="top-links" class="nav pull-right">
       <ul class="list-inline">
         <li><a href="<?php echo $contact; ?>"><i class="fa fa-phone"></i></a> <span class="hidden-xs hidden-sm hidden-md"><?php echo $telephone; ?></span></li>
@@ -71,13 +71,13 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-        <div id="logo">
+      <!--   <div id="logo">
           <?php if ($logo) { ?>
           <a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" class="img-responsive" /></a>
           <?php } else { ?>
           <h1><a href="<?php echo $home; ?>"><?php echo $name; ?></a></h1>
           <?php } ?>
-        </div>
+        </div> -->
       </div>
       <div class="col-sm-5"><?php echo $search; ?>
       </div>
