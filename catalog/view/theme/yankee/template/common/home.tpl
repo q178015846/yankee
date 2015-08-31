@@ -27,7 +27,7 @@ wx.config({
 
  wx.ready(function(){
     wx.onMenuShareAppMessage({
-        title: '老沐你好', // 分享标题
+        title: '美国进口香氛', // 分享标题
         desc: '分享立刻获取10元优惠券', // 分享描述
         link: 'http://120.24.157.131/yankee/', // 分享链接
         imgUrl: 'http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
@@ -42,7 +42,7 @@ wx.config({
         }
     });
     wx.onMenuShareTimeline({
-        title: '老沐你又好', // 分享标题
+        title: '美国进口香氛', // 分享标题
         link: 'http://120.24.157.131/yankee/', // 分享链接
         imgUrl: 'http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
         success: function () { 

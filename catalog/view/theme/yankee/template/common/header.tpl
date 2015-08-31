@@ -43,6 +43,13 @@
   <div class="container">
   <!--   <?php echo $currency; ?>
     <?php echo $language; ?> -->
+    <div class="pull-left">
+        <div class="btn-group">
+            <button class="btn btn-navbar" data-toggle="collapse">
+              <i class="fa fa-bars"></i>
+            </button>
+        </div>
+    </div>
     <div id="top-links" class="nav pull-right">
       <ul class="list-inline">
         <li><a href="<?php echo $contact; ?>"><i class="fa fa-phone"></i></a> <span class="hidden-xs hidden-sm hidden-md"><?php echo $telephone; ?></span></li>
