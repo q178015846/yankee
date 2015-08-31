@@ -2260,6 +2260,28 @@ class ControllerSaleOrder extends Controller {
        
 	}
 
+	//发送发货清单给管理员
+	public function deliveryOrderList()
+	{
+		//看是否从回调地址跳转过来的
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+		//$text = "<a href='".$this->url->link('sale/order/sendOrderList', 'token=' . $this->session->data['token'], 'SSL')."'>".date('Y-m-d',time())."</a> 发货清单";
+		$text = "您好，点击链接尽情体验<a href=\"http://120.24.157.131/yankee/\">Yankee Candle</a>的极致享受吧！";
+		$data["title"] = date('Y-m-d',time())." 发货清单";
+		$data["description"] = date('Y-m-d',time())." 发货清单";
+		$data["url"] = $this->url->link('sale/order/sendOrderList', 'token=' . $this->session->data['token'], 'SSL');
+		$data["picurl"] = "http://120.24.157.131/yankee/admin/view/image/logo.png";
+		$result = $this->wx->sendTxtImgMsg("oCrCkwElKC4YuFiAYe0EvPKa-OEg",$data);
+		var_dump($result);
+		/*if($result->errmsg == "ok"){
+       		$this->response->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+       	}else{
+       		$this->response->redirect($this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'));
+       	}*/
+
+	}
+
 	//发货清单
 	public function sendOrderList()
 	{

@@ -137,18 +137,17 @@ class Wxapi {
 
 
 	//发送文本消息
-	public function sendTextMsg($text)
+	public function sendTextMsg($text,$openid)
 	{
 		//$get_template_url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=".$this->access_token;
-		$url = $this->accessCgiTokenUrl("message/send");
+		$url = $this->accessCgiTokenUrl("message/custom/send");
 		$post_msg = '{
-		   "touser": "703463",
-		   "msgtype": "text",
-		   "agentid": "23",
-		   "text": {
-		       "content": "'.$text.'"
-		   },
-		   "safe":"0"
+		    "touser":"'.$openid.'",
+		    "msgtype":"text",
+		    "text":
+		    {
+		         "content":"'.$text.'"
+		    }
 		}';
 		$result = $this->http_request($url,$post_msg);
 
@@ -171,6 +170,28 @@ class Wxapi {
 		$result = $this->http_request($url,$post_msg);
 
 
+		return json_decode($result);
+	}
+
+	//发送图文信息
+	public function sendTxtImgMsg($openid,$data)
+	{
+		$url = $this->accessCgiTokenUrl("message/custom/send");
+		$post_msg = '{
+		    "touser":"'.$openid.'",
+		    "msgtype":"news",
+		    "news":{
+		        "articles": [
+		         {
+		             "title":"'.$data["title"].'",
+		             "description":"'.$data["description"].'",
+		             "url":"'.$data["url"].'",
+		             "picurl":"'.$data["picurl"].'"
+		         }
+		         ]
+		    }
+		}';
+		$result = $this->http_request($url, $post_msg);
 		return json_decode($result);
 	}
 
