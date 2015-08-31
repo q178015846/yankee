@@ -2305,6 +2305,11 @@ class ControllerSaleOrder extends Controller {
 		//$order_total = $this->model_sale_order->getTotalOrders($filter_data);
 		$data['selected'] = array();
 		$data['logged'] = true;
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+		//加载微信JS-SDK
+		$signPackage = $this->wx->GetSignPackage();
+		$data['signPackage'] = $signPackage;
 		$results = $this->model_sale_order->getOrders($filter_data);
 		$data['text_no_results'] = "无相关结果";
 		foreach ($results as $result) {
