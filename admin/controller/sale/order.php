@@ -2272,8 +2272,12 @@ class ControllerSaleOrder extends Controller {
 		$data["description"] = date('Y-m-d',time())." 发货清单";
 		$data["url"] = $this->url->link('sale/order/sendOrderList', 'token=' . $this->session->data['token'], 'SSL');
 		$data["picurl"] = "http://120.24.157.131/yankee/admin/view/image/logo.png";
-		$result = $this->wx->sendTxtImgMsg("oCrCkwElKC4YuFiAYe0EvPKa-OEg",$data);
-		var_dump($result);
+		$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg','oCrCkwJz4TVqPrm3HX2uIgc5VxIw','oCrCkwD9SmF4c17Otl4t84PQEeZE','oCrCkwEKOb5HB34sivijb_cmEorw'];
+		foreach ($openids as $v) {
+			$this->wx->sendTxtImgMsg($v,$data);
+		}
+		//$result = $this->wx->sendTxtImgMsg("oCrCkwElKC4YuFiAYe0EvPKa-OEg",$data);
+		//var_dump($result);
 		/*if($result->errmsg == "ok"){
        		$this->response->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
        	}else{
