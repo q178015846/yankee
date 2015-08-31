@@ -626,10 +626,10 @@ wx.config({
 
  wx.ready(function(){
     wx.onMenuShareAppMessage({
-        title: '老沐你好', // 分享标题
+        title: '<?php echo  $heading_title?>美国进口香氛', // 分享标题
         desc: '分享立刻获取10元优惠券', // 分享描述
         link: 'http://120.24.157.131/yankee/', // 分享链接
-        imgUrl: 'http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
+        imgUrl: '<?php echo  $thumb?>', // 分享图标
         type: '', // 分享类型,music、video或link，不填默认为link
         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
         success: function () { 
