@@ -2295,12 +2295,12 @@ class ControllerSaleOrder extends Controller {
 		$data['orders'] = array();
 		$url = '';
 
-		$filter_date_added = '2015-08-31';
+		//$filter_date_added = '';
 		$data['date_added'] = $filter_date_added;
 
 		$filter_data = array(	
-			'filter_order_status'  => 3	,
-			'filter_date_added'    => $filter_date_added,
+			'filter_order_status'  => 3
+			//'filter_date_added'    => $filter_date_added,
 		);
 		//$order_total = $this->model_sale_order->getTotalOrders($filter_data);
 		$data['selected'] = array();
