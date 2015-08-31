@@ -2277,7 +2277,7 @@ class ControllerSaleOrder extends Controller {
 		$data['date_added'] = $filter_date_added;
 
 		$filter_data = array(	
-			'filter_order_status'  => 1	,
+			'filter_order_status'  => 3	,
 			'filter_date_added'    => $filter_date_added,
 		);
 		//$order_total = $this->model_sale_order->getTotalOrders($filter_data);
