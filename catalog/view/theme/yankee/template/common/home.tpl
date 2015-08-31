@@ -23,5 +23,23 @@ wx.config({
       'scanQRCode'
     ]
   });
+
+ wx.ready(function(){
+    wx.onMenuShareAppMessage({
+        title: '老沐你好', // 分享标题
+        desc: '分享立刻获取10元优惠券', // 分享描述
+        link: 'http://120.24.157.131/yankee/', // 分享链接
+        imgUrl: 'http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+            alert("分享成功")
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+  });
  </script>
 <?php echo $footer; ?>
