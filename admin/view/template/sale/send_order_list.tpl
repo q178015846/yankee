@@ -49,7 +49,7 @@
         <td class="text-right"><?php echo $order['total']; ?></td>
         <td class="text-left"><?php echo $order['date_added']; ?></td>
         <td class="text-left"><?php echo $order['date_modified']; ?></td>
-        <td class="text-right"><a href="<?php echo $order['deliveryMsg']; ?>" data-toggle="tooltip" title="发货通知" class="btn btn-info"><i class="fa fa-send"></i></a> <a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a> <span class="btn btn-info" id="scanQR<?php echo $order['order_id'];?>"><i class="fa fa-barcode"></i></span></td>
+        <td class="text-right"><a href="<?php echo $order['deliveryMsg']; ?>" data-toggle="tooltip" title="发货通知" class="btn btn-info"><i class="fa fa-send"></i></a> <a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a> <span class="btn btn-info" id="scanQR<?php echo $order['order_id'];?>" onclick="scanQRCode(<?php echo $order['order_id'];?>)"><i class="fa fa-barcode"></i></span></td>
       </tr>
       <?php } ?>
       <?php } else { ?>
@@ -75,7 +75,22 @@
     ]
   });
 
-  $("#scanQR65").click(function () {
+  function scanQRCode (order_id) {
+    // body...
+     wx.scanQRCode({
+        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+        success: function (res) {
+        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+        alert(result);
+        },
+        fail:function (res) {
+            // body...
+        }
+      });
+  }
+
+  /*$("#scanQR65").click(function () {
        wx.scanQRCode({
         needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
         scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
@@ -86,7 +101,7 @@
             // body...
         }
       });
-  });
+  });*/
   
   
 </script>
