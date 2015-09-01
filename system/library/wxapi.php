@@ -14,7 +14,7 @@ class Wxapi {
 	private $baseUrl = "https://api.weixin.qq.com/";
 	private $baseCgiUrl = "https://api.weixin.qq.com/cgi-bin/";
 	//private $webUrl = "http://www.beyankee.com/";
-	private $webUrl = "http://120.24.157.131/";
+	private $webUrl = "http://www.beyankee.com/";
 	
 	public function __construct() {
 		$this->access_token = $this->getAccessToken();
@@ -298,14 +298,14 @@ class Wxapi {
 	}
 
 	//拉取用户普通授权
-	public function getBaseAuthorize($redirect_uri = "http://120.24.157.131/yankee/")
+	public function getBaseAuthorize($redirect_uri = "http://www.beyankee.com/yankee/")
 	{
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 		http_redirect($go_url);
 	}
 
 	//拉取用户详细授权
-	public function getUserinfoAuthorize($redirect_uri = "http://120.24.157.131/yankee/")
+	public function getUserinfoAuthorize($redirect_uri = "http://www.beyankee/yankee/")
 	{
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 		http_redirect($go_url);
