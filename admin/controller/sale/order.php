@@ -2266,13 +2266,12 @@ class ControllerSaleOrder extends Controller {
 		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		//$text = "<a href='".$this->url->link('sale/order/sendOrderList', 'token=' . $this->session->data['token'], 'SSL')."'>".date('Y-m-d',time())."</a> 发货清单";
-		$text = "您好，点击链接尽情体验<a href=\"http://120.24.157.131/yankee/\">Yankee Candle</a>的极致享受吧！";
 		$data["title"] = date('Y-m-d',time())." 发货清单";
 		$data["description"] = date('Y-m-d',time())." 发货清单";
 		$data["url"] = $this->url->link('sale/order/sendOrderList', 'token=' . $this->session->data['token'], 'SSL');
 		$data["picurl"] = "http://120.24.157.131/yankee/admin/view/image/logo.png";
-		$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg','oCrCkwJz4TVqPrm3HX2uIgc5VxIw','oCrCkwD9SmF4c17Otl4t84PQEeZE','oCrCkwEKOb5HB34sivijb_cmEorw'];
+		//$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg','oCrCkwJz4TVqPrm3HX2uIgc5VxIw','oCrCkwD9SmF4c17Otl4t84PQEeZE','oCrCkwEKOb5HB34sivijb_cmEorw'];
+		$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg'];
 		foreach ($openids as $v) {
 			$result = $this->wx->sendTxtImgMsg($v,$data);
 			if($result->errmsg != "ok"){
@@ -2318,7 +2317,7 @@ class ControllerSaleOrder extends Controller {
 		//加载微信JS-SDK
 		$signPackage = $this->wx->GetSignPackage();
 		$data['signPackage'] = $signPackage;
-		$data['deliveryOrderList'] =  $this->url->link('sale/order/deliveryOrderList', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL');
+		$data['deliveryOrderList'] =  $this->url->link('sale/order/deliveryOrderList', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$results = $this->model_sale_order->getOrders($filter_data);
 		$data['text_no_results'] = "无相关结果";
 		foreach ($results as $result) {
