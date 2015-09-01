@@ -2318,6 +2318,7 @@ class ControllerSaleOrder extends Controller {
 		//加载微信JS-SDK
 		$signPackage = $this->wx->GetSignPackage();
 		$data['signPackage'] = $signPackage;
+		$data['deliveryOrderList'] =  $this->url->link('sale/order/deliveryOrderList', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL');
 		$results = $this->model_sale_order->getOrders($filter_data);
 		$data['text_no_results'] = "无相关结果";
 		foreach ($results as $result) {
@@ -2333,7 +2334,6 @@ class ControllerSaleOrder extends Controller {
 				'edit'          => $this->url->link('sale/order/edit', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'delete'        => $this->url->link('sale/order/delete', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'deliveryMsg'        => $this->url->link('sale/order/deliveryMsg', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
-				'deliveryOrderList' => $this->url->link('sale/order/deliveryOrderList', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 			);
 		}
 		$this->response->setOutput($this->load->view('sale/send_order_list.tpl', $data));
