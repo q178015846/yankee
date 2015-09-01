@@ -2274,8 +2274,14 @@ class ControllerSaleOrder extends Controller {
 		$data["picurl"] = "http://120.24.157.131/yankee/admin/view/image/logo.png";
 		$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg','oCrCkwJz4TVqPrm3HX2uIgc5VxIw','oCrCkwD9SmF4c17Otl4t84PQEeZE','oCrCkwEKOb5HB34sivijb_cmEorw'];
 		foreach ($openids as $v) {
-			$this->wx->sendTxtImgMsg($v,$data);
+			$result = $this->wx->sendTxtImgMsg($v,$data);
+			if($result->errmsg == "ok"){
+       			continue;
+	       	}else{
+	       		$this->response->redirect($this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'));
+	       	}
 		}
+		$this->response->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		//$result = $this->wx->sendTxtImgMsg("oCrCkwElKC4YuFiAYe0EvPKa-OEg",$data);
 		//var_dump($result);
 		/*if($result->errmsg == "ok"){
@@ -2329,6 +2335,7 @@ class ControllerSaleOrder extends Controller {
 				'edit'          => $this->url->link('sale/order/edit', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'delete'        => $this->url->link('sale/order/delete', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'deliveryMsg'        => $this->url->link('sale/order/deliveryMsg', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
+				'deliveryOrderList' => $this->url->link('sale/order/deliveryOrderList', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 			);
 		}
 		$this->response->setOutput($this->load->view('sale/send_order_list.tpl', $data));

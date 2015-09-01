@@ -27,7 +27,7 @@
 <div id="content">
 <div class="table-responsive">
   <table class="table table-bordered table-hover">
-    <caption class="text-middle"><?php echo $title; ?></caption>
+    <caption class="text-center h2"><?php echo $title; ?><div style="float:right;margin-right:50px;"><a href="" class="btn btn-info">发送</a></div></caption>
     <thead>
       <tr>
         <td class="text-right">订单ID</td>
