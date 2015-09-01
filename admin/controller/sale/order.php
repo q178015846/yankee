@@ -2275,9 +2275,7 @@ class ControllerSaleOrder extends Controller {
 		$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg','oCrCkwJz4TVqPrm3HX2uIgc5VxIw','oCrCkwD9SmF4c17Otl4t84PQEeZE','oCrCkwEKOb5HB34sivijb_cmEorw'];
 		foreach ($openids as $v) {
 			$result = $this->wx->sendTxtImgMsg($v,$data);
-			if($result->errmsg == "ok"){
-       			continue;
-	       	}else{
+			if($result->errmsg != "ok"){
 	       		$this->response->redirect($this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'));
 	       	}
 		}
