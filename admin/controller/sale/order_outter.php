@@ -68,7 +68,7 @@ class ControllerSaleOrderOutter extends Controller {
 		$data["title"] = date('Y-m-d',time())." 发货清单";
 		$data["description"] = date('Y-m-d',time())." 发货清单";
 		//$data["url"] = $this->url->link('sale/order_outter', 'token=' . $this->session->data['token'], 'SSL');
-		$data["url"] = $this->wx->getBaseAuthorize($this->url->link('sale/order_outter', 'token=' . $this->session->data['token'], 'SSL'));
+		$data["url"] = $this->wx->getBaseAuthorize("http://www.beyankee.com/yankee/admin/index.php?route=sale/order_outter");
 		$data["picurl"] = "http://120.24.157.131/yankee/admin/view/image/logo.png";
 		//$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg','oCrCkwJz4TVqPrm3HX2uIgc5VxIw','oCrCkwD9SmF4c17Otl4t84PQEeZE','oCrCkwEKOb5HB34sivijb_cmEorw'];
 		$openids = ['oCrCkwElKC4YuFiAYe0EvPKa-OEg'];
@@ -783,7 +783,7 @@ class ControllerSaleOrderOutter extends Controller {
 	//登录验证
 	protected function doLogin($openid_data) {
 		if ($this->user->isLogged() && isset($this->request->get['token']) && ($this->request->get['token'] == $this->session->data['token'])) {
-			$this->response->redirect($this->url->link('sales/order_outter', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('sale/order_outter', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
 		$this->load->model('user/user');
@@ -795,14 +795,14 @@ class ControllerSaleOrderOutter extends Controller {
 			$password = "i7jhcev21t";
 			if (!isset($username) || !isset($password) || !$this->user->login($username, $password)) {
 				$this->error['warning'] = $this->language->get('error_login');
-				$this->session->data['redirect'] = $this->url->link('sales/order_outter', '', 'SSL');
+				$this->session->data['redirect'] = $this->url->link('sale/order_outter', '', 'SSL');
 
 				$this->response->redirect($this->url->link('common/login', '', 'SSL'));
 			}
 
 			$this->session->data['token'] = md5(mt_rand());
 
-			$this->response->redirect($this->url->link('sales/order_outter', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('sale/order_outter', 'token=' . $this->session->data['token'], 'SSL'));
 		}else{
 			$this->response->redirect($this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'));
 		}
