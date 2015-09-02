@@ -448,7 +448,7 @@ $(document).delegate('#button-scan', 'click', function() {
               }
               
               if (json['shipping_code']) {
-                $('#txtQRCode').replaceWith(json['shipping_code']);
+                $('#txtQRCode').html(json['shipping_code']);
               }
             },      
             error: function(xhr, ajaxOptions, thrownError) {
@@ -724,33 +724,4 @@ $('#tab-shipping tr[data-sort]').detach().each(function() {
 //--></script></div>
 <footer id="footer"></footer></div>
 </body>
-<script type="text/javascript">
-  wx.config({
-    debug: false,
-    appId: '<?php echo $signPackage["appId"];?>',
-    timestamp: <?php echo $signPackage["timestamp"];?>,
-    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
-    signature: '<?php echo $signPackage["signature"];?>',
-    jsApiList: [
-      // 所有要调用的 API 都要加到这个列表中
-      'scanQRCode'
-    ]
-  });
-
-  function scanQRCode (order_id) {
-    // body...
-     wx.scanQRCode({
-        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-        success: function (res) {
-        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-        alert(result);
-        },
-        fail:function (res) {
-            // body...
-        }
-      });
-  }
-  
-</script>
 </html>
