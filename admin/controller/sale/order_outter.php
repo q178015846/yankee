@@ -9,7 +9,7 @@ class ControllerSaleOrderOutter extends Controller {
 		if(isset($this->request->get['code'])){
 			$openid_data = $this->wx->getOpenid($this->request->get['code']);
 			if(isset($openid_data) && $openid_data != null){
-				$this->doLogin($openid_data)
+				$this->doLogin($openid_data);
 			}
 		}
 
