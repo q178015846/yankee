@@ -357,6 +357,14 @@ class ControllerUserUser extends Controller {
 			$data['username'] = '';
 		}
 
+		if (isset($this->request->post['openid'])) {
+			$data['openid'] = $this->request->post['openid'];
+		} elseif (!empty($user_info)) {
+			$data['openid'] = $user_info['openid'];
+		} else {
+			$data['openid'] = '';
+		}
+
 		if (isset($this->request->post['user_group_id'])) {
 			$data['user_group_id'] = $this->request->post['user_group_id'];
 		} elseif (!empty($user_info)) {

@@ -34,6 +34,15 @@
               <?php } ?>
             </div>
           </div>
+           <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-user-group">OpenId</label>
+            <div class="col-sm-10">
+              <input type="text" name="openid" value="<?php echo $openid; ?>" placeholder="请输入openid" id="input-openid" class="form-control" />
+              <?php if ($error_username) { ?>
+              <div class="text-danger"><?php echo $error_username; ?></div>
+              <?php } ?>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-user-group"><?php echo $entry_user_group; ?></label>
             <div class="col-sm-10">
