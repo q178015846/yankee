@@ -675,4 +675,40 @@ class ControllerSaleOrderOutter extends Controller {
 			$this->response->setOutput($this->load->view('error/not_found.tpl', $data));
 		}
 	}
+
+	public function createShippingCode() {
+		$this->load->language('sale/order');
+
+		$json = array();
+
+		if (!$this->user->hasPermission('modify', 'sale/order')) {
+			$json['error'] = $this->language->get('error_permission');
+		} elseif (isset($this->request->get['order_id'])) {
+			if (isset($this->request->get['order_id'])) {
+				$order_id = $this->request->get['order_id'];
+			} else {
+				$order_id = 0;
+			}
+
+			if(isset($this->request->get['shipping_code'])){
+				$shipping_code = $this->request->get['shipping_code'];
+			}else{
+				$shipping_code = "";
+
+			}
+
+			$this->load->model('sale/order');
+
+			$shipping_code = $this->model_sale_order->createShippingCode($order_id,$shipping_code);
+
+			if ($shipping_code) {
+				$json['shipping_code'] = $shipping_code;
+			} else {
+				$json['error'] = $this->language->get('error_action');
+			}
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
 }

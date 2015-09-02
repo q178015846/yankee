@@ -386,6 +386,17 @@ class ModelSaleOrder extends Model {
 		}
 	}
 
+	public function createShippingCode($order_id,$shipping_code) {
+		$order_info = $this->getOrder($order_id);
+
+		if ($order_info && !$order_info['invoice_no']) {
+
+			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET shipping_code = '" . $shipping_code . "' WHERE order_id = '" . (int)$order_id . "'");
+
+			return $shipping_code;
+		}
+	}
+
 	public function getOrderHistories($order_id, $start = 0, $limit = 10) {
 		if ($start < 0) {
 			$start = 0;
