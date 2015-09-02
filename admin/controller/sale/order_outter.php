@@ -43,7 +43,7 @@ class ControllerSaleOrderOutter extends Controller {
 				'view'          => $this->url->link('sale/order_outter/info', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'edit'          => $this->url->link('sale/order/edit', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'delete'        => $this->url->link('sale/order/delete', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
-				'deliveryMsg'        => $this->url->link('sale/order/deliveryMsg', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
+				'deliveryMsg'        => $this->url->link('sale/order_outter/deliveryMsg', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 			);
 		}
 		$this->response->setOutput($this->load->view('sale/send_order_list.tpl', $data));
@@ -446,6 +446,7 @@ class ControllerSaleOrderOutter extends Controller {
 			//加载微信JS-SDK
 			$signPackage = $this->wx->GetSignPackage();
 			$data['signPackage'] = $signPackage;
+			$data['deliveryMsg'] = $this->url->link('sale/order_outter/deliveryMsg', 'token=' . $this->session->data['token'] . '&order_id=' . $order_id . $url, 'SSL');
 
 			$data['shipping_custom_fields'] = array();
 
@@ -677,6 +678,7 @@ class ControllerSaleOrderOutter extends Controller {
 		}
 	}
 
+	//扫描快递单号
 	public function createShippingCode() {
 		$this->load->language('sale/order');
 
@@ -711,5 +713,59 @@ class ControllerSaleOrderOutter extends Controller {
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+	}
+
+	//发货通知
+	public function deliveryMsg()
+	{
+		$this->load->model('sale/order');
+
+		if (isset($this->request->get['order_id'])) {
+			$order_id = $this->request->get['order_id'];
+		} else {
+			$order_id = 0;
+		}
+
+		$order_info = $this->model_sale_order->getOrder($order_id);
+		$products = $this->model_sale_order->getOrderProducts($order_id);
+		if($order_info){
+			$this->load->library('wxapi');
+			$this->wx = new Wxapi();
+
+			$touser = explode("@",$order_info['email']);
+
+			$data = '{
+	           "touser":"'.$touser[0].'",
+	           "template_id":"yoXVOPzjp4Sdffu2WO3PhWMGl9WFpvUfRl7HYmU0WSM",
+	           "url":"http://120.24.157.131/yankee/index.php?route=account/order",
+	           "topcolor":"#FF0000",
+	           "data":{
+	           	"touser":{
+	           		"value":"'.$order_info["fullname"].'",
+	           		"color":"#173177"
+	           	},
+	           	"goods":{
+	           		"value":"'.$products[0]["name"].'",
+	           		"color":"#173177"
+	           	},
+	           	"prices":{
+	           		"value":"'.$products[0]["total"].'",
+	           		"color":"#173177"
+	           	},	
+	           	"status":{
+	           		"value":"已发货",
+	           		"color":"#173177"
+	           	}
+	           }
+	       	}';
+
+	       	$result = $this->wx->sendModelMsg($data);
+	       	if($result->errmsg == "ok"){
+	       		$this->response->redirect($this->url->link('sale/order_outter', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+	       	}else{
+	       		$this->response->redirect($this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'));
+	       	}
+       	}
+       
 	}
 }

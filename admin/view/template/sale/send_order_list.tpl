@@ -49,7 +49,7 @@
         <td class="text-right"><?php echo $order['total']; ?></td>
         <td class="text-left"><?php echo $order['date_added']; ?></td>
         <td class="text-left"><?php echo $order['date_modified']; ?></td>
-        <td class="text-right"><a href="<?php echo $order['deliveryMsg']; ?>" data-toggle="tooltip" title="发货通知" class="btn btn-info"><i class="fa fa-send"></i></a> <a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a> <span class="btn btn-info" id="scanQR<?php echo $order['order_id'];?>" onclick="scanQRCode(<?php echo $order['order_id'];?>)"><i class="fa fa-barcode"></i></span></td>
+        <td class="text-right"><a href="<?php echo $order['deliveryMsg']; ?>" data-toggle="tooltip" title="发货通知" class="btn btn-info"><i class="fa fa-send"></i></a> <a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a> </td>
       </tr>
       <?php } ?>
       <?php } else { ?>
