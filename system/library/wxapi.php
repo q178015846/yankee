@@ -301,14 +301,14 @@ class Wxapi {
 	public function getBaseAuthorize($redirect_uri = "http://www.beyankee.com/yankee/")
 	{
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
-		http_redirect($go_url);
+		header($go_url);
 	}
 
 	//拉取用户详细授权
 	public function getUserinfoAuthorize($redirect_uri = "http://www.beyankee/yankee/")
 	{
 		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-		http_redirect($go_url);
+		header($go_url);
 	}
 
 	//通过snsapi_base方式获取openid
