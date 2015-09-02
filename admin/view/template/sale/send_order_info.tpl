@@ -432,8 +432,9 @@ $(document).delegate('#button-scan', 'click', function() {
         scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
         success: function (res) {
         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+        alert(result);
         $.ajax({
-            url: 'index.php?route=sale/order/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_code='+result,
+            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_code='+result,
             dataType: 'json',
             beforeSend: function() {
               $('#button-scan').button('loading');     
