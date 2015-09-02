@@ -156,6 +156,7 @@ class ControllerSaleOrderOutter extends Controller {
 			$data['button_cancel'] = $this->language->get('button_cancel');
 			$data['button_generate'] = $this->language->get('button_generate');
 			$data['button_scan'] = "扫描";
+			$data['button_scan_again'] = "重新扫描";
 			$data['button_reward_add'] = $this->language->get('button_reward_add');
 			$data['button_reward_remove'] = $this->language->get('button_reward_remove');
 			$data['button_commission_add'] = $this->language->get('button_commission_add');

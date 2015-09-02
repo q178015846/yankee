@@ -389,7 +389,7 @@ class ModelSaleOrder extends Model {
 	public function createShippingCode($order_id,$shipping_code) {
 		$order_info = $this->getOrder($order_id);
 
-		if ($order_info && !$order_info['shipping_code']) {
+		if ($order_info) {
 
 			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET shipping_code = '" . $shipping_code . "' WHERE order_id = '" . (int)$order_id . "'");
 
