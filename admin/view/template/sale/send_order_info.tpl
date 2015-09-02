@@ -60,8 +60,10 @@
               </tr>
                <tr>
                 <td><?php echo $text_shipping_number; ?></td>
-                <td><?php if ($shipping_code) echo $shipping_code; ?>
-                  <span id="txtQRCode"></span><button id="button-scan" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php if (!$shipping_code) { echo $button_scan;}else { echo $button_scan_again; } ?></button>
+                <td><?php if ($shipping_code) ?>
+                  <span id="txtQRCode"><?php echo $shipping_code; ?></span>
+                  <?php } ?>
+                  <button id="button-scan" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php if (!$shipping_code) { echo $button_scan;}else { echo $button_scan_again; } ?></button>
                   </td>
               </tr>
               <tr>
