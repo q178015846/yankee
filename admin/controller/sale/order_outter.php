@@ -3,7 +3,7 @@ class ControllerSaleOrderOutter extends Controller {
 	//发货清单
 	public function index()
 	{
-		/*//看是否从回调地址跳转过来的
+		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		if(isset($this->request->get['code'])){
@@ -11,7 +11,7 @@ class ControllerSaleOrderOutter extends Controller {
 			if(isset($openid_data) && $openid_data != null){
 				$this->doLogin($openid_data);
 			}
-		}*/
+		}
 
 		$data['title'] = date("Y-m-d",time())." 发货清单";
 		if ($this->request->server['HTTPS']) {
