@@ -23,7 +23,7 @@ define('DIR_CATALOG', '/home/wwwroot/default/yankee/catalog/');
 
 // DB
 define('DB_DRIVER', 'mysqli');
-define('DB_HOSTNAME', 'localhost');
+define('DB_HOSTNAME', 'www.beyankee.com');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'i7jhcev21t');
 define('DB_DATABASE', 'yankee');
