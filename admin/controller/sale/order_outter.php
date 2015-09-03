@@ -781,15 +781,16 @@ class ControllerSaleOrderOutter extends Controller {
 	}
 
 	//登录验证
-	protected function doLogin($openid_data) {
+	public function doLogin($openid_data) {
 		if ($this->user->isLogged() && isset($this->request->get['token']) && ($this->request->get['token'] == $this->session->data['token'])) {
 			$this->response->redirect($this->url->link('sale/order_outter', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
 		$this->load->model('user/user');
 
-		$user_info = $this->model_user->getUserByOpenid($openid_data->openid);
-
+		$user_info = $this->model_user_user->getUserByOpenid($openid_data->openid);
+		//$user_info = $this->model_user_user->getUserByOpenid("oCrCkwElKC4YuFiAYe0EvPKa-OEg");
+		
 		if($user_info){
 			$username = $user_info['username'];
 			$password = "i7jhcev21t";
