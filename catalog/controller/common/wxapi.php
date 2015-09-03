@@ -43,6 +43,14 @@ class ControllerCommonWxapi extends Controller {
 		# code...
 	}
 
+	public function getBaseAuthorize()
+	{
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+
+		$this->wx->getBaseAuthorize();
+	}
+
 	public function getCustomer()
 	{
 		$this->load->model('account/customer');
