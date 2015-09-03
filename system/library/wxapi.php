@@ -130,6 +130,12 @@ class Wxapi {
     	return $this->baseCgiUrl.$middleUrl."?access_token=".$this->access_token;
     }
 
+    //拼接签名的url
+    private function accessTokenUrl($middleUrl)
+    {
+    	return $this->baseUrl.$middleUrl."?access_token=".$this->access_token;
+    }
+
 /*===========================E：基础方法=====================================*/
 
 
@@ -418,6 +424,45 @@ class Wxapi {
 		return "";
 	}
 
+	//添加客服
+	public function addCustomerService($cs_data)
+	{
+		$url = $this->accessTokenUrl("customservice/kfaccount/add");
+
+		return json_decode($this->http_request($url, $cs_data));
+	}
+
+	//修改客服
+	public function updateCustomerService($cs_data)
+	{
+		$url = $this->accessTokenUrl("customservice/kfaccount/update");
+
+		return json_decode($this->http_request($url, $cs_data));
+	}
+
+	//删除客服
+	public function delCustomerService($cs_data)
+	{
+		$url = $this->accessTokenUrl("customservice/kfaccount/del");
+
+		return json_decode($this->http_request($url, $cs_data));
+	}
+
+	//设置客服头像
+	public function setCustomerServiceHeadIcon($cs_data)
+	{
+		$url = $this->accessTokenUrl("customservice/kfaccount/del");
+
+		return json_decode($this->http_request($url, $cs_data));
+	}
+
+	//获取客服列表
+	public function listCustomerService()
+	{
+		$url = $this->accessCgiTokenUrl("customservice/getkflist");
+
+		return json_decode($this->http_request($url));
+	}
 	
 
 }

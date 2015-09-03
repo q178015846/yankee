@@ -27,7 +27,7 @@
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
-      <div class="pull-right"><a href="<?php echo $shipping; ?>" target="_blank" data-toggle="tooltip" title="<?php echo $button_shipping_print; ?>" class="btn btn-info"><i class="fa fa-truck"></i></a> <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <div class="pull-right"><a href="<?php echo $shipping; ?>" target="_self" data-toggle="tooltip" title="发货通知" class="btn btn-info"><i class="fa fa-truck"></i></a> <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
      
     </div>
   </div>
@@ -66,11 +66,12 @@
               </tr>
               <tr>
                 <td><?php echo $text_shipping_company; ?></td>
-                <td><?php if ($invoice_no) { ?>
-                  <?php echo $invoice_no; ?>
-                  <?php } else { ?>
-                  <button id="button-invoice" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php echo $button_generate; ?></button>
-                  <?php } ?></td>
+                <td><select name="shipping_company" id="input-order-status" class="form-control">
+                  <option value="*"></option>
+                  <option value="1">顺丰速运</option>
+                  <option value="2">申通快递</option>
+                  <option value="3">圆通快递</option>
+                </select></td>
               </tr>
              
              

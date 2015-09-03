@@ -95,4 +95,17 @@ class ControllerAccountTransaction extends Controller {
 			$this->response->setOutput($this->load->view('default/template/account/transaction.tpl', $data));
 		}
 	}
+
+	//增加余额
+	public function addTransaction()
+	{
+		$this->load->model("account/customer");
+		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+			$this->model_account_customer->addTransaction($this->request->get['customer_id'], $this->request->post['description'], $this->request->post['amount']);
+
+			$data['success'] = $this->language->get('text_success');
+		} else {
+			$data['success'] = '';
+		}
+	}
 }
