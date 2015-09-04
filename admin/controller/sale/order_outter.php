@@ -247,10 +247,10 @@ class ControllerSaleOrderOutter extends Controller {
 				$data['invoice_no'] = '';
 			}
 
-			if($order_info['shipping_code']){
-				$data['shipping_code'] = $order_info['shipping_code'];
+			if($order_info['shipping_order_code']){
+				$data['shipping_order_code'] = $order_info['shipping_order_code'];
 			}else{
-				$data['shipping_code'] = '';
+				$data['shipping_order_code'] = '';
 			}
 
 			$data['store_name'] = $order_info['store_name'];
@@ -704,19 +704,19 @@ class ControllerSaleOrderOutter extends Controller {
 				$order_id = 0;
 			}
 
-			if(isset($this->request->get['shipping_code'])){
-				$shipping_code = $this->request->get['shipping_code'];
+			if(isset($this->request->get['shipping_order_code'])){
+				$shipping_order_code = $this->request->get['shipping_order_code'];
 			}else{
-				$shipping_code = "";
+				$shipping_order_code = "";
 
 			}
 
 			$this->load->model('sale/order');
 
-			$shipping_code = $this->model_sale_order->createShippingCode($order_id,$shipping_code);
+			$shipping_order_code = $this->model_sale_order->createShippingCode($order_id,$shipping_order_code);
 
-			if ($shipping_code) {
-				$json['shipping_code'] = $shipping_code;
+			if ($shipping_order_code) {
+				$json['shipping_order_code'] = $shipping_order_code;
 			} else {
 				$json['error'] = $this->language->get('error_action');
 			}

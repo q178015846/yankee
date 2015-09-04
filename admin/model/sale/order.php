@@ -386,14 +386,14 @@ class ModelSaleOrder extends Model {
 		}
 	}
 
-	public function createShippingCode($order_id,$shipping_code) {
+	public function createShippingCode($order_id,$shipping_order_code) {
 		$order_info = $this->getOrder($order_id);
 
 		if ($order_info) {
 
-			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET shipping_code = '" . $shipping_code . "' WHERE order_id = '" . (int)$order_id . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET shipping_order_code = '" . $shipping_order_code . "' WHERE order_id = '" . (int)$order_id . "'");
 
-			return $shipping_code;
+			return $shipping_order_code;
 		}
 	}
 

@@ -60,8 +60,8 @@
               </tr>
                <tr>
                 <td><?php echo $text_shipping_number; ?></td>
-                <td><span id="txtQRCode"><?php if ($shipping_code) echo $shipping_code; ?>
-                  </span> <button id="button-scan" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php if (!$shipping_code) { echo $button_scan;}else { echo $button_scan_again; } ?></button>
+                <td><span id="txtQRCode"><?php if ($shipping_order_code) echo $shipping_order_code; ?>
+                  </span> <button id="button-scan" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php if (!$shipping_order_code) { echo $button_scan;}else { echo $button_scan_again; } ?></button>
                   </td>
               </tr>
               <tr>
@@ -433,7 +433,7 @@ $(document).delegate('#button-scan', 'click', function() {
         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
         alert(result);
         $.ajax({
-            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_code='+result,
+            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_order_code='+result,
             dataType: 'json',
             beforeSend: function() {
               $('#button-scan').button('loading');     
@@ -448,8 +448,8 @@ $(document).delegate('#button-scan', 'click', function() {
                 $('#tab-order').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
               }
               
-              if (json['shipping_code']) {
-                $('#txtQRCode').html(json['shipping_code']);
+              if (json['shipping_order_code']) {
+                $('#txtQRCode').html(json['shipping_order_code']);
               }
             },      
             error: function(xhr, ajaxOptions, thrownError) {

@@ -394,6 +394,7 @@ class ControllerAccountOrder extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 			$data['signPackage'] = $signPackage;
+			//获取customer_id
 			$data['customer_id'] = $order_info['customer_id'];
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {

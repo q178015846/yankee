@@ -183,7 +183,7 @@
   wx.ready(function(){
     wx.onMenuShareAppMessage({
         title: '老沐你好', // 分享标题
-        desc: '分享返现10元', // 分享描述
+        desc: '分享立返10元', // 分享描述
         link: 'http://www.beyankee.com/yankee/', // 分享链接
         imgUrl: 'http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
         type: '', // 分享类型,music、video或link，不填默认为link
