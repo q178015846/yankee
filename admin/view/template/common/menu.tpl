@@ -82,6 +82,7 @@
           <li><a href="<?php echo $api; ?>"><?php echo $text_api; ?></a></li>
         </ul>
       </li>
+      <li><a href="<?php echo $customer_service; ?>"><?php echo $text_customer_service; ?></a></li>
       <li><a class="parent"><?php echo $text_localisation; ?></a>
         <ul>
           <li><a href="<?php echo $location; ?>"><?php echo $text_location; ?></a></li>

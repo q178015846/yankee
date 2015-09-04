@@ -38,9 +38,24 @@ class ControllerCommonWxapi extends Controller {
 	}
 
 	//分享订单
-	public function shareOrder()
+	public function addCustomerService()
 	{
-		# code...
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+		$data = '{
+	     "kf_account" : "huangruizhi@gh_86afcd2673bf",
+	     "nickname" : "黄睿智",
+	     "password" : "i7jhcev21t",
+		}';
+		var_dump($this->wx->addCustomerService($data));
+	}
+
+	public function listCustomerService()
+	{
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+		$data = "";
+		var_dump($this->wx->listCustomerService());
 	}
 
 	public function getBaseAuthorize()

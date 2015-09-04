@@ -182,8 +182,8 @@
 
   wx.ready(function(){
     wx.onMenuShareAppMessage({
-        title: '老沐你好', // 分享标题
-        desc: '分享立返10元', // 分享描述
+        title: '晒单立返10元', // 分享标题
+        desc: '我在xxx购买了xxx，宝贝很好用', // 分享描述
         link: 'http://www.beyankee.com/yankee/', // 分享链接
         imgUrl: 'http://120.24.157.131/yankee/image/catalog/logo.png', // 分享图标
         type: '', // 分享类型,music、video或link，不填默认为link
@@ -194,7 +194,7 @@
               url: 'index.php?route=account/transaction/addTransaction&customer_id=<?php echo $customer_id; ?>',
               type: 'post',
               dataType: 'html',
-              data: 'description=' + encodeURIComponent("分享返现10元") + '&amount=10',
+              data: 'description=' + encodeURIComponent("晒单立返10元") + '&amount=10',
               beforeSend: function() {
                 
               },

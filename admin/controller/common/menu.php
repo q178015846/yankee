@@ -95,6 +95,8 @@ class ControllerCommonMenu extends Controller {
 		$data['text_recurring'] = $this->language->get('text_recurring');
 		$data['text_order_recurring'] = $this->language->get('text_order_recurring');
 		$data['text_others'] = $this->language->get('text_others');
+		$data['text_customer_service'] = "多客服管理";
+
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
@@ -195,6 +197,7 @@ class ControllerCommonMenu extends Controller {
 			'amazonus' => $this->config->get('openbay_amazonus_status'),
 			'etsy' => $this->config->get('etsy_status'),
 		);
+		$data['customer_service'] = $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('common/menu.tpl', $data);
 	}
