@@ -51,11 +51,11 @@ class ControllerSaleCustomerService extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('user/user', 'token=' . $this->session->data['token'] . $url, 'SSL')
+			'href' => $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 
-		$data['add'] = $this->url->link('user/user/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$data['delete'] = $this->url->link('user/user/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['add'] = $this->url->link('sale/customer_service/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['delete'] = $this->url->link('sale/customer_service/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$data['users'] = array();
 
@@ -127,9 +127,9 @@ class ControllerSaleCustomerService extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['sort_username'] = $this->url->link('user/user', 'token=' . $this->session->data['token'] . '&sort=username' . $url, 'SSL');
-		$data['sort_status'] = $this->url->link('user/user', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
-		$data['sort_date_added'] = $this->url->link('user/user', 'token=' . $this->session->data['token'] . '&sort=date_added' . $url, 'SSL');
+		$data['sort_username'] = $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . '&sort=username' . $url, 'SSL');
+		$data['sort_status'] = $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
+		$data['sort_date_added'] = $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . '&sort=date_added' . $url, 'SSL');
 
 		$url = '';
 
@@ -145,7 +145,7 @@ class ControllerSaleCustomerService extends Controller {
 		$pagination->total = $user_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
-		$pagination->url = $this->url->link('user/user', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 		$data['pagination'] = $pagination->render();
 
@@ -161,15 +161,15 @@ class ControllerSaleCustomerService extends Controller {
 		$this->response->setOutput($this->load->view('sale/customer_service_list.tpl', $data));
 	}
 
-	public function edit() {
-		$this->load->language('user/user');
+	public function add() {
+		$this->load->language('sale/customer_service');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('user/user');
+		$this->load->model('sale/customer_service');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_user_user->editUser($this->request->get['user_id'], $this->request->post);
+			$this->model_sale_customer_service->addUser($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -187,10 +187,76 @@ class ControllerSaleCustomerService extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('user/user', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->response->redirect($this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
 		$this->getForm();
+	}
+
+	public function edit() {
+		$this->load->language('sale/customer_service');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('sale/customer_service');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			$this->model_sale_customer_service->editUser($this->request->get['user_id'], $this->request->post);
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+		}
+
+		$this->getForm();
+	}
+
+	public function delete() {
+		$this->load->language('sale/customer_service');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('sale/customer_service');
+
+		if (isset($this->request->post['selected']) && $this->validateDelete()) {
+			foreach ($this->request->post['selected'] as $user_id) {
+				$this->model_sale_customer_service->deleteUser($user_id);
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+		}
+
+		$this->getList();
 	}
 
 	protected function getForm() {
@@ -265,19 +331,19 @@ class ControllerSaleCustomerService extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('user/user', 'token=' . $this->session->data['token'] . $url, 'SSL')
+			'href' => $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 
 		if (!isset($this->request->get['user_id'])) {
-			$data['action'] = $this->url->link('user/user/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+			$data['action'] = $this->url->link('sale/customer_service/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		} else {
-			$data['action'] = $this->url->link('user/user/edit', 'token=' . $this->session->data['token'] . '&user_id=' . $this->request->get['user_id'] . $url, 'SSL');
+			$data['action'] = $this->url->link('sale/customer_service/edit', 'token=' . $this->session->data['token'] . '&user_id=' . $this->request->get['user_id'] . $url, 'SSL');
 		}
 
-		$data['cancel'] = $this->url->link('user/user', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['cancel'] = $this->url->link('sale/customer_service', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		if (isset($this->request->get['user_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$user_info = $this->model_user_user->getUser($this->request->get['user_id']);
+			$user_info = $this->model_sale_customer_service->getUser($this->request->get['user_id']);
 		}
 
 		if (isset($this->request->post['username'])) {
@@ -368,7 +434,59 @@ class ControllerSaleCustomerService extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('user/user_form.tpl', $data));
+		$this->response->setOutput($this->load->view('sale/customer_service_form.tpl', $data));
+	}
+
+	protected function validateForm() {
+		if (!$this->user->hasPermission('modify', 'sale/customer_service')) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		if ((utf8_strlen($this->request->post['username']) < 3) || (utf8_strlen($this->request->post['username']) > 20)) {
+			$this->error['username'] = $this->language->get('error_username');
+		}
+
+		$user_info = $this->model_sale_customer_service->getUserByUsername($this->request->post['username']);
+
+		if (!isset($this->request->get['user_id'])) {
+			if ($user_info) {
+				$this->error['warning'] = $this->language->get('error_exists');
+			}
+		} else {
+			if ($user_info && ($this->request->get['user_id'] != $user_info['user_id'])) {
+				$this->error['warning'] = $this->language->get('error_exists');
+			}
+		}
+
+		if ((utf8_strlen(trim($this->request->post['fullname'])) < 2) || (utf8_strlen(trim($this->request->post['fullname'])) > 32)) {
+			$this->error['fullname'] = $this->language->get('error_fullname');
+		}
+
+		if ($this->request->post['password'] || (!isset($this->request->get['user_id']))) {
+			if ((utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
+				$this->error['password'] = $this->language->get('error_password');
+			}
+
+			if ($this->request->post['password'] != $this->request->post['confirm']) {
+				$this->error['confirm'] = $this->language->get('error_confirm');
+			}
+		}
+
+		return !$this->error;
+	}
+
+	protected function validateDelete() {
+		if (!$this->user->hasPermission('modify', 'sale/customer_service')) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		foreach ($this->request->post['selected'] as $user_id) {
+			if ($this->user->getId() == $user_id) {
+				$this->error['warning'] = $this->language->get('error_account');
+			}
+		}
+
+		return !$this->error;
 	}
 	
 }

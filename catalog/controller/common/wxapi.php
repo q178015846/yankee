@@ -43,9 +43,11 @@ class ControllerCommonWxapi extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		$data = '{
-	     "kf_account" : "huangruizhi@gh_86afcd2673bf",
+	     "kf_account" : "001@gh_86afcd2673bf",
 	     "nickname" : "黄睿智",
-	     "password" : "i7jhcev21t",
+	     "kf_nick" : "rock",
+	     "kf_id" : "001",
+	     "password" : "'.md5("i7jhcev21t").'"
 		}';
 		var_dump($this->wx->addCustomerService($data));
 	}
