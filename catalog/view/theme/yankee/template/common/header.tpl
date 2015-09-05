@@ -29,6 +29,9 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
 <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="catalog/view/theme/yankee/stylesheet/stylesheet.css" rel="stylesheet">
+<!-- 导航css -->
+<!-- <link rel="stylesheet" type="text/css" href="catalog/view/javascript/canvalmenu/css/normalize.css" /> -->
+
 <?php foreach ($styles as $style) { ?>
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
@@ -41,10 +44,9 @@
 
 </head>
 <body class="<?php echo $class; ?>">
-<nav id="top" class="navbar-fixed-top">
+<!-- <nav id="top" class="navbar-fixed-top">
   <div class="container">
-  <!--   <?php echo $currency; ?>
-    <?php echo $language; ?> -->
+
     <div class="pull-left">
         <div class="btn-group">
             <button class="btn btn-navbar" data-toggle="collapse">
@@ -75,7 +77,7 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav> -->
 <header>
   <div class="container">
     <div class="row">

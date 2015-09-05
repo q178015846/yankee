@@ -29,6 +29,7 @@
             <li class="active"><a href="#tab-general" data-toggle="tab"><?php echo $tab_general; ?></a></li>
             <?php if ($customer_id) { ?>
             <li><a href="#tab-history" data-toggle="tab"><?php echo $tab_history; ?></a></li>
+            <li><a href="#tab-coupon" data-toggle="tab">优惠券</a></li>
             <li><a href="#tab-transaction" data-toggle="tab"><?php echo $tab_transaction; ?></a></li>
             <li><a href="#tab-reward" data-toggle="tab"><?php echo $tab_reward; ?></a></li>
             <li><a href="#tab-ip" data-toggle="tab"><?php echo $tab_ip; ?></a></li>
@@ -588,6 +589,23 @@
                 <button id="button-history" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i> <?php echo $button_history_add; ?></button>
               </div>
             </div>
+            <div class="tab-pane" id="tab-coupon">
+              <div id="coupon"></div>
+              <br />
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-coupon-description">优惠券</label>
+                <div class="col-sm-10">
+                  <select name="customer_coupon_id" id="input-customer-group" class="form-control">
+                    <?php foreach ($coupons as $coupon) { ?>
+                    <option value="<?php echo $coupon['coupon_id']; ?>"><?php echo $coupon['name']; ?></option>   
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+              <div class="text-right">
+                <button type="button" id="button-coupon" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i> 添加优惠券</button>
+              </div>
+            </div>
             <div class="tab-pane" id="tab-transaction">
               <div id="transaction"></div>
               <br />
@@ -976,6 +994,40 @@ $('#button-transaction').on('click', function(e) {
 		}
 	});
 });
+
+
+$('#coupon').delegate('.pagination a', 'click', function(e) {
+  e.preventDefault();
+
+  $('#coupon').load(this.href);
+});
+
+$('#coupon').load('index.php?route=sale/customer/coupon&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+$('#button-coupon').on('click', function(e) {
+  e.preventDefault();
+
+  $.ajax({
+    url: 'index.php?route=sale/customer/coupon&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    dataType: 'html',
+    data: 'description=' + encodeURIComponent($('#tab-coupon select[name=\'customer_coupon_id\']').find("option:selected").text()) + '&coupon_id=' + encodeURIComponent($('#tab-coupon select[name=\'customer_coupon_id\']').val()),
+    beforeSend: function() {
+      $('#button-coupon').button('loading');
+    },
+    complete: function() {
+      $('#button-coupon').button('reset');
+    },
+    success: function(html) {
+      $('.alert').remove();
+
+      $('#coupon').html(html);
+
+      $('#tab-coupon input[name=\'amount\']').val('');
+      $('#tab-coupon input[name=\'description\']').val('');
+    }
+  });
+});
+
 //--></script> 
   <script type="text/javascript"><!--
 $('#reward').delegate('.pagination a', 'click', function(e) {

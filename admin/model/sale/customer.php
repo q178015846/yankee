@@ -364,6 +364,33 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}
 
+	public function addCoupon($customer_id, $coupon_id, $description = '', $isused = 0, $order_id = 0) {
+		$customer_info = $this->getCustomer($customer_id);
+
+		if ($customer_info) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_coupon SET customer_id = '" . (int)$customer_id . "', coupon_id = '" . (int)$coupon_id . "', description = '" . $this->db->escape($description) . "', order_id = '" . (int)$order_id . "', isused = '" . (int)$isused . "', date_added = NOW()");
+		}
+	}
+
+	//需要改进
+	public function deleteCoupon($order_id) {
+		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_coupon WHERE order_id = '" . (int)$order_id . "'");
+	}
+
+	public function getCoupons($customer_id, $start = 0, $limit = 10) {
+		if ($start < 0) {
+			$start = 0;
+		}
+
+		if ($limit < 1) {
+			$limit = 10;
+		}
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_coupon WHERE customer_id = '" . (int)$customer_id . "' ORDER BY date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+
+		return $query->rows;
+	}
+
 	public function addTransaction($customer_id, $description = '', $amount = '', $order_id = 0) {
 		$customer_info = $this->getCustomer($customer_id);
 

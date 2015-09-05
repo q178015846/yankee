@@ -7,3 +7,5 @@ ALTER TABLE `yk_user` ADD `openid` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_g
 ALTER TABLE `yk_order` ADD `shipping_order_code` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '快递单号' AFTER `date_modified`;
 
 ALTER TABLE `yk_order` ADD `shipping_order_company` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '快递公司' AFTER `shipping_order_code`;
+
+ALTER TABLE `yk_customer_coupon` ADD `order_id` INT(11) NOT NULL AFTER `description`;

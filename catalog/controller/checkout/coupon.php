@@ -8,9 +8,13 @@ class ControllerCheckoutCoupon extends Controller {
 
 			$data['text_loading'] = $this->language->get('text_loading');
 
-			$data['entry_coupon'] = $this->language->get('entry_coupon');
+			$data['entry_coupon'] = "请选择需要使用的优惠券";
 
 			$data['button_coupon'] = $this->language->get('button_coupon');
+
+			//加载优惠券
+			$this->load->model("account/customer");
+			$data['coupons'] = $this->model_account_customer->getCoupons(21);
 
 			if (isset($this->session->data['coupon'])) {
 				$data['coupon'] = $this->session->data['coupon'];

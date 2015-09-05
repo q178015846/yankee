@@ -6,7 +6,12 @@
     <div class="panel-body">
       <label class="col-sm-2 control-label" for="input-coupon"><?php echo $entry_coupon; ?></label>
       <div class="input-group">
-        <input type="text" name="coupon" value="<?php echo $coupon; ?>" placeholder="<?php echo $entry_coupon; ?>" id="input-coupon" class="form-control" />
+        <!-- <input type="text" name="coupon" value="<?php echo $coupon; ?>" placeholder="<?php echo $entry_coupon; ?>" id="input-coupon" class="form-control" /> -->
+        <select name="coupon" id="input-coupon" class="form-control">
+	      <?php foreach ($coupons as $coupon) { ?>
+	      <option value="<?php echo $coupon['code']; ?>"><?php echo $coupon['name']; ?></option>   
+	      <?php } ?>
+	     </select>
         <span class="input-group-btn">
         <input type="button" value="<?php echo $button_coupon; ?>" id="button-coupon" data-loading-text="<?php echo $text_loading; ?>"  class="btn btn-primary" />
         </span></div>
@@ -15,7 +20,7 @@ $('#button-coupon').on('click', function() {
 	$.ajax({
 		url: 'index.php?route=checkout/coupon/coupon',
 		type: 'post',
-		data: 'coupon=' + encodeURIComponent($('input[name=\'coupon\']').val()),
+		data: 'coupon=' + encodeURIComponent($('select[name=\'coupon\']').val()),
 		dataType: 'json',
 		beforeSend: function() {
 			$('#button-coupon').button('loading');

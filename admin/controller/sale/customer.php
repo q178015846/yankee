@@ -846,6 +846,10 @@ class ControllerSaleCustomer extends Controller {
 
 		$data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 
+		$this->load->model('marketing/coupon');
+
+		$data['coupons'] = $this->model_marketing_coupon->getCoupons();
+
 		if (isset($this->request->post['customer_group_id'])) {
 			$data['customer_group_id'] = $this->request->post['customer_group_id'];
 		} elseif (!empty($customer_info)) {
@@ -1297,6 +1301,67 @@ class ControllerSaleCustomer extends Controller {
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($transaction_total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($transaction_total - 10)) ? $transaction_total : ((($page - 1) * 10) + 10), $transaction_total, ceil($transaction_total / 10));
 
 		$this->response->setOutput($this->load->view('sale/customer_transaction.tpl', $data));
+	}
+
+	public function coupon() {
+		$this->load->language('sale/customer');
+
+		$this->load->model('sale/customer');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) {
+			$this->model_sale_customer->addCoupon($this->request->get['customer_id'], $this->request->post['coupon_id'], $this->request->post['description']);
+
+			$data['success'] = $this->language->get('text_success');
+		} else {
+			$data['success'] = '';
+		}
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
+			$data['error_warning'] = $this->language->get('error_permission');
+		} else {
+			$data['error_warning'] = '';
+		}
+
+		$data['text_no_results'] = $this->language->get('text_no_results');
+		$data['text_balance'] = $this->language->get('text_balance');
+
+		$data['column_date_added'] = $this->language->get('column_date_added');
+		$data['column_description'] = $this->language->get('column_description');
+		$data['column_amount'] = $this->language->get('column_amount');
+
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} else {
+			$page = 1;
+		}
+
+		$data['coupons'] = array();
+
+		$results = $this->model_sale_customer->getCoupons($this->request->get['customer_id'], ($page - 1) * 10, 10);
+
+		foreach ($results as $result) {
+			$data['coupons'][] = array(
+				'isused'      => $result['isused'] == 0?"<span style='color:red;'>未使用</span>":"<span style='color:green;'>已使用</span>",
+				'description' => $result['description'],
+				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+			);
+		}
+
+		//$data['balance'] = "11";
+
+		$transaction_total = $this->model_sale_customer->getTotalTransactions($this->request->get['customer_id']);
+
+		$pagination = new Pagination();
+		$pagination->total = $transaction_total;
+		$pagination->page = $page;
+		$pagination->limit = 10;
+		$pagination->url = $this->url->link('sale/customer/coupon', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+
+		$data['pagination'] = $pagination->render();
+
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($transaction_total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($transaction_total - 10)) ? $transaction_total : ((($page - 1) * 10) + 10), $transaction_total, ceil($transaction_total / 10));
+
+		$this->response->setOutput($this->load->view('sale/customer_coupon.tpl', $data));
 	}
 
 	public function reward() {

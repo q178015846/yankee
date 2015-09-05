@@ -208,4 +208,12 @@ class ModelAccountCustomer extends Model {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int)$customer_id . "', order_id = '" . (int)$order_id . "', description = '" . $this->db->escape($description) . "', amount = '" . (float)$amount . "', date_added = NOW()");
 		}
 	}
+
+	//获取优惠券
+	public function getCoupons($customer_id) {
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_coupon as cc LEFT JOIN " . DB_PREFIX . "coupon as c ON cc.coupon_id = c.coupon_id WHERE cc.customer_id = '" . (int)$customer_id . "' ORDER BY cc.date_added DESC ");
+
+		return $query->rows;
+	}
 }
