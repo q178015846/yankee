@@ -848,7 +848,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('marketing/coupon');
 
-		$data['coupons'] = $this->model_marketing_coupon->getCoupons();
+		$data['coupons'] = $this->model_marketing_coupon->getAvaCoupons();
 
 		if (isset($this->request->post['customer_group_id'])) {
 			$data['customer_group_id'] = $this->request->post['customer_group_id'];
