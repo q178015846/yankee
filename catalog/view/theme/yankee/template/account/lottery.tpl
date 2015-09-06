@@ -1,6 +1,8 @@
 <!DOCTYPE>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0;">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>抽奖</title>
 <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
 <script src="catalog/view/javascript/lottery/rotate/js/Rotate.js"></script>
