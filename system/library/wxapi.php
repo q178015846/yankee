@@ -290,6 +290,11 @@ class Wxapi {
 		               "type":"view",
 		               "name":"Yankee",
 		               "url":"'.$this->webUrl.'yankee/index.php?route=common/wxapi"
+		            },
+		            {
+		            	"type":"view",
+		            	"name":"抽奖",
+		            	"url":"'.$this->webUrl.'yankee/index.php?route=account/lottery"
 		            }]
 		       }]
 		 }';
