@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTML5+Canvas制作微信大转盘抽奖特效</title>
+<title><?php echo $title?></title>
 <link href="catalog/view/javascript/lottery/rotate/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="catalog/view/javascript/lottery/rotate/js/awardRotate.js"></script>
@@ -100,6 +100,7 @@ $(document).ready(function(){
 
 function rnd(n, m){
     var random = Math.floor(Math.random()*(m-n+1)+n);
+    alert(random);
     return random;
     
 }
@@ -191,7 +192,7 @@ function drawRouletteWheel() {
 </script>
 </head>
 <body class="keBody">
-<h1 class="keTitle">HTML5+Canvas实现微信大转盘抽奖代码</h1>
+<h1 class="keTitle"><?php echo $lottery_title?></h1>
 <div class="kePublic">
 <!--效果html开始-->
     <div style="max-width:800px; margin:0 auto">
@@ -205,21 +206,5 @@ function drawRouletteWheel() {
     </div>
     </div>
 <!--效果html结束-->
-<div class="clear"></div>
-</div>
-<div class="keBottom">
-<p class="keTxtP">科e互联网页特效集锦---更多特效请访问 <a class="keUrl" href="http://www.internetke.com" target="_blank">www.internetke.com</a></p>
-<p class="keTxtP">本站导航：
-<a href="http://www.internetke.com/" target="_blank" class="cor_bs">网站建设</a> | 
-<a href="http://www.internetke.com/material/" target="_blank" class="cor_bs">网页素材</a> | 
-<a href="http://www.internetke.com/effects/" target="_blank" class="cor_bs">网页特效</a> | 
-<a href="http://www.internetke.com/share/" target="_blank" class="cor_bs">设计分享</a> | 
-<a href="http://www.internetke.com/tutorial/" target="_blank" class="cor_bs">建站教程</a> | 
-<a href="http://www.internetke.com/model/" target="_blank" class="cor_bs">网站模版</a> | 
-<a href="http://www.internetke.com/appreciate/" target="_blank" class="cor_bs">酷站赏析</a>
-</p>
-<p class="keTxtP">＊尊重他人劳动成果，转载请自觉注明出处！注：此代码为【科e整理/原创特效】仅供学习交流，请勿用于商业用途。
-<a target="_blank" href="http://wp.qq.com/wpa/qunwpa?idkey=a7df3558c291e0407375b9ad649d96a6e507286ffeb0650c65a221d1500a0779" class="button red" title="北京网站建设,网页特效QQ交流群-科e互联">加入QQ交流群</a></p>
-</div>
 </body>
 </html>
