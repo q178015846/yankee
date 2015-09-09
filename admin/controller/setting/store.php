@@ -26,8 +26,62 @@ class ControllerSettingStore extends Controller {
 
 			$this->model_setting_setting->editSetting('config', $this->request->post, $store_id);
 
-			$this->session->data['success'] = $this->language->get('text_success');
+            /* loo functions begin */
+            function loo_parse_queries($file) {
+                $sql_file = $file;
 
+                $contents = file_get_contents($sql_file);
+
+
+                $comment_patterns = array('/\/\*.*(\n)*.*(\*\/)?/', // comments
+                    '/\s*--.*\n/', //inline comments start with --
+                    '/\s*#.*\n/', //inline comments start with #
+                );
+                $contents = preg_replace($comment_patterns, "\n", $contents);
+
+                $contents = preg_replace('/(?<=t);(?=\n)/', "{{semicolon_in_text}}", $contents);
+
+                $statements = explode(";\n", $contents);
+//    $statements = preg_replace("/\s/", ' ', $statements);
+
+                $queries = array();
+                foreach ($statements as $query) {
+                    if (trim($query) != '') {
+
+                        $query = str_replace("{{semicolon_in_text}}", ";", $query);
+
+                        //apply db prefix parametr
+                        preg_match("/\?:\w*/i", $query, $matches);
+                        $table_name = str_replace('?:', DB_PREFIX, $matches[0]);
+                        if ( !empty($table_name) ) {
+                            $query = str_replace(array($matches[0], 'key = '), array($table_name, '`key` = '), $query);
+                        }
+
+                        $queries[] = $query;
+                    }
+                }
+
+                return $queries;
+            }
+            /* loo functions end */
+
+
+            // LOO
+			if(file_exists(DIR_CATALOG . 'view/theme/' . $this->request->post['config_template'] . '/install.sql')) {
+				$tmpl_dir = dirname(DIR_CATALOG . 'view/theme/' . $this->request->post['config_template'] . '/install.sql');
+				
+				if((bool)stristr($tmpl_dir, $this->config->get('config_template')) == false) {
+					// Parse and Run sql
+					$sql = loo_parse_queries(DIR_CATALOG . 'view/theme/' . $this->request->post['config_template'] . '/install.sql');
+					foreach ($sql as $query) {
+						$this->db->query($query);
+					}
+				}
+			}
+            // LOO (end)
+
+            $this->session->data['success'] = $this->language->get('text_success');
+			
 			$this->response->redirect($this->url->link('setting/store', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
@@ -47,7 +101,21 @@ class ControllerSettingStore extends Controller {
 			$this->load->model('setting/setting');
 
 			$this->model_setting_setting->editSetting('config', $this->request->post, $this->request->get['store_id']);
-
+			
+			// LOO 
+			if(is_file(DIR_CATALOG . 'view/theme/' . $this->request->post['config_template'] . '/install.sql')) {
+				$tmpl_dir = dirname(DIR_CATALOG . 'view/theme/' . $this->request->post['config_template'] . '/install.sql');
+				
+				if((bool)stristr($tmpl_dir, $this->config->get('config_template')) == false) {
+					// Parse and Run sql
+					$sql = loo_parse_queries(DIR_CATALOG . 'view/theme/' . $this->request->post['config_template'] . '/install.sql');
+					foreach ($sql as $query) {
+						$this->db->query($query);
+					}
+				}
+			}
+			// LOO (end)
+			
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$this->response->redirect($this->url->link('setting/store', 'token=' . $this->session->data['token'] . '&store_id=' . $this->request->get['store_id'], 'SSL'));
@@ -267,7 +335,46 @@ class ControllerSettingStore extends Controller {
 		$data['tab_option'] = $this->language->get('tab_option');
 		$data['tab_image'] = $this->language->get('tab_image');
 		$data['tab_server'] = $this->language->get('tab_server');
-
+        /**
+         *Ajax advanced search starts
+         */
+        $data['tab_ajaxadvancedsearch'] = $this->language->get('tab_ajaxadvancedsearch');
+        $data['text_ajaxadvancedsearch'] = $this->language->get('text_ajaxadvancedsearch');
+        $data['text_display_image'] = $this->language->get('text_display_image');
+        $data['text_ajaxadvancedsearch_limit'] = $this->language->get('text_ajaxadvancedsearch_limit');
+        $data['help_ajaxadvancedsearch_limit'] = $this->language->get('help_ajaxadvancedsearch_limit');
+        $data['text_display_model'] = $this->language->get('text_display_model');
+        $data['text_display_manufacturer'] = $this->language->get('text_display_manufacturer');
+        $data['text_display_price'] = $this->language->get('text_display_price');
+        $data['text_display_rating'] = $this->language->get('text_display_rating');
+        $data['text_display_stock'] = $this->language->get('text_display_stock');
+        $data['text_search_model'] = $this->language->get('text_search_model');
+        $data['text_search_tag'] = $this->language->get('text_search_tag');
+        $data['text_search_mpn'] = $this->language->get('text_search_mpn');
+        $data['text_search_manufacturer'] = $this->language->get('text_search_manufacturer');
+        $data['text_search_isbn'] = $this->language->get('text_search_isbn');
+        $data['text_search_jan'] = $this->language->get('text_search_jan');
+        $data['text_search_ean'] = $this->language->get('text_search_ean');
+        $data['text_search_upc'] = $this->language->get('text_search_upc');
+        $data['text_search_sku'] = $this->language->get('text_search_sku');
+        $data['text_highlight'] = $this->language->get('text_highlight');
+        $data['text_highlight_sepeate'] = $this->language->get('text_highlight_sepeate');
+        $data['text_highlight_combine'] = $this->language->get('text_highlight_combine');
+        $data['text_highlight_no'] = $this->language->get('text_highlight_no');
+        $data['text_enabled'] = $this->language->get('text_enabled');
+        $data['text_disabled'] = $this->language->get('text_disabled');
+        $data['text_imagesize'] = $this->language->get('text_imagesize');
+        $data['help_imagesize'] = $this->language->get('help_imagesize');
+        $data['text_imagewidth'] = $this->language->get('text_imagewidth');
+        $data['text_imageheight'] = $this->language->get('text_imageheight');
+        if (isset($this->error['config_ajaxadvancedsearch_image'])) {
+            $data['error_config_ajaxadvancedsearch_image'] = $this->error['config_ajaxadvancedsearch_image'];
+        } else {
+            $data['error_config_ajaxadvancedsearch_image'] = '';
+        }
+        /**
+         *Ajax advanced search ends
+         */
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -465,7 +572,113 @@ class ControllerSettingStore extends Controller {
 		} else {
 			$data['config_name'] = '';
 		}
+        /**
+         *Ajax advanced search starts
+         */
+        if (isset($this->request->post['config_ajaxadvancedsearch'])) {
+            $data['config_ajaxadvancedsearch'] = $this->request->post['config_ajaxadvancedsearch'];
+        } else {
+            $data['config_ajaxadvancedsearch'] = $this->config->get('config_ajaxadvancedsearch');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_limit'])) {
+            $data['config_ajaxadvancedsearch_limit'] = $this->request->post['config_ajaxadvancedsearch_limit'];
+        } else {
+            $data['config_ajaxadvancedsearch_limit'] = $this->config->get('config_ajaxadvancedsearch_limit');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_image'])) {
+            $data['config_ajaxadvancedsearch_image'] = $this->request->post['config_ajaxadvancedsearch_image'];
+        } else {
+            $data['config_ajaxadvancedsearch_image'] = $this->config->get('config_ajaxadvancedsearch_image');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_image_width'])) {
+            $data['config_ajaxadvancedsearch_image_width'] = $this->request->post['config_ajaxadvancedsearch_image_width'];
+        } else {
+            $data['config_ajaxadvancedsearch_image_width'] = $this->config->get('config_ajaxadvancedsearch_image_width');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_image_height'])) {
+            $data['config_ajaxadvancedsearch_image_height'] = $this->request->post['config_ajaxadvancedsearch_image_height'];
+        } else {
+            $data['config_ajaxadvancedsearch_image_height'] = $this->config->get('config_ajaxadvancedsearch_image_height');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_model'])) {
+            $data['config_ajaxadvancedsearch_model'] = $this->request->post['config_ajaxadvancedsearch_model'];
+        } else {
+            $data['config_ajaxadvancedsearch_model'] = $this->config->get('config_ajaxadvancedsearch_model');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_manufacturer'])) {
+            $data['config_ajaxadvancedsearch_manufacturer'] = $this->request->post['config_ajaxadvancedsearch_manufacturer'];
+        } else {
+            $data['config_ajaxadvancedsearch_manufacturer'] = $this->config->get('config_ajaxadvancedsearch_manufacturer');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_price'])) {
+            $data['config_ajaxadvancedsearch_price'] = $this->request->post['config_ajaxadvancedsearch_price'];
+        } else {
+            $data['config_ajaxadvancedsearch_price'] = $this->config->get('config_ajaxadvancedsearch_price');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_rating'])) {
+            $data['config_ajaxadvancedsearch_rating'] = $this->request->post['config_ajaxadvancedsearch_rating'];
+        } else {
+            $data['config_ajaxadvancedsearch_rating'] = $this->config->get('config_ajaxadvancedsearch_rating');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_stock'])) {
+            $data['config_ajaxadvancedsearch_stock'] = $this->request->post['config_ajaxadvancedsearch_stock'];
+        } else {
+            $data['config_ajaxadvancedsearch_stock'] = $this->config->get('config_ajaxadvancedsearch_stock');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_model_search'])) {
+            $data['config_ajaxadvancedsearch_model_search'] = $this->request->post['config_ajaxadvancedsearch_model_search'];
+        } else {
+            $data['config_ajaxadvancedsearch_model_search'] = $this->config->get('config_ajaxadvancedsearch_model_search');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_tag'])) {
+            $data['config_ajaxadvancedsearch_tag'] = $this->request->post['config_ajaxadvancedsearch_tag'];
+        } else {
+            $data['config_ajaxadvancedsearch_tag'] = $this->config->get('config_ajaxadvancedsearch_tag');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_mpn'])) {
+            $data['config_ajaxadvancedsearch_mpn'] = $this->request->post['config_ajaxadvancedsearch_mpn'];
+        } else {
+            $data['config_ajaxadvancedsearch_mpn'] = $this->config->get('config_ajaxadvancedsearch_mpn');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_manufacturer_search'])) {
+            $data['config_ajaxadvancedsearch_manufacturer_search'] = $this->request->post['config_ajaxadvancedsearch_manufacturer_search'];
+        } else {
+            $data['config_ajaxadvancedsearch_manufacturer_search'] = $this->config->get('config_ajaxadvancedsearch_manufacturer_search');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_isbn'])) {
+            $data['config_ajaxadvancedsearch_isbn'] = $this->request->post['config_ajaxadvancedsearch_isbn'];
+        } else {
+            $data['config_ajaxadvancedsearch_isbn'] = $this->config->get('config_ajaxadvancedsearch_isbn');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_jan'])) {
+            $data['config_ajaxadvancedsearch_jan'] = $this->request->post['config_ajaxadvancedsearch_jan'];
+        } else {
+            $data['config_ajaxadvancedsearch_jan'] = $this->config->get('config_ajaxadvancedsearch_jan');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_ean'])) {
+            $data['config_ajaxadvancedsearch_ean'] = $this->request->post['config_ajaxadvancedsearch_ean'];
+        } else {
+            $data['config_ajaxadvancedsearch_ean'] = $this->config->get('config_ajaxadvancedsearch_ean');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_upc'])) {
+            $data['config_ajaxadvancedsearch_upc'] = $this->request->post['config_ajaxadvancedsearch_upc'];
+        } else {
+            $data['config_ajaxadvancedsearch_upc'] = $this->config->get('config_ajaxadvancedsearch_upc');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_sku'])) {
+            $data['config_ajaxadvancedsearch_sku'] = $this->request->post['config_ajaxadvancedsearch_sku'];
+        } else {
+            $data['config_ajaxadvancedsearch_sku'] = $this->config->get('config_ajaxadvancedsearch_sku');
+        }
+        if (isset($this->request->post['config_ajaxadvancedsearch_highlight'])) {
+            $data['config_ajaxadvancedsearch_highlight'] = $this->request->post['config_ajaxadvancedsearch_highlight'];
+        } else {
+            $data['config_ajaxadvancedsearch_highlight'] = $this->config->get('config_ajaxadvancedsearch_highlight');
+        }
 
+        /**
+         *Ajax advanced search ends
+         */
 		if (isset($this->request->post['config_owner'])) {
 			$data['config_owner'] = $this->request->post['config_owner'];
 		} elseif (isset($store_info['config_owner'])) {
@@ -1007,7 +1220,15 @@ class ControllerSettingStore extends Controller {
 		if (!$this->request->post['config_url']) {
 			$this->error['url'] = $this->language->get('error_url');
 		}
-
+        /**
+         *Ajax advanced search starts
+         */
+        if (($this->request->post['config_ajaxadvancedsearch_image_width'] < 25 || $this->request->post['config_ajaxadvancedsearch_image_width'] > 100) || ($this->request->post['config_ajaxadvancedsearch_image_height'] < 25 || $this->request->post['config_ajaxadvancedsearch_image_height'] > 100)) {
+            $this->error['config_ajaxadvancedsearch_image'] = sprintf( $this->language->get('error_config_ajaxadvancedsearch_image'),25,100);
+        }
+        /**
+         *Ajax advanced search ends
+         */
 		if (!$this->request->post['config_name']) {
 			$this->error['name'] = $this->language->get('error_name');
 		}

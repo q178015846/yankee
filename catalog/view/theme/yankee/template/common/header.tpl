@@ -29,6 +29,7 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
 <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="catalog/view/theme/yankee/stylesheet/stylesheet.css" rel="stylesheet">
+
 <?php foreach ($styles as $style) { ?>
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
@@ -40,10 +41,9 @@
 
 </head>
 <body class="<?php echo $class; ?>">
-<nav id="top" class="navbar-fixed-top">
+<!-- <nav id="top" class="navbar-fixed-top">
   <div class="container">
-  <!--   <?php echo $currency; ?>
-    <?php echo $language; ?> -->
+  
     <div class="pull-left">
         <div class="btn-group">
             <button class="btn btn-navbar" data-toggle="collapse">
@@ -74,18 +74,18 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav> -->
 <header>
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-      <!--   <div id="logo">
+        <div id="logo">
           <?php if ($logo) { ?>
           <a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" class="img-responsive" /></a>
           <?php } else { ?>
           <h1><a href="<?php echo $home; ?>"><?php echo $name; ?></a></h1>
           <?php } ?>
-        </div> -->
+        </div>
       </div>
       <div class="col-sm-5"><?php echo $search; ?>
       </div>
