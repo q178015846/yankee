@@ -858,7 +858,11 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
                                     ?>
                                 </div>
                                 <div class="navbar-logo pull-left">
-                                   
+                                    <?php if ($logo) { ?>
+                                    <a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" /></a>
+                                    <?php } else { ?>
+                                    <h1><a href="<?php echo $home; ?>"><?php echo $name; ?></a></h1>
+                                    <?php } ?>
                                 </div>
 
                                 <!--end header variant 3-->
@@ -866,7 +870,11 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
                                 <?php } else { ?>
                                 <!-- Logo -->
                                 <div class="navbar-logo pull-left">
-                                   
+                                    <?php if ($logo) { ?>
+                                    <a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" /></a>
+                                    <?php } else { ?>
+                                    <h1><a href="<?php echo $home; ?>"><?php echo $name; ?></a></h1>
+                                    <?php } ?>
                                 </div>
 
                                 <div class="navbar-welcome pull-left compact-hidden hidden-xs">
