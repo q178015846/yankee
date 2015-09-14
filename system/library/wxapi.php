@@ -295,6 +295,11 @@ class Wxapi {
 		            	"type":"view",
 		            	"name":"抽奖",
 		            	"url":"'.$this->webUrl.'yankee/index.php?route=account/lottery"
+		            },
+		            {
+		            	"type":"view",
+		            	"name":"关于我们",
+		            	"url":"'.$this->webUrl.'site/"
 		            }]
 		       }]
 		 }';
