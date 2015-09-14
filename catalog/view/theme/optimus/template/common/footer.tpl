@@ -115,15 +115,7 @@ if ($store_id == 0) {
                                 <?php  echo (!isset($customisation_general["footercopyright"]) || !is_string($customisation_general["footercopyright"]) ? $powered : html_entity_decode($customisation_general["footercopyright"], ENT_QUOTES, 'UTF-8'));?>
                             </div>
 
-                            <?php if (isset($customisation_general["footerpayment_status"]) && $customisation_general["footerpayment_status"] != 0) : ?>
-                            <div class="col-sm-4 col-md-4">
-                                <?php
-                                    if (isset($customisation_general["footerpayment"]) && $customisation_general["footerpayment"] != '' && is_string($customisation_general["footerpayment"])) {
-                                        echo html_entity_decode($customisation_general["footerpayment"], ENT_QUOTES, 'UTF-8');
-                                    }
-                                ?>
-                            </div>
-                            <?php endif; ?>
+                          
 
                         </div>
 
@@ -140,32 +132,7 @@ if ($store_id == 0) {
 <!-- end boxed home -->
 
 <!-- begin olark code -->
-<?php if (!isset($customisation_general['chat_code'])  ||  !is_string($customisation_general["chat_code"]) ||($customisation_general['chat_code'] == '' && $customisation_general['chat_code_status'] != 0)) { ?>
-<script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
-    f[z]=function(){
-        (a.s=a.s||[]).push(arguments)};var a=f[z]._={
-    },q=c.methods.length;while(q--){(function(n){f[z][n]=function(){
-        f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={
-    0:+new Date};a.P=function(u){
-    a.p[u]=new Date-a.p[0]};function s(){
-    a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){
-    hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){
-    return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){
-    b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{
-    b.contentWindow[g].open()}catch(w){
-    c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{
-    var t=b.contentWindow[g];t.write(p());t.close()}catch(x){
-    b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({
-    loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]});
-/* custom configuration goes here (www.olark.com/documentation) */
-olark.identify('1811-871-10-8759');/*]]>*/</script><noscript><a href="https://www.olark.com/site/1811-871-10-8759/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
 
-<?php
-} elseif ($customisation_general['chat_code'] != '' && $customisation_general['chat_code_status'] != 0) {
-echo html_entity_decode($customisation_general["chat_code"], ENT_QUOTES, 'UTF-8');
-}
-
-?>
 
 
 <!-- end olark code -->

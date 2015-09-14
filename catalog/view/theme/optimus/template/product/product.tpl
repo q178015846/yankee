@@ -73,9 +73,9 @@ $tabs_position = (isset($customisation_products['tabs_position']) ? $customisati
                                     <?php endforeach; ?>
                                     <?php endif; ?>
 
-                                    <?php if (isset($video1) && $video1 != '') : ?>
+                                   <!--  <?php if (isset($video1) && $video1 != '') : ?>
                                     <li><a class="various fancybox.iframe" href="<?php echo $video1; ?>"><img alt="youtube video"  class="fancybox-video" src = "catalog/view/theme/<?php echo $config->get('config_template'); ?>/images/video.png" ></a></li>
-                                    <?php endif; ?>
+                                    <?php endif; ?> -->
                                 </ul>
                             </div>
                         </div>
@@ -98,9 +98,9 @@ $tabs_position = (isset($customisation_products['tabs_position']) ? $customisati
                                         <li><img class="cloudzoom-gallery" src="<?php echo $image['thumb']; ?>" data-cloudzoom = "useZoom: '.cloudzoom', image: '<?php echo $image['popup']; ?>', zoomImage: '<?php echo $image['popup']; ?>'" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></li>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
-                                <?php if (isset($video1) && $video1 != '') : ?>
+                               <!--  <?php if (isset($video1) && $video1 != '') : ?>
                                     <li><a class="various fancybox.iframe" href="<?php echo $video1; ?>"><img alt="youtube video"  class="fancybox-video" src = "catalog/view/theme/<?php echo $config->get('config_template'); ?>/images/video.png" ></a></li>
-                                <?php endif; ?>
+                                <?php endif; ?> -->
                             </ul>
                         </div>
                     <?php endif; ?>
@@ -518,13 +518,7 @@ $tabs_position = (isset($customisation_products['tabs_position']) ? $customisati
                 <!--end tabs type 3-->
 
                 <!-- AddThis Button BEGIN -->
-                <?php
-                if (isset($customisation_products['product_page_button'])) {
-                    echo html_entity_decode($customisation_products["product_page_button"], ENT_QUOTES, 'UTF-8');
-                 } else { ?>
-                <div class="addthis_toolbox addthis_default_style"><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_pinterest_pinit"></a> <a class="addthis_counter addthis_pill_style"></a></div>
-                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-515eeaf54693130e"></script>
-                <?php }  ?>
+                
 
 
                 <!-- AddThis Button END -->
@@ -749,7 +743,7 @@ $tabs_position = (isset($customisation_products['tabs_position']) ? $customisati
 
 <div class="line-divider"></div>
 
-    <?php echo $content_bottom; ?>
+   <?php echo $content_bottom ?>
 
 
 

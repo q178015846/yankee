@@ -1512,49 +1512,7 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
             <!-- //end Navbar -->
 
 
-            <!-- Social widgets -->
-            <?php if (!isset($customisation_general["quickpanel"]) || $customisation_general["quickpanel"] != 0) : ?>
-            <section class="social-widgets hidden-xs">
-                <ul class="items">
-                    <?php if (isset($customisation_general["facebook"]) && $customisation_general["facebook"] != '') : ?>
-                    <li class="item item-01 facebook">
-                        <a href="catalog/view/theme/<?php echo $config->get('config_template'); ?>/template/social/facebook.php?account=<?php echo $customisation_general['facebook']; ?>" class="tab-icon"><span class="icon-facebook-3"></span></a>
-                        <div class="tab-content">
-                            <div class="title"><h6>FACEBOOK</h6></div>
-                            <div class="loading">
-                                <img src="catalog/view/theme/<?php echo $config->get('config_template'); ?>/images/ajax-loader.gif" class="ajaxloader" alt="loader">
-                            </div>
-                        </div>
-                    </li>
-                    <?php endif; ?>
-
-                    <?php if (isset($customisation_general["twitter"]) && $customisation_general["twitter"] != '') : ?>
-                    <li class="item item-02 twitter">
-                        <a href="catalog/view/theme/<?php echo $config->get('config_template'); ?>/template/social/twitter.php?account_twitter=<?php echo $customisation_general['twitter']; ?>" class="tab-icon"><span class="icon-twitter-3"></span></a>
-                        <div class="tab-content">
-                            <div class="title"><h6>TWITTER FEEDS</h6></div>
-                            <div class="loading">
-                                <img src="catalog/view/theme/<?php echo $config->get('config_template'); ?>/images/ajax-loader.gif" class="ajaxloader" alt="loader">
-                            </div>
-                        </div>
-                    </li>
-                    <?php endif; ?>
-
-                    <?php if (isset($customisation_general["video_code"]) && $customisation_general["video_code"] != '') : ?>
-                    <li class="item item-03 youtube">
-                        <a href="catalog/view/theme/<?php echo $config->get('config_template'); ?>/template/social/youtubevideo.php?account_video=<?php echo $customisation_general['video_code']; ?>" class="tab-icon"><span class="icon icon-youtube-3"></span></a>
-                        <div class="tab-content">
-                            <div class="title"><h6>YouTube</h6></div>
-                            <div class="loading">
-                                <img src="catalog/view/theme/<?php echo $config->get('config_template'); ?>/images/ajax-loader.gif" class="ajaxloader" alt="loader">
-                            </div>
-                        </div>
-                    </li>
-                    <?php endif; ?>
-                </ul>
-            </section>
-            <?php endif; ?>
-            <!-- //end Social widgets -->
+          
 
             <!-- boxed home -->
             <?php if (isset($customisation_general['homepage_mode']) && $customisation_general['homepage_mode'] == 'boxed'): ?>
