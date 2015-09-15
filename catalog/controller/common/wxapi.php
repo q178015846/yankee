@@ -75,6 +75,14 @@ class ControllerCommonWxapi extends Controller {
 		var_dump($customer_info);
 	}
 
+	public function queryEx()
+	{
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
+
+		$this->wx->queryExpress("210941926049","百世汇通");
+	}
+
 	//检测accesstoken的有效性
 	private function checkAccessToken($email,$code = null)
 	{	
