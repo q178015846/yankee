@@ -704,8 +704,11 @@ class ControllerSaleOrderOutter extends Controller {
 				$order_id = 0;
 			}
 
-			if(isset($this->request->get['shipping_order_code'])){
-				$shipping_order_code = $this->request->get['shipping_order_code'];
+			$shipping_order_code_get = $this->request->get['shipping_order_code'];
+
+			if(isset($shipping_order_code_get)){
+				$shipping_order_code_get = explode(",", $shipping_order_code_get);
+				$shipping_order_code = $shipping_order_code_get[1];
 			}else{
 				$shipping_order_code = "";
 
