@@ -92,6 +92,7 @@ class ControllerAccountOrder extends Controller {
 				'products'   => ($product_total + $voucher_total),
 				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'href'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], 'SSL'),
+				'express'       => $this->url->link('account/order/express', 'order_id=' . $result['order_id'], 'SSL'),
 			);
 		}
 
@@ -699,9 +700,7 @@ class ControllerAccountOrder extends Controller {
 
 			$data['heading_title'] = "物流查询";
 
-			$this->document->setTitle();
-			$this->load->library('wxapi');
-			$this->wx = new Wxapi();
+			
 			
 			//$json_data = $this->wx->queryExpress("210941926049","百世汇通");
 
@@ -715,7 +714,7 @@ class ControllerAccountOrder extends Controller {
 				} else {
 					$this->response->setOutput($this->load->view('default/template/error/not_found.tpl', $data));
 				}
-			}*/
+			}*/ 
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -723,9 +722,22 @@ class ControllerAccountOrder extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
+			//快递单号及快递公司
+			$shipping_id = $order_info['shipping_order_code'];
+			$shipping_company = $order_info['shipping_order_company'];
+			$this->document->setTitle();
+			$this->load->library('wxapi');
+			$this->wx = new Wxapi();
+			$json_data = $this->wx->queryExpress($shipping_id,$shipping_company);
 			
-
-			
+			if($json_data->error_code != -6){
+				$data['shipping_array_data'] = $json_data->data->result;
+				$data['shipping_order_code'] = $order_info['shipping_order_code'];
+				$data['shipping_order_company'] = $order_info['shipping_order_company'];
+				$shipping_status_array = explode("，", $json_data->data->result[0]->context);
+				$data['shipping_order_status'] = $shipping_status_array[1] != null?$shipping_status_array[1]:"运输途中...";
+			}
+					
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/query_express.tpl')) {
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/query_express.tpl', $data));
 			} else {
