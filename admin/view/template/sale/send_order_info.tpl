@@ -59,20 +59,22 @@
                 <td>#<?php echo $order_id; ?></td>
               </tr>
                <tr>
+                <td><?php echo $text_shipping_company; ?></td>
+                <td><select name="shipping_company" id="selCom" class="form-control">
+                  <option value="*"></option>
+                  <option value="圆通快递" selected>圆通快递</option>
+                  <option value="顺丰速运">顺丰速运</option>
+                  <option value="申通快递">申通快递</option>
+                  
+                </select></td>
+              </tr>
+               <tr>
                 <td><?php echo $text_shipping_number; ?></td>
                 <td><span id="txtQRCode"><?php if ($shipping_order_code) echo $shipping_order_code; ?>
                   </span> <button id="button-scan" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php if (!$shipping_order_code) { echo $button_scan;}else { echo $button_scan_again; } ?></button>
                   </td>
               </tr>
-              <tr>
-                <td><?php echo $text_shipping_company; ?></td>
-                <td><select name="shipping_company" id="input-order-status" class="form-control">
-                  <option value="*"></option>
-                  <option value="1">顺丰速运</option>
-                  <option value="2">申通快递</option>
-                  <option value="3">圆通快递</option>
-                </select></td>
-              </tr>
+
              
              
               <?php if ($customer) { ?>
@@ -433,7 +435,7 @@ $(document).delegate('#button-scan', 'click', function() {
         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
         alert(result);
         $.ajax({
-            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_order_code='+result,
+            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_order_code='+result+'&shipping_order_company='+encodeURI($('select[name="shipping_company"]').val()),
             dataType: 'json',
             beforeSend: function() {
               $('#button-scan').button('loading');     
@@ -461,30 +463,6 @@ $(document).delegate('#button-scan', 'click', function() {
             // body...
         }
       });
- /* $.ajax({
-    url: 'index.php?route=sale/order/createinvoiceno&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>',
-    dataType: 'json',
-    beforeSend: function() {
-      $('#button-scan').button('loading');     
-    },
-    complete: function() {
-      $('#button-scan').button('reset');
-    },
-    success: function(json) {
-      $('.alert').remove();
-            
-      if (json['error']) {
-        $('#tab-order').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
-      }
-      
-      if (json['invoice_no']) {
-        $('#button-scan').replaceWith(json['invoice_no']);
-      }
-    },      
-    error: function(xhr, ajaxOptions, thrownError) {
-      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-    }
-  });*/
 });
 
 $(document).delegate('#button-reward-add', 'click', function() {
@@ -659,6 +637,10 @@ $('#button-history').on('click', function() {
       alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
     }
   });
+});
+
+$('select[name="shipping_company"]').change(function(){ 
+  alert($('select[name="shipping_company"]').val());
 });
 
 function changeStatus(){

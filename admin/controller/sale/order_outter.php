@@ -714,9 +714,15 @@ class ControllerSaleOrderOutter extends Controller {
 
 			}
 
+			if(isset($this->request->get['shipping_order_company'])){
+				$shipping_order_company = $this->request->get['shipping_order_company'];
+			}else{
+				$shipping_order_company = "";
+			}
+
 			$this->load->model('sale/order');
 
-			$shipping_order_code = $this->model_sale_order->createShippingCode($order_id,$shipping_order_code);
+			$shipping_order_code = $this->model_sale_order->createShippingCode($order_id,$shipping_order_code,$shipping_order_company);
 
 			if ($shipping_order_code) {
 				$json['shipping_order_code'] = $shipping_order_code;

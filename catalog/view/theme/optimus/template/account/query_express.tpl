@@ -27,7 +27,7 @@
 			  </div>
 			  <div class="media-body">
 			    快递公司：<?php echo $shipping_order_company; ?><br>
-			    物流状态：<?php echo $shipping_order_status; ?><br>
+			    物流状态：<?php if($shipping_array_data != null || isset($shipping_array_data)){?><?php echo $shipping_order_status; ?><?php }else{?>快递单号已过期或者不存在<?php }?><br>
 		   		运单编号：<?php echo $shipping_order_code; ?>
 			  </div>
 			</div>

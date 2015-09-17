@@ -700,21 +700,6 @@ class ControllerAccountOrder extends Controller {
 
 			$data['heading_title'] = "物流查询";
 
-			
-			
-			//$json_data = $this->wx->queryExpress("210941926049","百世汇通");
-
-			//$array_data = json_decode($json_data);
-
-			//print_r($array_data->data->result);
-			
-		/*	if($array_data == null){
-				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/error/not_found.tpl')) {
-				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/error/not_found.tpl', $data));
-				} else {
-					$this->response->setOutput($this->load->view('default/template/error/not_found.tpl', $data));
-				}
-			}*/ 
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -729,8 +714,9 @@ class ControllerAccountOrder extends Controller {
 			$this->load->library('wxapi');
 			$this->wx = new Wxapi();
 			$json_data = $this->wx->queryExpress($shipping_id,$shipping_company);
+			//var_dump($json_data);
 			
-			if($json_data->error_code != -6){
+			if($json_data->error_code == 0){
 				$data['shipping_array_data'] = $json_data->data->result;
 				$data['shipping_order_code'] = $order_info['shipping_order_code'];
 				$data['shipping_order_company'] = $order_info['shipping_order_company'];
@@ -744,7 +730,13 @@ class ControllerAccountOrder extends Controller {
 				$this->response->setOutput($this->load->view('default/template/account/query_express.tpl', $data));
 			}
 		}else{
-
+			if($array_data == null){
+				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/error/not_found.tpl')) {
+				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/error/not_found.tpl', $data));
+				} else {
+					$this->response->setOutput($this->load->view('default/template/error/not_found.tpl', $data));
+				}
+			}
 		}
 	}
 

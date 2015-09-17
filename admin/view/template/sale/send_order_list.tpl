@@ -25,9 +25,14 @@
 
 </header>
 <div id="content">
-<div class="table-responsive">
-  <table class="table table-bordered table-hover">
-    <caption class="text-center h2"><?php echo $title; ?><div style="float:right;margin-right:50px;"><a href="<?php echo $deliveryOrderList?>" class="btn btn-info">发送</a></div></caption>
+  <div class="panel panel-default" style="margin:5px;">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h3><?php echo $title; ?></h3></div>
+   <div class="panel-body">
+    <p><a href="<?php echo $deliveryOrderList?>" class="btn btn-info">发送</a></p>
+  </div>
+  <!-- Table -->
+  <table class="table  table-bordered table-hover">
     <thead>
       <tr>
         <td class="text-right">订单ID</td>
@@ -39,7 +44,7 @@
         <td class="text-right">操作</td>
       </tr>
     </thead>
-    <tbody>
+     <tbody>
       <?php if ($orders) { ?>
       <?php foreach ($orders as $order) { ?>
       <tr>
