@@ -435,7 +435,7 @@ $(document).delegate('#button-scan', 'click', function() {
         var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
         alert(result);
         $.ajax({
-            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_order_code='+result+'&shipping_order_company='+encodeURI($('select[name="shipping_company"]').val()),
+            url: 'index.php?route=sale/order_outter/createshippingcode&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&shipping_order_code='+result+'&shipping_order_company='+encodeURIComponent($('select[name="shipping_company"]').val()),
             dataType: 'json',
             beforeSend: function() {
               $('#button-scan').button('loading');     
