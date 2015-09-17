@@ -61,7 +61,6 @@
                <tr>
                 <td><?php echo $text_shipping_company; ?></td>
                 <td><select name="shipping_company" id="selCom" class="form-control">
-                  <option value="*"></option>
                   <option value="圆通快递" selected>圆通快递</option>
                   <option value="顺丰速运">顺丰速运</option>
                   <option value="申通快递">申通快递</option>
@@ -639,9 +638,6 @@ $('#button-history').on('click', function() {
   });
 });
 
-$('select[name="shipping_company"]').change(function(){ 
-  alert($('select[name="shipping_company"]').val());
-});
 
 function changeStatus(){
   var status_id = $('select[name="order_status_id"]').val();

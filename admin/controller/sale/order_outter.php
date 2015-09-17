@@ -253,6 +253,12 @@ class ControllerSaleOrderOutter extends Controller {
 				$data['shipping_order_code'] = '';
 			}
 
+			if($order_info['shipping_order_company']){
+				$data['shipping_order_company'] = $order_info['shipping_order_company'];
+			}else{
+				$data['shipping_order_company'] = '';
+			}
+
 			$data['store_name'] = $order_info['store_name'];
 			$data['store_url'] = $order_info['store_url'];
 			$data['fullname'] = $order_info['fullname'];

@@ -143,7 +143,8 @@ class ModelSaleOrder extends Model {
 				'accept_language'         => $order_query->row['accept_language'],
 				'date_added'              => $order_query->row['date_added'],
 				'date_modified'           => $order_query->row['date_modified'],
-				'shipping_order_code'	  => $order_query->row['shipping_order_code']
+				'shipping_order_code'	  => $order_query->row['shipping_order_code'],
+				'shipping_order_company'  => $order_query->row['shipping_order_company'],
 			);
 		} else {
 			return;
