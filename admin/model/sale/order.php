@@ -448,4 +448,19 @@ class ModelSaleOrder extends Model {
 
 		return $query->row['total'];
 	}
+
+	//改变订单状态
+	public function changeStatus($order_id,$status)
+	{
+		$order_info = $this->getOrder($order_id);
+
+		if ($order_info) {
+
+			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . $status . "' WHERE order_id = '" . (int)$order_id . "'");
+
+			return true;
+		}
+
+		return false;
+	}
 }

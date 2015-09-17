@@ -27,21 +27,19 @@
 <div id="content">
   <div class="panel panel-default" style="margin:5px;">
   <!-- Default panel contents -->
-  <div class="panel-heading"><h3><?php echo $title; ?></h3></div>
-   <div class="panel-body">
-    <p><a href="<?php echo $deliveryOrderList?>" class="btn btn-info">发送</a></p>
-  </div>
+  <div class="panel-heading"><h3><?php echo $title; ?></h3>  <a href="<?php echo $deliveryOrderList?>" class="btn btn-primary">发送</a></div>
+   
   <!-- Table -->
   <table class="table  table-bordered table-hover">
     <thead>
       <tr>
         <td class="text-right">订单ID</td>
-        <td class="text-left">会员</td>
-        <td class="text-left">状态</td>
+       <!--  <td class="text-left">会员</td>
+        <td class="text-left">状态</td> -->
         <td class="text-right">单品小计</td>
-        <td class="text-left">添加日期</td>
+       <!--  <td class="text-left">添加日期</td> -->
         <td class="text-left">修改日期</td>
-        <td class="text-right">操作</td>
+        <td class="text-right">发货操作</td>
       </tr>
     </thead>
      <tbody>
@@ -49,12 +47,12 @@
       <?php foreach ($orders as $order) { ?>
       <tr>
         <td class="text-right"><?php echo $order['order_id']; ?></td>
-        <td class="text-left"><?php echo $order['customer']; ?></td>
-        <td class="text-left"><?php echo $order['status']; ?></td>
+       <!--  <td class="text-left"><?php echo $order['customer']; ?></td>
+        <td class="text-left"><?php echo $order['status']; ?></td> -->
         <td class="text-right"><?php echo $order['total']; ?></td>
-        <td class="text-left"><?php echo $order['date_added']; ?></td>
+       <!--  <td class="text-left"><?php echo $order['date_added']; ?></td> -->
         <td class="text-left"><?php echo $order['date_modified']; ?></td>
-        <td class="text-right"><a href="<?php echo $order['deliveryMsg']; ?>" data-toggle="tooltip" title="发货通知" class="btn btn-info"><i class="fa fa-send"></i></a> <a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a> </td>
+        <td class="text-right"><a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-edit"></i></a> </td>
       </tr>
       <?php } ?>
       <?php } else { ?>

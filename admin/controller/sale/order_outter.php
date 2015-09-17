@@ -23,11 +23,11 @@ class ControllerSaleOrderOutter extends Controller {
 		$data['orders'] = array();
 		$url = '';
 
-		$filter_date_added = '';
+		$filter_date_added = date("Y-m-d",time()); //获取当天订单
 		$data['date_added'] = $filter_date_added;
 
 		$filter_data = array(	
-			'filter_order_status'  => 15,
+			'filter_order_status'  => 15, //推送已处理的单据
 			'filter_date_added'    => $filter_date_added,
 		);
 		//$order_total = $this->model_sale_order->getTotalOrders($filter_data);
@@ -787,6 +787,8 @@ class ControllerSaleOrderOutter extends Controller {
 
 	       	$result = $this->wx->sendModelMsg($data);
 	       	if($result->errmsg == "ok"){
+	       		//置为已配送
+	       		$this->model_sale_order->changeStatus($order_id,3);
 	       		$this->response->redirect($this->url->link('sale/order_outter', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 	       	}else{
 	       		$this->response->redirect($this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'));
