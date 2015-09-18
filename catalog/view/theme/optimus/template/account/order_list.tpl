@@ -38,7 +38,7 @@
               <td class="text-right"><?php echo $order['products']; ?></td>
               <!-- <td class="text-left"><?php echo $order['name']; ?></td> -->
               <td class="text-right"><?php echo $order['total']; ?></td>
-              <td class="text-right"><?php if($order['status'] == 3){?><a href="<?php echo $order['express']; ?>" class="btn btn-info"><i class="fa fa-truck"></i></a ><?php }?>  <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+              <td class="text-right"><?php if($order['status_id'] == 3){?><a href="<?php echo $order['express']; ?>" class="btn btn-info"><i class="fa fa-truck"></i></a ><?php }?>  <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
             </tr>
             <?php } ?>
           </tbody>

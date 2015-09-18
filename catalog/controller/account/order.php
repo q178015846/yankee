@@ -93,6 +93,7 @@ class ControllerAccountOrder extends Controller {
 				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'href'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], 'SSL'),
 				'express'       => $this->url->link('account/order/express', 'order_id=' . $result['order_id'], 'SSL'),
+				'status_id'  => $result['order_status_id'],
 			);
 		}
 
