@@ -60,22 +60,26 @@
       </div> -->
        <?php foreach ($orders as $order) { ?>
         <div class="panel panel-default">
-            <div class="panel-heading">订单编号：<?php echo $order['order_id']; ?><span style="margin-right:-5px;"><?php echo $order['status']; ?></span></div>
+            <div class="panel-heading">订单编号：<?php echo $order['order_id']; ?><span style="float:right;"><?php echo $order['status']; ?></span></div>
              <ul class="list-group">
                  <?php foreach ($order['products'] as $product_info) { ?>
                   <li class="list-group-item">
                     <a href="#" style="border:none;padding:0px;">
                     <div class="row">
-                      <div class="col-xs-3">
+                      <div class="col-xs-3 text-center">
                         
                           <img alt="64x64" data-src="holder.js/64x64" src="image/<?php echo $product_info['image']?>" style="width:64px;height:64px;margin:5px;">
                        
                       </div>
-                      <div class="col-xs-5"><?php echo $product_info['name']; ?></div>
-                      <div class="col-xs-4">
-                        <ul style="margin-right:5px;" class="text-left">
-                          <li><?php echo $product_info['price']; ?></li>
-                          <li>×2</li>
+                      <div class="col-xs-5  text-left">
+                        <p><?php echo $product_info['name']; ?></p>
+                        <p>商品编号：<?php echo $product_info['model']; ?></p>
+
+                      </div>
+                      <div class="col-xs-4  text-right">
+                        <ul style="margin-right:5px;" class="list-unstyled">
+                          <li>￥ <?php echo $product_info['price']; ?></li>
+                          <li>×<?php echo $product_info['quantity']; ?></li>
                         </ul>
                       </div>
                     </div>
@@ -84,7 +88,8 @@
                 <?php } ?>
               </ul>
             <div class="panel-footer text-right">
-              <?php if($order['status_id'] == 3){?><a href="<?php echo $order['express']; ?>" class="btn btn-info">查看物流</a ><?php }?>  <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-info">确认收货</i></a>
+             
+              <?php if($order['status_id'] == 3){?><a href="<?php echo $order['express']; ?>" class="btn btn-info">查看物流</a> <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-success">确认收货</a><?php }?>  <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-default">订单详情</a>
             </div>
           </div>
            <?php } ?>
