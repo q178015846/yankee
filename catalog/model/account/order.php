@@ -166,4 +166,39 @@ class ModelAccountOrder extends Model {
 
 		return $query->row['total'];
 	}
+
+	//改变订单状态
+	public function changeStatus($order_id,$status)
+	{
+		$order_info = $this->getOrder($order_id);
+
+		if ($order_info) {
+
+			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . $status . "' WHERE order_id = '" . (int)$order_id . "'");
+
+			return true;
+		}
+
+		return false;
+	}
+
+	
+
+	//根据订单状态获取订单列表
+	public function getOrdersByOrderStatusId($start = 0, $limit = 20,$order_status_id = 0) {
+		if ($start < 0) {
+			$start = 0;
+		}
+
+		if ($limit < 1) {
+			$limit = 1;
+		}
+
+		if($order_status_id != 0){
+			$query = $this->db->query("SELECT o.order_id, o.fullname, o.order_status_id,os.name as status, o.date_added, o.total, o.currency_code, o.currency_value FROM `" . DB_PREFIX . "order` o LEFT JOIN " . DB_PREFIX . "order_status os ON (o.order_status_id = os.order_status_id) WHERE o.customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id = '" . (int)$order_status_id . "' AND o.order_status_id > '0' AND o.store_id = '" . (int)$this->config->get('config_store_id') . "' AND os.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit);
+		}else{
+			$query = $this->db->query("SELECT o.order_id, o.fullname, o.order_status_id,os.name as status, o.date_added, o.total, o.currency_code, o.currency_value FROM `" . DB_PREFIX . "order` o LEFT JOIN " . DB_PREFIX . "order_status os ON (o.order_status_id = os.order_status_id) WHERE o.customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' AND o.store_id = '" . (int)$this->config->get('config_store_id') . "' AND os.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit);
+		}
+		return $query->rows;
+	}
 }
