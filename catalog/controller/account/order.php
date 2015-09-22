@@ -1013,7 +1013,10 @@ class ControllerAccountOrder extends Controller {
 			if ($order_info['shipping_address_format']) {
 				$format = $order_info['shipping_address_format'];
 			} else {
-				$format = '{fullname}' . "\n" . '{company}' . "\n" . '{shipping_telephone}' . "\n" . '{address}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+				//$format = '{fullname}' . "\n" . '{company}' . "\n" . '{shipping_telephone}' . "\n" . '{address}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+
+				$format = '{zone}'.",".'{city}'.",".'{address}'.",".'{shipping_telephone}'.",".'{company}'.",".'{fullname}';
+				
 			}
 
 			$find = array(
@@ -1092,7 +1095,8 @@ class ControllerAccountOrder extends Controller {
 					'price'    => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']),
 					'total'    => $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value']),
 					'reorder'  => $reorder,
-					'return'   => $this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'], 'SSL')
+					'return'   => $this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'], 'SSL'),
+					'image' => $product_info['image']
 				);
 			}
 
@@ -1151,6 +1155,8 @@ class ControllerAccountOrder extends Controller {
 			$data['signPackage'] = $signPackage;
 			//获取customer_id
 			$data['customer_id'] = $order_info['customer_id'];
+			$data['order_status'] = $order_info['order_status_id'];
+			$data['express'] = $this->url->link('account/order/express', 'order_id=' . $order_id, 'SSL');
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/order_info.tpl', $data));
