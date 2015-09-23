@@ -17,24 +17,24 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-4 text-center" style="padding:15px;">
-              <a href="" style="text-decoration:none;"><i class="fa fa-file fa-2x"></i><br>
+              <a href="index.php?route=account/order/list_mobile" style="text-decoration:none;"><i class="fa fa-file fa-2x"></i><br>
                 <p style="margin-top:5px;">待处理</p>
               </a>
             </div>
             <div class="col-xs-4 text-center" style="padding:15px;">
-              <a href="" style="text-decoration:none;"><i class="fa fa-truck fa-2x"></i><br>
+              <a href="index.php?route=account/order/list_mobile" style="text-decoration:none;"><i class="fa fa-truck fa-2x"></i><br>
                 <p style="margin-top:5px;">待收货</p>
               </a>
             </div>
             <div class="col-xs-4 text-center" style="padding:15px;">
-              <a href="" style="text-decoration:none;"><i class="fa fa-leaf fa-2x"></i><br>
+              <a href="index.php?route=account/order/list_mobile" style="text-decoration:none;"><i class="fa fa-leaf fa-2x"></i><br>
                 <p style="margin-top:5px;">待评价</p>
               </a>
             </div>
         </div>
     </div>
   </div>
-  <a href="" style="text-decoration:none;">
+  <a href="index.php?route=account/order/list_mobile" style="text-decoration:none;">
   <div class="panel-footer">
     <i class="fa fa-reorder" style="margin-right:8px;"></i>全部订单<span class="pull-right" aria-hidden="true">&raquo;</span>
   </div>
