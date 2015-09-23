@@ -44,12 +44,12 @@
                           <img alt="64x64" data-src="holder.js/64x64" src="image/<?php echo $product_info['image']?>" style="width:64px;height:64px;margin:5px;">
                        
                       </div>
-                      <div class="col-xs-5  text-left">
+                      <div class="col-xs-6  text-left">
                         <p><?php echo $product_info['name']; ?></p>
                         <p>商品编号：<?php echo $product_info['model']; ?></p>
 
                       </div>
-                      <div class="col-xs-4  text-right">
+                      <div class="col-xs-3  text-right">
                         <ul style="margin-right:5px;" class="list-unstyled">
                           <li>￥ <?php echo $product_info['price']; ?></li>
                           <li>×<?php echo $product_info['quantity']; ?></li>

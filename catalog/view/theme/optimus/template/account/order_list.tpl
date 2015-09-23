@@ -1,13 +1,7 @@
 <?php echo $header; ?>
-<body>
-<nav class="navbar navbar-default navbar-static-top">
-  <div class="container">
 
-  </div>
-</nav>
-<div class="container">
-  <div class="row">
-    <ul class="nav nav-tabs">
+
+    <ul class="nav nav-tabs" style="margin-top:10px;">
   
     <li class="col-xs-3 text-center">
       <a href="#tab-all" data-toggle="tab">全部</a>
@@ -24,10 +18,8 @@
     </li>
   </ul>
    
-  </div>
 
-</div>
-<div id="myTabContent" class="tab-content">
+<div id="myTabContent" class="tab-content" style="padding:0px;">
    <div class="tab-pane fade" id="tab-all">
       <div class="container" id="all">
       </div>

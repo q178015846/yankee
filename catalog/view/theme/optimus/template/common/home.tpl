@@ -161,4 +161,3 @@ if ($store_id == 0) {
 
 <?php //echo $content_bottom; ?>
 
-<?php echo $footer; ?>
