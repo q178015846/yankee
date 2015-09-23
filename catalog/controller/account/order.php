@@ -830,6 +830,7 @@ class ControllerAccountOrder extends Controller {
 				$this->load->model('catalog/product');
 				$product_info = $this->model_catalog_product->getProduct($v['product_id']);
 				$product_info['quantity'] = $v['quantity'];
+				$product_info['product_link'] = $this->url->link('product/product', 'product_id=' . $v['product_id'], 'SSL');
 
 				if ($product_info) {
 					array_push($products_info, $product_info);
@@ -1281,6 +1282,7 @@ class ControllerAccountOrder extends Controller {
 				$this->load->model('catalog/product');
 				$product_info = $this->model_catalog_product->getProduct($v['product_id']);
 				$product_info['quantity'] = $v['quantity'];
+				$product_info['product_link'] = $this->url->link('product/product', 'product_id=' . $v['product_id'], 'SSL');
 
 				if ($product_info) {
 					array_push($products_info, $product_info);

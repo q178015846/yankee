@@ -37,7 +37,7 @@
              <ul class="list-group">
                  <?php foreach ($order['products'] as $product_info) { ?>
                   <li class="list-group-item">
-                    <a href="#" style="border:none;padding:0px;">
+                    <a href="<?php echo $product_info['product_link']; ?>" style="border:none;padding:0px;">
                     <div class="row">
                       <div class="col-xs-3 text-center">
                         
