@@ -300,6 +300,10 @@ class Wxapi {
 		            	"type":"view",
 		            	"name":"关于我们",
 		            	"url":"'.$this->webUrl.'site/"
+		            },{
+		            	"type":"view",
+		            	"name":"test",
+		            	"url":"'.$this->webUrl.'yankee/index.php?route=payment/wxpay"
 		            }]
 		       }]
 		 }';

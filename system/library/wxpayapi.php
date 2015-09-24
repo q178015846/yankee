@@ -12,6 +12,9 @@ require_once "WxPay.Data.php";
  */
 class WxPayApi
 {
+	public function __construct() {
+		$this->access_token = $this->getAccessToken();
+	}
 	/**
 	 * 
 	 * 统一下单，WxPayUnifiedOrder中out_trade_no、body、total_fee、trade_type必填
