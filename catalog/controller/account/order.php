@@ -743,7 +743,19 @@ class ControllerAccountOrder extends Controller {
 	//手机上查看订单
 	public function list_mobile() {
 
+		//看是否从回调地址跳转过来的
+		$this->load->library('wxapi');
+		$this->wx = new Wxapi();
 		
+		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order/list_mobile",$this->request->get['code']);
+		if(isset($openid) && $openid != null){
+			//验证是否已经登录
+			if(!$this->doLogin($openid)){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
+			}
+		}
 		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
@@ -1206,15 +1218,7 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order/order_all",$this->request->get['code']);
-		if(isset($openid) && $openid != null){
-			//验证是否已经登录
-			if(!$this->doLogin($openid)){
-				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
-
-				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-			}
-		}
+		
 		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
