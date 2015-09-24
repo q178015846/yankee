@@ -26,6 +26,8 @@ class WxPayConfig
 	const MCHID = '1225312702';
 	const KEY = 'e10adc3949ba59abbe56e057f20f883e';
 	const APPSECRET = '2b0c0ecec7479bc8c0f6ee29cd1763e0';
+	//生成NoneStr的验证串
+	const CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	
 	//=======【证书路径设置】=====================================
 	/**

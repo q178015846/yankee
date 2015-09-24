@@ -5,7 +5,7 @@ class ControllerCommonHome extends Controller {
 		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		if(isset($this->request->get['code'])){
+		/*if(isset($this->request->get['code'])){
 			$openid_data = $this->wx->getOpenid($this->request->get['code'],"http://www.beyankee.com/yankee/");
 			if(isset($openid_data) && $openid_data != null){
 				//验证是否已经登录
@@ -14,6 +14,15 @@ class ControllerCommonHome extends Controller {
 
 					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 				}
+			}
+		}*/
+		$openid_data = $this->wx->getOpenid($this->request->get['code'],"http://www.beyankee.com/yankee/");
+		if(isset($openid_data) && $openid_data != null){
+			//验证是否已经登录
+			if(!$this->doLogin($openid_data)){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 			}
 		}
 		

@@ -1,10 +1,12 @@
 <?php
-include 'phpqrcode.php';
+require_once 'phpqrcode.php';
+require_once "WxPay.Config.php";
+
 class Wxapi {
-	private $wx_appid = "wxac5ef703439e3edd";
-	private $wx_appsecret = "2b0c0ecec7479bc8c0f6ee29cd1763e0";
+	private $wx_appid = WxPayConfig::APPID;
+	private $wx_appsecret = WxPayConfig::APPSECRET;
 	//生成NoneStr的验证串
-	private $wx_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private $wx_chars = WxPayConfig::CHARS;
 	//appid
 	//private $wx_appid = "wxdd144819072bd8ca";
 	//appsecret
