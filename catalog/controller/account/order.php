@@ -8,15 +8,13 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		if(isset($this->request->get['code'])){
-			$openid_data = $this->wx->getOpenid($this->request->get['code']);
-			if(isset($openid_data) && $openid_data != null){
-				//验证是否已经登录
-				if(!$this->doLogin($openid_data)){
-					$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order",$this->request->get['code']);
+		if(isset($openid) && $openid != null){
+			//验证是否已经登录
+			if(!$this->doLogin($openid)){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
-					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-				}
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 			}
 		}
 		/*if (!$this->customer->isLogged()) {
@@ -524,7 +522,8 @@ class ControllerAccountOrder extends Controller {
 		if ($this->customer->isLogged()) {
 			return true;
 		}
-		$email = $openid_data->openid."@beyankee.com";
+		//$email = $openid_data->openid."@beyankee.com";
+		$email = $openid."@beyankee.com";
 
 		// Check if customer has been approved.
 		$this->load->model('account/customer');
@@ -748,15 +747,13 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		if(isset($this->request->get['code'])){
-			$openid_data = $this->wx->getOpenid($this->request->get['code']);
-			if(isset($openid_data) && $openid_data != null){
-				//验证是否已经登录
-				if(!$this->doLogin($openid_data)){
-					$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order/list_mobile",$this->request->get['code']);
+		if(isset($openid) && $openid != null){
+			//验证是否已经登录
+			if(!$this->doLogin($openid)){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
-					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-				}
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 			}
 		}
 		/*if (!$this->customer->isLogged()) {
@@ -1221,15 +1218,13 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		if(isset($this->request->get['code'])){
-			$openid_data = $this->wx->getOpenid($this->request->get['code']);
-			if(isset($openid_data) && $openid_data != null){
-				//验证是否已经登录
-				if(!$this->doLogin($openid_data)){
-					$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order/order_all",$this->request->get['code']);
+		if(isset($openid) && $openid != null){
+			//验证是否已经登录
+			if(!$this->doLogin($openid)){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
-					$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-				}
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 			}
 		}
 		/*if (!$this->customer->isLogged()) {
