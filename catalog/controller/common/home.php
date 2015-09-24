@@ -16,7 +16,7 @@ class ControllerCommonHome extends Controller {
 				}
 			}
 		}*/
-		$openid_data = $this->wx->getOpenid($this->request->get['code'],"http://www.beyankee.com/yankee/");
+		$openid_data = $this->wx->getOpenid("http://www.beyankee.com/yankee/",$this->request->get['code']);
 		if(isset($openid_data) && $openid_data != null){
 			//验证是否已经登录
 			if(!$this->doLogin($openid_data)){
