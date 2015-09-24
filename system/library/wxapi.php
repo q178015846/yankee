@@ -348,7 +348,7 @@ class Wxapi {
 			//获取code码，以获取openid
 		    $get_accesstoken_url = $this->baseUrl."sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
 			$get_accesstoken_json = $this->http_request($get_accesstoken_url);
-			$get_accesstoken_data = json_decode($get_accesstoken_json,true);
+			$get_accesstoken_data = json_decode($get_accesstoken_json);
 			$openid = $get_accesstoken_data->openid;
 			return $openid;
 		}

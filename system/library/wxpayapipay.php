@@ -55,7 +55,7 @@ class WxPayApiPay
 		} else {
 			//获取code码，以获取openid
 		    $code = $_GET['code'];
-			$openid = $this->getOpenidFromMp($code);
+			$openid = $this->GetOpenidFromMp($code);
 			return $openid;
 		}
 	}
