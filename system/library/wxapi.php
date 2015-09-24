@@ -335,7 +335,7 @@ class Wxapi {
 	}
 
 	//通过snsapi_base方式获取openid
-	public function getOpenid($redirect_uri = "http://www.beyankee.com/yankee/",$code = null)
+	public function getOpenid($redirect_uri = "http://www.beyankee.com/yankee/",$code)
 	{
 		//code来换取access_token和openid的url
 		//通过code获得openid
