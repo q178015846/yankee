@@ -5,7 +5,7 @@ class ControllerCommonHome extends Controller {
 		//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
-		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/",$this->request->get['code']);
+		$openid = $this->wx->getOpenid($this->url->link('common/home', '', 'SSL'),$this->request->get['code']);
 		if(isset($openid) && $openid != null){
 			//验证是否已经登录
 			if(!$this->doLogin($openid)){

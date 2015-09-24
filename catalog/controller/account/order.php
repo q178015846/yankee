@@ -8,7 +8,7 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order",$this->request->get['code']);
+		$openid = $this->wx->getOpenid($this->url->link('account/order', '', 'SSL'),$this->request->get['code']);
 		if(isset($openid) && $openid != null){
 			//验证是否已经登录
 			if(!$this->doLogin($openid)){
@@ -747,7 +747,7 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order/list_mobile",$this->request->get['code']);
+		$openid = $this->wx->getOpenid($this->url->link('account/order/list_mobile', '', 'SSL'),$this->request->get['code']);
 		if(isset($openid) && $openid != null){
 			//验证是否已经登录
 			if(!$this->doLogin($openid)){
@@ -1214,11 +1214,19 @@ class ControllerAccountOrder extends Controller {
 
 	//加载所有订单
 	public function order_all() {
-		//看是否从回调地址跳转过来的
+		/*//看是否从回调地址跳转过来的
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		
+		$openid = $this->wx->getOpenid("http://www.beyankee.com/yankee/index.php?route=account/order/order_all",$this->request->get['code']);
+		if(isset($openid) && $openid != null){
+			//验证是否已经登录
+			if(!$this->doLogin($openid)){
+				$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
+
+				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
+			}
+		}*/
 		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 
