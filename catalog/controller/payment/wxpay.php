@@ -8,7 +8,32 @@ require_once 'log.php';*/
 class ControllerPaymentWxpay extends Controller {
 	public function index() {
 		
-		
+		$this->language->load('payment/wxpay');
+
+		$this->load->model('checkout/order');
+
+		$order_id = $this->session->data['order_id'];
+
+		$order_info = $this->model_checkout_order->getOrder($order_id);
+
+		$item_name = $this->config->get('config_name');
+
+		$amount = $order_info['total'];
+
+		$currency_value = $this->currency->getValue('CNY');
+
+		$price = $amount * $currency_value;
+
+		$price = number_format($price,2,'.','');
+
+		$notify_url = HTTPS_SERVER.'catalog/controller/payment/wxpay_callback.php';
+
+		//$total_fee = $price;
+		$total_fee = "0.01";
+
+		$out_trade_no = $this->session->data['order_id'];
+
+		$subject = $item_name . ' ' . $this->language->get('text_order') .' '. $order_id;
 
 		//初始化日志
 		/*$this->load->library('wxpaylog');
@@ -29,22 +54,21 @@ class ControllerPaymentWxpay extends Controller {
 		$this->load->library('wxpayapipay');
 		$this->tools = new WxPayApiPay();
 
-
-		//$openId = $this->tools->GetOpenid();
+		$openId = $this->tools->GetOpenid();
 		
 		//②、统一下单
 		$input = new WxPayUnifiedOrder();
-		$input->SetBody("test");
+		$input->SetBody($subject);
 		$input->SetAttach("test");
 		$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
-		$input->SetTotal_fee("1");
+		$input->SetTotal_fee($total_fee);
 		$input->SetTime_start(date("YmdHis"));
 		$input->SetTime_expire(date("YmdHis", time() + 600));
 		$input->SetGoods_tag("test");
-		$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+		$input->SetNotify_url($notify_url);
 		$input->SetTrade_type("JSAPI");
-		//$input->SetOpenid($openId);
-		$input->SetOpenid("oCrCkwElKC4YuFiAYe0EvPKa-OEg");
+		$input->SetOpenid($openId);
+		//$input->SetOpenid("oCrCkwElKC4YuFiAYe0EvPKa-OEg");
 		$this->load->library('wxpayapi');
 		$this->wxpayapi = new WxPayApi();
 		$order = $this->wxpayapi->unifiedOrder($input);
