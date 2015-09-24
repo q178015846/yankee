@@ -6,7 +6,7 @@ class ControllerCommonHome extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		if(isset($this->request->get['code'])){
-			$openid_data = $this->wx->getOpenid($this->request->get['code']);
+			$openid_data = $this->wx->getOpenid($this->request->get['code'],"http://www.beyankee.com/yankee/");
 			if(isset($openid_data) && $openid_data != null){
 				//验证是否已经登录
 				if(!$this->doLogin($openid_data)){
@@ -46,13 +46,14 @@ class ControllerCommonHome extends Controller {
 
 
 	//登录并注册
-	protected function doLogin($openid_data,$password = "123456")
+	protected function doLogin($openid,$password = "123456")
 	{
 		$this->event->trigger('pre.customer.login');
 		if ($this->customer->isLogged()) {
 			return true;
 		}
-		$email = $openid_data->openid."@beyankee.com";
+		//$email = $openid_data->openid."@beyankee.com";
+		$email = $openid."@beyankee.com";
 
 		// Check if customer has been approved.
 		$this->load->model('account/customer');

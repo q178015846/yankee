@@ -56,5 +56,5 @@
 		}
 	};
 	
-	</script>
+</script>
 <button class="btn btn-success pull-right" type="button" onclick="callpay()" >立即支付</button>

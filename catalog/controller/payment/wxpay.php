@@ -30,7 +30,7 @@ class ControllerPaymentWxpay extends Controller {
 		$this->tools = new WxPayApiPay();
 
 
-		$openId = $this->tools->GetOpenid();
+		//$openId = $this->tools->GetOpenid();
 		
 		//②、统一下单
 		$input = new WxPayUnifiedOrder();
@@ -43,12 +43,13 @@ class ControllerPaymentWxpay extends Controller {
 		$input->SetGoods_tag("test");
 		$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
 		$input->SetTrade_type("JSAPI");
-		$input->SetOpenid($openId);
+		//$input->SetOpenid($openId);
+		$input->SetOpenid("oCrCkwElKC4YuFiAYe0EvPKa-OEg");
 		$this->load->library('wxpayapi');
 		$this->wxpayapi = new WxPayApi();
 		$order = $this->wxpayapi->unifiedOrder($input);
-		echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
-		printf_info($order);
+		//echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
+		//printf_info($order);
 		$jsApiParameters = $this->tools->GetJsApiParameters($order);
 
 		//获取共享收货地址js函数参数
@@ -64,8 +65,8 @@ class ControllerPaymentWxpay extends Controller {
 				
 		
 		//$data['html_text'] = $this->alipaydtsubmit->buildRequestForm($parameter,"get", $this->language->get('button_confirm'));
-		$data['jsApiParameters'] = $jsApiParameters;
-		$data['editAddress'] = $editAddress;
+		$data['jsApiParameters'] = isset($jsApiParameters)?$jsApiParameters:"111";
+		$data['editAddress'] = isset($editAddress)?$editAddress:"111";
 		
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/wxpay.tpl')) {

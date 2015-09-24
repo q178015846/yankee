@@ -13,7 +13,7 @@ require_once "WxPay.Data.php";
 class WxPayApi
 {
 	public function __construct() {
-		$this->access_token = $this->getAccessToken();
+		
 	}
 	/**
 	 * 

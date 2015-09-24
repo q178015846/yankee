@@ -265,7 +265,8 @@ class Wxapi {
 	public function createMenu()
 	{
 		$url = $this->accessCgiTokenUrl("menu/create");
-		$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		//$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		$go_url = "http://www.beyankee.com/yankee";
 		$order_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/index.php?route=account/order")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 		$post_data = ' {
 		     "button":[
@@ -332,19 +333,23 @@ class Wxapi {
 	}
 
 	//通过snsapi_base方式获取openid
-	public function getOpenid($code)
+	public function getOpenid($redirect_uri = "http://www.beyankee.com/yankee/",$code = null)
 	{
 		//code来换取access_token和openid的url
-		$get_accesstoken_url = $this->baseUrl."sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
-		$get_accesstoken_json = $this->http_request($get_accesstoken_url);
-		if(!$get_accesstoken_json){
-			return "错误授权";
+		//通过code获得openid
+		if (!isset($code)){
+			//触发微信返回code码
+			$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($redirect_uri)."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+			Header("Location: $go_url");
+			exit();
+		} else {
+			//获取code码，以获取openid
+		    $get_accesstoken_url = $this->baseUrl."sns/oauth2/access_token?appid=".$this->wx_appid."&secret=".$this->wx_appsecret."&code=".$code."&grant_type=authorization_code";
+			$get_accesstoken_json = $this->http_request($get_accesstoken_url);
+			$get_accesstoken_data = json_decode($get_accesstoken_json,true);
+			$openid = $get_accesstoken_data->openid;
+			return $openid;
 		}
-		$get_accesstoken_data = json_decode($get_accesstoken_json);
-		if(isset($get_accesstoken_data->errcode)){
-			return $get_accesstoken_data;
-		}
-		return $get_accesstoken_data;
 	}
 
 	//通过snsapi_userinfo方式获取用户的access_token
