@@ -269,7 +269,8 @@ class Wxapi {
 		$url = $this->accessCgiTokenUrl("menu/create");
 		//$go_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 		$go_url = "http://www.beyankee.com/yankee";
-		$order_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/index.php?route=account/order")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		//$order_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$this->wx_appid."&redirect_uri=".urlencode($this->webUrl."yankee/index.php?route=account/order")."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		$order_url = "http://www.beyankee.com/yankee/index.php?route=account/order/list_mobile";
 		$post_data = ' {
 		     "button":[
 		     {	
