@@ -8,6 +8,13 @@ require_once 'log.php';*/
 class ControllerPaymentWxpay extends Controller {
 	public function index() {
 		
+		//初始化日志
+		$this->load->library('wxpaylog');
+		$this->logHandler = new CLogFileHandler(DIR_LOGS."wxpaylogs/".date('Y-m-d').'.log');
+		
+		$log = WxPayLog::Init($this->logHandler, 15);
+
+
 		$this->language->load('payment/wxpay');
 
 		$this->load->model('checkout/order');
@@ -35,12 +42,7 @@ class ControllerPaymentWxpay extends Controller {
 
 		$subject = $item_name . ' ' . $this->language->get('text_order') .' '. $order_id;
 
-		//初始化日志
-		/*$this->load->library('wxpaylog');
-		$this->logHandler = new CLogFileHandler("logs/".date('Y-m-d').'.log');
 		
-		$log = WxPayLog::Init($this->logHandler, 15);*/
-
 
 		//打印输出数组信息
 		function printf_info($data)
@@ -59,7 +61,7 @@ class ControllerPaymentWxpay extends Controller {
 		//②、统一下单
 		$input = new WxPayUnifiedOrder();
 		$input->SetBody($subject);
-		$input->SetAttach("test");
+		$input->SetAttach("YANKEE");
 		$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
 		$input->SetTotal_fee($total_fee);
 		$input->SetTime_start(date("YmdHis"));
