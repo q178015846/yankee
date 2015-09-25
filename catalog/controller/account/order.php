@@ -516,7 +516,7 @@ class ControllerAccountOrder extends Controller {
 
 
 	//登录并注册
-	protected function doLogin($openid_data,$password = "123456")
+	protected function doLogin($openid,$password = "123456")
 	{
 		$this->event->trigger('pre.customer.login');
 		if ($this->customer->isLogged()) {
