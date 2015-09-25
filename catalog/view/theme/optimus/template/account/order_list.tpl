@@ -65,6 +65,6 @@ $('#comment').delegate('.pagination a', 'click', function(e) {
 
   $('#comment').load(this.href);
 });
-$('#comment').load('index.php?route=account/order/order_all&order_status_id=16');
+$('#comment').load('index.php?route=account/order/order_all&order_status_id=5');
 </script>
 <?php echo $footer; ?>
