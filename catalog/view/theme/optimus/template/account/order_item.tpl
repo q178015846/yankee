@@ -62,7 +62,7 @@
               </ul>
             <div class="panel-footer text-right">
              
-              <?php if($order['status_id'] == 3){?><a href="<?php echo $order['express']; ?>" class="btn btn-info">查看物流</a> <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-success">确认收货</a><?php }?>  <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-default">订单详情</a>
+              <?php if($order['status_id'] == 3){?><a href="<?php echo $order['express']; ?>" class="btn btn-info">查看物流</a> <a href="<?php echo $order['confirm_order']; ?>" title="<?php echo $button_view; ?>" class="btn btn-success">确认收货</a><?php }?>  <a href="<?php echo $order['href']; ?>" title="<?php echo $button_view; ?>" class="btn btn-default">订单详情</a>
             </div>
           </div>
            <?php } ?>

@@ -1295,6 +1295,7 @@ class ControllerAccountOrder extends Controller {
 				'express'       => $this->url->link('account/order/express', 'order_id=' . $result['order_id'], 'SSL'),
 				'status_id'  => $result['order_status_id'],
 				'products'  => $products_info,
+				'confirm_order' => $this->url->link('account/order/confirmOrder', 'order_id=' . $result['order_id'], 'SSL'),
 			);
 		}
 
@@ -1315,6 +1316,38 @@ class ControllerAccountOrder extends Controller {
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/order_item.tpl', $data));
 		} else {
 			$this->response->setOutput($this->load->view('default/template/account/order_item.tpl', $data));
+		}
+	}
+
+	//确认订单
+	public function confirmOrder()
+	{
+		$this->load->language('account/order');
+
+		if (isset($this->request->get['order_id'])) {
+			$order_id = $this->request->get['order_id'];
+		} else {
+			$order_id = 0;
+		}
+
+		$this->load->model("account/order");
+
+		$order_info = $this->model_account_order->getOrder($order_id);
+
+		if($order_info){
+			//确认订单
+			if($this->model_account_order->changeStatus($order_id,5)){
+				$data['footer'] = $this->load->controller('common/footer');
+				$data['header'] = $this->load->controller('common/header');
+
+				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_confirm.tpl')) {
+					$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/order_confirm.tpl', $data));
+				} else {
+					$this->response->setOutput($this->load->view('default/template/account/order_confirm.tpl', $data));
+				}
+			}
+		}else{
+
 		}
 	}
 
