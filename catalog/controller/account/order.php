@@ -747,7 +747,8 @@ class ControllerAccountOrder extends Controller {
 		$this->load->library('wxapi');
 		$this->wx = new Wxapi();
 		
-		$openid = $this->wx->getOpenid($this->url->link('account/order/list_mobile', '', 'SSL'),$this->request->get['code']);
+		//正式环境去掉注释
+		/*$openid = $this->wx->getOpenid($this->url->link('account/order/list_mobile', '', 'SSL'),$this->request->get['code']);
 		if(isset($openid) && $openid != null){
 			//验证是否已经登录
 			if(!$this->doLogin($openid)){
@@ -755,7 +756,7 @@ class ControllerAccountOrder extends Controller {
 
 				$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 			}
-		}
+		}*/
 		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', 'SSL');
 

@@ -4797,3 +4797,67 @@ h3.promo_main{display:none}
 /* hacks for Safari */
 
 
+.express_list_bg{
+    background: rgba(0, 0, 0, 0) url("../images/timeline/line.png") repeat-y scroll 108px 0;
+    padding: 15px 0;
+    overflow: hidden;
+    position: relative;
+    list-style: outside none none;
+    padding: 0;
+}
+
+.express_list_bg ul{
+   
+}
+
+.express_list_bg li{
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    padding: 0;
+}
+
+.express_list_bg li h3{
+    background: rgba(0, 0, 0, 0) url("../images/timeline/time.png") no-repeat scroll 104px 20px;
+    color: #2b9ded;
+    float: left;
+    font-size: 12px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    width: 130px;
+    padding: 0;
+}
+
+.express_list_bg li h3 .subtime{
+    color: #2b9ded;
+    float: left;
+    font-size: 12px;
+    line-height: 5px;
+    text-align: center;
+    width: 130px;
+    padding: 0;
+}
+
+.express_list_bg li dl{
+    border-top: 1px solid #e7f0f7;
+    float: left;
+    margin-top: 23px;
+    padding-top: 15px;
+    width: 60%;
+    padding: 0;
+}
+
+.express_list_bg li dl dt{
+    color: #737373;
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+
+.express_list_bg li dl dt span{
+    color: #787878;
+    display: block;
+    line-height: 17px;
+    padding-top: 5px;
+}

@@ -20,12 +20,10 @@
     	<div class="panel panel-primary">
 		  <div class="panel-body">
 		  	<div class="media">
-			  <div class="media-left">
-			    <a href="#">
-			      <img class="media-object" src="image/catalog/icon-optimus.png" alt="快递">
-			    </a>
+			  <div class="pull-left">
+			   <img class="media-object" src="image/express/yto.png" style="width:50px;height:50px;" alt="快递">
 			  </div>
-			  <div class="media-body">
+			  <div>
 			    快递公司：<?php echo $shipping_order_company; ?><br>
 			    物流状态：<?php if($shipping_array_data != null || isset($shipping_array_data)){?><?php echo $shipping_order_status; ?><?php }else{?>快递单号已过期或者不存在<?php }?><br>
 		   		运单编号：<?php echo $shipping_order_code; ?>
@@ -35,30 +33,31 @@
 		   
 		  </div>
 		</div>
+		<section class="panel panel-primary">
+			 <!-- Default panel contents -->
+		  	<div class="panel-heading">物流信息</div>
+			 <?php if($shipping_array_data != null || isset($shipping_array_data)){?>
+			<ul class="express_list_bg">
+				<?php  foreach ($shipping_array_data as $v) { ?>
+				<li>
+					<?php $ftime = explode(" ", $v->ftime);?>
+					<h3><?php echo $ftime[0]?>
+						<span class="subtime"><?php echo $ftime[1]?></span>
+					</h3>
 
-     	<div class="panel panel-primary">
-		  <!-- Default panel contents -->
-		  <div class="panel-heading">物流信息</div>
-		  
-
-		  <!-- List group -->
-		  <?php if($shipping_array_data != null || isset($shipping_array_data)){?>
-		  <ul class="list-group">
-		  	<?php  foreach ($shipping_array_data as $v) { ?>
-		    <li class="list-group-item">
-		    	<i class="fa fa-shipping"></i>
-		    	<p><?php echo $v->context?></p>
-		    	<p><?php echo $v->ftime?></p>
-		    </li>
-		    
-		    <?php }?>
-		  </ul>
-		  	<?php }else{?>
+					<dl><dt>
+						<span><?php echo $v->context?></span>
+					</dt></dl>
+					
+				</li>
+				<?php }?>
+			</ul>
+			<?php }else{?>
 		  		<div class="panel-body">
 			    	暂无相关物流信息
 			  	</div>
 		  	<?php }?>
-		</div>
+		</section>
      </div>
     <?php echo $column_right; ?></div>
 </div>
