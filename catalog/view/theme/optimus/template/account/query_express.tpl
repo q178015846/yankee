@@ -29,7 +29,6 @@
 		   		运单编号：<?php echo $shipping_order_code; ?>
 			  </div>
 			</div>
-		  	<p>
 		   
 		  </div>
 		</div>
