@@ -907,11 +907,11 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
                                             <li><a href="<?php echo $checkout; ?>" title="<?php echo $text_checkout; ?>"><?php echo $text_checkout; ?></a></li>
                                             <li class="divider"></li>
                                             <?php if ($logged) { ?>
-                                            <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>
+                                            /*<li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>*/
                                             <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
                                             <li><a href="<?php echo $transaction; ?>"><?php echo $text_transaction; ?></a></li>
-                                            <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
-                                            <li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>
+                                            /*<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>*/
+                                            /*<li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>*/
                                             <?php } else { ?>
                                             <li><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a></li>
                                             <li><a href="<?php echo $register; ?>"><?php echo $text_register; ?></a></li>
@@ -1431,11 +1431,11 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
                                         <li><a href="<?php echo $wishlist; ?>" id="wishlist-total-2"><?php echo $text_wishlist; ?></a></li>
                                         <li><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></li>
                                         <?php if ($logged) { ?>
-                                        <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>
+                                       /* <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>*/
                                         <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
                                         <li><a href="<?php echo $transaction; ?>"><?php echo $text_transaction; ?></a></li>
-                                        <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
-                                        <li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>
+                                        /*<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
+                                        <li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>*/
                                         <?php } else { ?>
                                         <li><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a></li>
                                         <li><a href="<?php echo $register; ?>"><?php echo $text_register; ?></a></li>

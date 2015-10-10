@@ -28,7 +28,7 @@ class ControllerSaleOrderOutter extends Controller {
 
 		$filter_data = array(	
 			'filter_order_status'  => 15, //推送已处理的单据
-			'filter_date_added'    => $filter_date_added,
+			//'filter_date_added'    => $filter_date_added,
 		);
 		//$order_total = $this->model_sale_order->getTotalOrders($filter_data);
 		$data['selected'] = array();
